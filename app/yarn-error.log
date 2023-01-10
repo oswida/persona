@@ -1,5 +1,5 @@
 Arguments: 
-  /opt/share/node/bin/node /opt/share/node/bin/yarn add @types/json-editor__json-editor --dev
+  /opt/share/node/bin/node /opt/share/node/bin/yarn add @types/konva --dev
 
 PATH: 
   /home/oskar/bin:/home/oskar/go/bin:/home/oskar/.local/bin:/home/oskar/bin:/home/oskar/go/bin:/home/oskar/.local/bin:/usr/lib64/qt-3.3/bin:/home/oskar/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/opt/share/bin:/opt/share/go/bin:/opt/share/node/bin:/opt/share/bin:/opt/share/go/bin:/opt/share/node/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fjson-editor__json-editor: Not found
+  Error: https://registry.yarnpkg.com/@types%2fkonva: Not found
       at params.callback [as _callback] (/opt/share/node/lib/node_modules/yarn/lib/cli.js:66145:18)
       at self.callback (/opt/share/node/lib/node_modules/yarn/lib/cli.js:140890:22)
       at Request.emit (node:events:513:28)
@@ -63,12 +63,14 @@ npm manifest:
       "@zag-js/pressable": "^0.3.1",
       "@zag-js/select": "^0.1.1",
       "@zag-js/solid": "^0.2.2",
-      "@zag-js/tabs": "^0.2.1",
+      "@zag-js/tabs": "^0.2.6",
       "@zag-js/tooltip": "^0.2.1",
       "fabric": "^5.3.0",
+      "konva": "^8.4.0",
       "paho-mqtt": "^1.1.0",
       "solid-icons": "^1.0.4",
       "solid-js": "^1.6.2",
+      "solid-konva": "^0.1.6",
       "uuid": "^9.0.0"
     }
   }
@@ -471,15 +473,43 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@solid-primitives/context/-/context-0.1.2.tgz#777c91abdbd562c0e6680b36094314af40e7c5cb"
     integrity sha512-kYnP08rKHgZA7O9azK8Bqo7yzN+2Fh8PHsftsghSAN6MVbH0soTSaBz+Cwx7jsVOJ7X3FRNjTEGIlvq97vfGyw==
   
+  "@solid-primitives/event-listener@^2.2.4":
+    version "2.2.4"
+    resolved "https://registry.yarnpkg.com/@solid-primitives/event-listener/-/event-listener-2.2.4.tgz#2f571b992359abd01cdfae4efaa0bad204680162"
+    integrity sha512-O/ppM0SpXWtNC7AHv1bQA9Dy6pj3NUM06MhSV9xwVv4N06PmlNYhGLDSPT1Esesm6b0fDgCXB5V+AgCSEzQd/w==
+    dependencies:
+      "@solid-primitives/utils" "^4.0.0"
+  
   "@solid-primitives/i18n@^1.1.2":
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/@solid-primitives/i18n/-/i18n-1.1.2.tgz#2340875aa98318ed6d9b475eb653816ab4cecefe"
     integrity sha512-eLTqmDKorLa99cXrgS4DgTqrk0n/F4rB0YR76A6gr90by5TLE+HSZ0agiZVBIUGs2g5EFeEnLqwxKsM+F5hcJQ==
   
+  "@solid-primitives/resize-observer@^2.0.2":
+    version "2.0.7"
+    resolved "https://registry.yarnpkg.com/@solid-primitives/resize-observer/-/resize-observer-2.0.7.tgz#0f909ed58d5fd7ec59b2fee15ddafdd28fdce4c8"
+    integrity sha512-/RtCTs61ACdsCKJodNTgnKA05CI09dkg7usAb5jg14L6mzwTNWWdZbXtbYsUlD+kh1/1j+BKxp6VtkbpgJE5yQ==
+    dependencies:
+      "@solid-primitives/event-listener" "^2.2.4"
+      "@solid-primitives/rootless" "^1.2.1"
+      "@solid-primitives/utils" "^4.0.0"
+  
+  "@solid-primitives/rootless@^1.2.1":
+    version "1.2.1"
+    resolved "https://registry.yarnpkg.com/@solid-primitives/rootless/-/rootless-1.2.1.tgz#17d3a7428ebc3d2c7fbf2ec96093edad3b7ad217"
+    integrity sha512-8RpdyS1e58PQbDjgjpyCh+IGoX3QEs/2LauMfl94eXJ5d/o1y/c6P61z9XqQm+Bx1Otdgx4nbFCoF7HPqa0mwg==
+    dependencies:
+      "@solid-primitives/utils" "^4.0.0"
+  
   "@solid-primitives/scheduled@^1.2.0":
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/@solid-primitives/scheduled/-/scheduled-1.2.0.tgz#c3e57ecdf9c214a4cfe830b8e7289d4b6144098a"
     integrity sha512-59QbtGACZD8RIkD0jNQVUHRBF6uW7dKzDVFYSgogRdfxRO9kgXc6aGkLrCjd4k4g3kYe+XiBLcvYKyut4F7BHg==
+  
+  "@solid-primitives/utils@^4.0.0":
+    version "4.0.0"
+    resolved "https://registry.yarnpkg.com/@solid-primitives/utils/-/utils-4.0.0.tgz#3c592287519dc885290d134f8aff3f0f6f4b4720"
+    integrity sha512-fGsJy8Z8YiwogpiezD7TWjI62UCb0JAHJWdoXWGrggrn4bfToZotKkabiB0IVFMkWVE1ZcrkvZT3bkmqGnK0ng==
   
   "@solidjs/router@^0.5.0":
     version "0.5.1"
@@ -505,6 +535,11 @@ Lockfile:
     version "8.3.4"
     resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
     integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
+  
+  "@unocss/reset@^0.44.5":
+    version "0.44.7"
+    resolved "https://registry.yarnpkg.com/@unocss/reset/-/reset-0.44.7.tgz#637a3fbf7617557117ef38feb003cec1873ae3b5"
+    integrity sha512-izmqZafDMClT1vQEGpPzfKWvyft8xkA33xC0r0iOWEiDd94+wlC+7ohSnsafyl0iwEuwPp/ONzDft5ouHrOWLA==
   
   "@vanilla-extract/babel-plugin-debug-ids@^1.0.0":
     version "1.0.0"
@@ -571,6 +606,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@zag-js/anatomy/-/anatomy-0.1.2.tgz#b62f5db6b1e7e8de2b8ca4072581a52e8566330c"
     integrity sha512-sj+KuCdPG+wAkAeyROXbN9FbVLTrDZk3N/Am1lL+TQKmZH28NRezt0Wf9arVHCJ+mDnZhW173CoxZ8B5cKT8Kw==
   
+  "@zag-js/anatomy@0.1.3":
+    version "0.1.3"
+    resolved "https://registry.yarnpkg.com/@zag-js/anatomy/-/anatomy-0.1.3.tgz#67edf232817b031a3d7dd6a49d6f64e1111e86fd"
+    integrity sha512-jiXEJ9aMmLs/0lGTOjrji7ug8QKwM0EpLfzStzTJ7TOSCLaASyKqGsL6J9pRDl6Zo2n/DgjdQY5gjGMNNhtHow==
+  
   "@zag-js/aria-hidden@0.2.0":
     version "0.2.0"
     resolved "https://registry.yarnpkg.com/@zag-js/aria-hidden/-/aria-hidden-0.2.0.tgz#323e824003a4a75f440debea9c26698308981acc"
@@ -582,6 +622,14 @@ Lockfile:
     integrity sha512-+YjI1cPnvd3DEuWEO/MWg88OrV6Wh5uO1c0Azb6+9QOrlKfBTEGPJUy5KWd2greyTw9oXyUJX3CsEw8YbRVTIw==
     dependencies:
       "@zag-js/store" "0.2.1"
+      klona "2.0.5"
+  
+  "@zag-js/core@0.2.4":
+    version "0.2.4"
+    resolved "https://registry.yarnpkg.com/@zag-js/core/-/core-0.2.4.tgz#343386f434dce5560d2aa2182652287a98caf7d7"
+    integrity sha512-T+4xCjCShGjMb+3gmLga/auZ6ID1cdkJC4XwsCAFomJRxnyh6/at6OGLi1Ln0L/+DdXBvksLku/DwwKe4UkB7g==
+    dependencies:
+      "@zag-js/store" "0.2.2"
       klona "2.0.5"
   
   "@zag-js/dialog@^0.2.1":
@@ -658,14 +706,21 @@ Lockfile:
     dependencies:
       proxy-compare "2.3.0"
   
-  "@zag-js/tabs@^0.2.1":
-    version "0.2.5"
-    resolved "https://registry.yarnpkg.com/@zag-js/tabs/-/tabs-0.2.5.tgz#6a8a1aaa0e61d38f455ef03b47d47170db84b01a"
-    integrity sha512-D1anNWJYAvb2A7Jw3Gr8J52wPiK5uBtsVuNjaPQNakhgen6vGRNIFKWvO+ym37jde0UIOrj5Gs3H0TB0KdhW6w==
+  "@zag-js/store@0.2.2":
+    version "0.2.2"
+    resolved "https://registry.yarnpkg.com/@zag-js/store/-/store-0.2.2.tgz#c471cdbfcf56823a2688a9e9cfa1ddc68866ec31"
+    integrity sha512-epHzWquai5l4SDkTuyWmbJUz8VUFmdx0BAUuonbz6lMv24e+HODRegHMgtLjTgF6KHg6+30X07k9gCxOsrrZsQ==
     dependencies:
-      "@zag-js/anatomy" "0.1.2"
-      "@zag-js/core" "0.2.3"
-      "@zag-js/types" "0.3.1"
+      proxy-compare "2.3.0"
+  
+  "@zag-js/tabs@^0.2.6":
+    version "0.2.6"
+    resolved "https://registry.yarnpkg.com/@zag-js/tabs/-/tabs-0.2.6.tgz#0f96f47731bfaa6d4c5c0681f4594d7194deebb5"
+    integrity sha512-lMnIiIMcUc52Mdd51Zg5snGz1eHnNkGgGtUxBJkBLE1xhMNRBSDMwaW1/2h6AxKY33fcLVAzkVNiyhh28Fc2kw==
+    dependencies:
+      "@zag-js/anatomy" "0.1.3"
+      "@zag-js/core" "0.2.4"
+      "@zag-js/types" "0.3.2"
   
   "@zag-js/tooltip@^0.2.1":
     version "0.2.5"
@@ -681,6 +736,13 @@ Lockfile:
     version "0.3.1"
     resolved "https://registry.yarnpkg.com/@zag-js/types/-/types-0.3.1.tgz#8dc0d3de4b60175c3ab56425dd748064e85a2fb0"
     integrity sha512-mSGkt+mqmvE+E6RAR1py74Pbzb5q2HjhijkpsUojHsDa+DIX9KJ2XTKGt9Dv3qxqwY81/pQdBQFNLDNKMAeYdQ==
+    dependencies:
+      csstype "3.1.1"
+  
+  "@zag-js/types@0.3.2":
+    version "0.3.2"
+    resolved "https://registry.yarnpkg.com/@zag-js/types/-/types-0.3.2.tgz#6edc9fdeb0453facd8e0a1f2337821379cfa4105"
+    integrity sha512-ADOFgW8vccD4h94nBGJZdzM5GVKK/lAssL7HH+hTo+tiWczOEbPT20p2/YSBz5Xy7QpEIdQB6bZ373f0h1FaSQ==
     dependencies:
       csstype "3.1.1"
   
@@ -1477,6 +1539,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/klona/-/klona-2.0.5.tgz#d166574d90076395d9963aa7a928fabb8d76afbc"
     integrity sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==
   
+  konva@^8.3.10, konva@^8.4.0:
+    version "8.4.0"
+    resolved "https://registry.yarnpkg.com/konva/-/konva-8.4.0.tgz#e8860794c79a34c3f736940708ed98e63875aec8"
+    integrity sha512-o38I9j1Gr5CprnBwPI9dCSzb4cvN/8pnjuFHtKrGcNBfKmaLvYfcIakTEDm6xLt17O+S/6nXhLdXa5wqiHHS9Q==
+  
   levn@~0.3.0:
     version "0.3.0"
     resolved "https://registry.yarnpkg.com/levn/-/levn-0.3.0.tgz#3b09924edf9f083c0490fdd4c0bc4421e04764ee"
@@ -1889,12 +1956,29 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/solid-icons/-/solid-icons-1.0.4.tgz#13eb122fe927110e2463c96d226492fb837a9802"
     integrity sha512-gJTp4in3+OYCs9WvDkSLt4Los2unR3Uoder8wjh15GsfP20xiNOLfPTJllXmn+fI8+k3x7bRYtLGIgWd9fUQug==
   
+  solid-js@^1.4.7:
+    version "1.6.8"
+    resolved "https://registry.yarnpkg.com/solid-js/-/solid-js-1.6.8.tgz#c21a71f376b915061db7b5b9511e90babe1ccabf"
+    integrity sha512-+X5rf4bL3Il/LI2pn6O2d63D/KyG8Shxj3DM6violSPOhRgm5ln37Pq6uVDAvJcmsObOBeGOjXAwZvqwyZjisg==
+    dependencies:
+      csstype "^3.1.0"
+  
   solid-js@^1.6.2:
     version "1.6.5"
     resolved "https://registry.yarnpkg.com/solid-js/-/solid-js-1.6.5.tgz#19d92bce93a576124ea36af012c472d17516f4b4"
     integrity sha512-q1/wIIRmrWltNnP3PW/e29eRWCC24hX5amBiOXomw2kDiM6JZZ10l+chK/Oi/6ipwUxeabYl5YD2lJOObY9heA==
     dependencies:
       csstype "^3.1.0"
+  
+  solid-konva@^0.1.6:
+    version "0.1.6"
+    resolved "https://registry.yarnpkg.com/solid-konva/-/solid-konva-0.1.6.tgz#7eabbc5a3b2a15501d7e1c4d9350e3928e4a7f66"
+    integrity sha512-oAxjpHeIikyij7DiwMbMxKUXCMHUmiuT9D58rcmDmbCdDpyN2i5gkgEmLVYMLrGy2gKbhB+b2yvd00mFiyaTtA==
+    dependencies:
+      "@solid-primitives/resize-observer" "^2.0.2"
+      "@unocss/reset" "^0.44.5"
+      konva "^8.3.10"
+      solid-js "^1.4.7"
   
   solid-refresh@^0.4.1:
     version "0.4.1"

@@ -33,7 +33,7 @@ export const Tabs = ({
 
   return (
     <div {...api().rootProps} class={TabsRootStyle}>
-      <div {...api().triggerGroupProps} class={TabsTriggerGroupStyle}>
+      <div class={TabsTriggerGroupStyle}>
         <For each={items}>
           {(item) => (
             <button
