@@ -25,7 +25,6 @@ export const FlexStyle = recipe({
         alignItems: "center",
       },
     },
-
     scrolled: {
       true: {
         overflow: "auto",

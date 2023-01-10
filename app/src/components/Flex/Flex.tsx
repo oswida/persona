@@ -2,7 +2,7 @@ import { ComponentProps } from "solid-js";
 import { FlexStyle } from "./styles.css";
 
 type Props = {
-  type?: "column" | "row";
+  dn?: "column" | "row";
   center?: boolean;
   vcenter?: boolean;
   scrolled?: boolean;
@@ -10,10 +10,9 @@ type Props = {
 
 export const Flex = ({
   children,
-  type,
+  dn,
   center,
   vcenter,
-
   scrolled,
   style,
   title,
@@ -21,7 +20,7 @@ export const Flex = ({
   return (
     <div
       class={FlexStyle({
-        type: type,
+        type: dn,
         center: center,
         vcenter: vcenter,
         scrolled: scrolled,

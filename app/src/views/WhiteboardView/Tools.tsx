@@ -1,14 +1,9 @@
+import { PressEvent } from "@kobalte/core";
 import { FaSolidPaintbrush, FaSolidPalette } from "solid-icons/fa";
-import { ParentProps, createMemo, Switch, Match, Accessor } from "solid-js";
+import { Accessor, createMemo, Match, ParentProps, Switch } from "solid-js";
 import { wbState } from "~/common";
-import { Button } from "~/components";
-import {
-  fillcolor,
-  linecolor,
-  linesize,
-  linesSizeMap,
-  switchTool,
-} from "./canvas";
+import { ButtonCt } from "~/components";
+import { fillcolor, linecolor, linesize, switchTool } from "./canvas";
 
 export const ToolSwitchButton = ({
   tool,
@@ -24,18 +19,18 @@ export const ToolSwitchButton = ({
   return (
     <Switch>
       <Match when={isCurrentTool()}>
-        <Button
-          color="filled"
+        <ButtonCt
+          selected
           onClick={() => switchTool(canvas(), tool)}
           title={title}
         >
           {children}
-        </Button>
+        </ButtonCt>
       </Match>
       <Match when={!isCurrentTool()}>
-        <Button onClick={() => switchTool(canvas(), tool)} title={title}>
+        <ButtonCt onClick={() => switchTool(canvas(), tool)} title={title}>
           {children}
-        </Button>
+        </ButtonCt>
       </Match>
     </Switch>
   );
@@ -54,7 +49,7 @@ export const ColorSwitchButton = ({
   return (
     <Switch>
       <Match when={!isCurrentColor()}>
-        <Button
+        <ButtonCt
           onClick={() => {
             linecolor(canvas(), color);
             if (postClick) postClick();
@@ -62,17 +57,17 @@ export const ColorSwitchButton = ({
           border="underline"
         >
           <FaSolidPalette title={color} color={color} />
-        </Button>
+        </ButtonCt>
       </Match>
       <Match when={isCurrentColor()}>
-        <Button
+        <ButtonCt
           onClick={() => {
             linecolor(canvas(), color);
             if (postClick) postClick();
           }}
         >
           <FaSolidPalette title={color} color={color} />
-        </Button>
+        </ButtonCt>
       </Match>
     </Switch>
   );
@@ -93,17 +88,17 @@ export const SizeSwitchButton = ({
   return (
     <Switch>
       <Match when={isCurrentSize()}>
-        <Button
+        <ButtonCt
           onClick={() => {
             linesize(canvas(), index);
             if (postClick) postClick();
           }}
         >
           {children}
-        </Button>
+        </ButtonCt>
       </Match>
       <Match when={!isCurrentSize()}>
-        <Button
+        <ButtonCt
           onClick={() => {
             linesize(canvas(), index);
             if (postClick) postClick();
@@ -111,7 +106,7 @@ export const SizeSwitchButton = ({
           border="underline"
         >
           {children}
-        </Button>
+        </ButtonCt>
       </Match>
     </Switch>
   );
@@ -130,7 +125,7 @@ export const FillSwitchButton = ({
   return (
     <Switch>
       <Match when={!isCurrentColor()}>
-        <Button
+        <ButtonCt
           onClick={() => {
             fillcolor(canvas(), color);
             if (postClick) postClick();
@@ -138,17 +133,17 @@ export const FillSwitchButton = ({
           border="underline"
         >
           <FaSolidPaintbrush title={color} color={color} />
-        </Button>
+        </ButtonCt>
       </Match>
       <Match when={isCurrentColor()}>
-        <Button
+        <ButtonCt
           onClick={() => {
             fillcolor(canvas(), color);
             if (postClick) postClick();
           }}
         >
           <FaSolidPaintbrush title={color} color={color} />
-        </Button>
+        </ButtonCt>
       </Match>
     </Switch>
   );

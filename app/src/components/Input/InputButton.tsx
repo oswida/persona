@@ -1,5 +1,7 @@
-import { ComponentProps } from "solid-js";
-import { InputButtonStyle, InputStyle } from "./styles.css";
+import { assignInlineVars } from "@vanilla-extract/dynamic";
+import { ComponentProps, JSX } from "solid-js";
+import { themeVars, currentTheme } from "~/common";
+import { InputButtonStyle } from "./styles.css";
 
 type Props = {
   size?: "standard" | "small";
@@ -18,7 +20,10 @@ export const InputButton = ({
       class={InputButtonStyle({
         size: size,
       })}
-      style={style}
+      style={{
+        ...assignInlineVars(themeVars, currentTheme()),
+        ...(style as JSX.CSSProperties),
+      }}
       title={title}
       ref={ref}
       placeholder={placeholder}

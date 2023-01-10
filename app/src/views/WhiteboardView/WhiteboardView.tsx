@@ -8,39 +8,28 @@ import {
   FaSolid3,
   FaSolid4,
   FaSolid5,
-  FaSolidArrowDownShortWide,
   FaSolidArrowPointer,
-  FaSolidBorderNone,
   FaSolidEraser,
   FaSolidFileExport,
   FaSolidFileImport,
   FaSolidFont,
-  FaSolidGlassWater,
   FaSolidLinesLeaning,
   FaSolidPaintbrush,
   FaSolidPalette,
   FaSolidPencil,
   FaSolidShareNodes,
-  FaSolidTextWidth,
   FaSolidTrash,
-  FaSolidWineGlassEmpty,
 } from "solid-icons/fa";
-import {
-  Component,
-  createEffect,
-  createMemo,
-  createSignal,
-  For,
-} from "solid-js";
+import { Component, createEffect, createSignal, For } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import {
+  drawColors,
   exportData,
   importData,
   prettyToday,
-  runtimeColors,
   wbState,
 } from "~/common";
-import { Button, Flex, Popover, Texte } from "~/components";
+import { ButtonCt, Flex, PopoverCt } from "~/components";
 
 import { clearCanvas, initCanvas } from "./canvas";
 import { WhiteboardRootStyle, WhiteboardToolsStyle } from "./styles.css";
@@ -53,9 +42,9 @@ import {
 
 export const WhiteboardView: Component = () => {
   let [canvas, setCanvas] = createSignal<fabric.Canvas>();
-  let [brushView, setBrushView] = createSignal(false);
-  let [fillView, setFillView] = createSignal(false);
-  let [sizeView, setSizeView] = createSignal(false);
+  let [brushPop, setBrushPop] = createSignal(false);
+  let [fillPop, setFillPop] = createSignal(false);
+  let [sizePop, setSizePop] = createSignal(false);
   let boardRoot: HTMLDivElement;
 
   const [t] = useI18n();
@@ -119,28 +108,14 @@ export const WhiteboardView: Component = () => {
     // notify(apd, "Drawing published", 3000);
   };
 
-  const strokeColors = [
-    "transparent",
-    "white",
-    runtimeColors.blue,
-    runtimeColors.yellow,
-    runtimeColors.green,
-    runtimeColors.pink,
-  ];
+  const strokeColors = ["transparent", "white", ...Object.keys(drawColors)];
 
-  const fillColors = [
-    "transparent",
-    "white",
-    runtimeColors.blue,
-    runtimeColors.yellow,
-    runtimeColors.green,
-    runtimeColors.pink,
-  ];
+  const fillColors = ["transparent", "white", ...Object.keys(drawColors)];
 
   const strokeIcon = () => {
     if (wbState().brush != "transparent")
       return <FaSolidPalette color={wbState().brush} />;
-    else return <FaSolidPalette color={runtimeColors.background100a70} />;
+    else return <FaSolidPalette color="white" />;
   };
 
   const sizeIcon = (width: number) => {
@@ -161,11 +136,11 @@ export const WhiteboardView: Component = () => {
   const fillIcon = () => {
     if (wbState().fill != "transparent")
       return <FaSolidPaintbrush color={wbState().fill} />;
-    else return <FaSolidPaintbrush color={runtimeColors.background100a70} />;
+    else return <FaSolidPaintbrush color="white" />;
   };
 
   return (
-    <Flex type="column">
+    <Flex dn="column" style={{ width: "100%", height: "100%" }}>
       <div class={WhiteboardToolsStyle}>
         <Flex>
           <ToolSwitchButton canvas={canvas} tool="select" title={t("Select")}>
@@ -189,24 +164,24 @@ export const WhiteboardView: Component = () => {
           <ToolSwitchButton canvas={canvas} tool="eraser">
             <FaSolidEraser title="Eraser" />
           </ToolSwitchButton>
-          <Button
+          <ButtonCt
             onClick={() => clearCanvas(canvas())}
             style={{ "margin-left": "20px" }}
           >
             <FaSolidTrash title="Clear" />
-          </Button>
+          </ButtonCt>
         </Flex>
 
         <Flex>
-          <Popover
+          <PopoverCt
             trigger={
               <Dynamic component="i" style={{ width: "1em", height: "1em" }}>
                 {strokeIcon()}
               </Dynamic>
             }
             title="Select stroke color"
-            open={brushView}
-            setOpen={setBrushView}
+            setOpen={setBrushPop}
+            open={brushPop}
           >
             <Flex>
               <For each={strokeColors}>
@@ -214,22 +189,22 @@ export const WhiteboardView: Component = () => {
                   <ColorSwitchButton
                     color={item}
                     canvas={canvas}
-                    postClick={() => setBrushView(false)}
+                    postClick={() => setBrushPop(false)}
                   />
                 )}
               </For>
             </Flex>
-          </Popover>
+          </PopoverCt>
 
-          <Popover
+          <PopoverCt
             trigger={
               <Dynamic component="i" style={{ width: "1em", height: "1em" }}>
                 {fillIcon()}
               </Dynamic>
             }
             title="Select fill color"
-            open={fillView}
-            setOpen={setFillView}
+            setOpen={setFillPop}
+            open={fillPop}
           >
             <Flex>
               <For each={fillColors}>
@@ -237,22 +212,22 @@ export const WhiteboardView: Component = () => {
                   <FillSwitchButton
                     color={item}
                     canvas={canvas}
-                    postClick={() => setFillView(false)}
+                    postClick={() => setFillPop(false)}
                   />
                 )}
               </For>
             </Flex>
-          </Popover>
+          </PopoverCt>
 
-          <Popover
+          <PopoverCt
             trigger={
               <Dynamic component="i" style={{ width: "1em", height: "1em" }}>
                 {sizeIcon(wbState().width)}
               </Dynamic>
             }
             title="Select stroke size"
-            open={sizeView}
-            setOpen={setSizeView}
+            setOpen={setSizePop}
+            open={sizePop}
           >
             <Flex>
               <For each={[0, 1, 2, 3]}>
@@ -260,25 +235,25 @@ export const WhiteboardView: Component = () => {
                   <SizeSwitchButton
                     canvas={canvas}
                     index={item}
-                    postClick={() => setSizeView(false)}
+                    postClick={() => setSizePop(false)}
                   >
                     {sizeIcon(item)}
                   </SizeSwitchButton>
                 )}
               </For>
             </Flex>
-          </Popover>
+          </PopoverCt>
         </Flex>
         <Flex>
-          <Button onClick={share} border="none" title={t("Share")}>
+          <ButtonCt onClick={share} border="none" title={t("Share")}>
             <FaSolidShareNodes />
-          </Button>
-          <Button onClick={importImage} border="none" title={t("Import")}>
+          </ButtonCt>
+          <ButtonCt onClick={importImage} border="none" title={t("Import")}>
             <FaSolidFileImport />
-          </Button>
-          <Button onClick={exp} border="none" title={t("Export")}>
+          </ButtonCt>
+          <ButtonCt onClick={exp} border="none" title={t("Export")}>
             <FaSolidFileExport />
-          </Button>
+          </ButtonCt>
         </Flex>
       </div>
       <div class={WhiteboardRootStyle} ref={(el) => (boardRoot = el)}>

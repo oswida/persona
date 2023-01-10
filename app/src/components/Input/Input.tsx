@@ -1,9 +1,10 @@
-import { debounce } from "@solid-primitives/scheduled";
-import { ComponentProps, Match, Switch } from "solid-js";
+import { assignInlineVars } from "@vanilla-extract/dynamic";
+import { ComponentProps, JSX, Match, Switch } from "solid-js";
+import { currentTheme, themeVars } from "~/common";
 import { InputStyle } from "./styles.css";
 
 type Props = {
-  underline?: boolean | "blue";
+  underline?: boolean;
   center?: boolean;
   small?: boolean;
   middle?: boolean;
@@ -36,7 +37,10 @@ export const Input = ({
             middle: middle,
             transparent: transparent,
           })}
-          style={style}
+          style={{
+            ...assignInlineVars(themeVars, currentTheme()),
+            ...(style as JSX.CSSProperties),
+          }}
           title={title}
           ref={ref}
           placeholder={placeholder}
@@ -53,7 +57,10 @@ export const Input = ({
             underline: underline,
             small: small,
           })}
-          style={style}
+          style={{
+            ...assignInlineVars(themeVars, currentTheme()),
+            ...(style as JSX.CSSProperties),
+          }}
           title={title}
           ref={ref}
           placeholder={placeholder}

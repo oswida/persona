@@ -1,21 +1,17 @@
-import { style } from "@vanilla-extract/css";
 import { themeVars } from "~/common";
+import { currentTheme } from "~/common";
+import { style } from "@vanilla-extract/css";
+
+// This is portalled so we have to use runtime colors
 
 export const PopoverRootStyle = style({
-  backgroundColor: themeVars.colors.background100,
-  color: themeVars.colors.fontPrimary,
+  fontFamily: themeVars.font.family,
+  backgroundColor: themeVars.color.backgroundLight,
+  color: themeVars.color.primary,
   minWidth: "max-content",
   padding: "5px",
-  border: `solid 1px ${themeVars.colors.background300}`,
+  border: `solid 1px ${themeVars.color.secondary}`,
   borderRadius: "5px",
-});
-
-export const PopoverPositionerStyle = style({
-  backgroundColor: themeVars.colors.background100,
-  color: themeVars.colors.fontPrimary,
-  position: "absolute",
-  zIndex: 500,
-  marginTop: "5px",
 });
 
 export const PopoverTitleStyle = style({
@@ -23,8 +19,11 @@ export const PopoverTitleStyle = style({
   padding: "5px",
   alignItems: "center",
   justifyContent: "space-between",
-  borderBottom: `solid 1px ${themeVars.colors.background300}`,
   width: "100%",
+  fontSize: themeVars.font.size.standard,
+  marginTop: "5px",
+  marginBottom: "5px",
+  color: themeVars.color.primary,
 });
 
 export const PopoverCloseButtonStyle = style({
@@ -39,9 +38,10 @@ export const PopoverCloseButtonStyle = style({
   alignItems: "center",
   userSelect: "none",
   backgroundColor: "transparent",
-  color: themeVars.colors.fontPrimary,
+  color: themeVars.color.primary,
 });
 
 export const PopoverContentStyle = style({
-  marginTop: "10px",
+  marginTop: "5px",
+  marginBottom: "5px",
 });

@@ -1,11 +1,13 @@
-import { Component, ComponentProps, ParentProps } from "solid-js";
+import { assignInlineVars } from "@vanilla-extract/dynamic";
+import { Component, ComponentProps, JSX, ParentProps } from "solid-js";
+import { themeVars, currentTheme } from "~/common";
 import { TexteStyle } from "./styles.css";
 
 type Props = {
   align?: "right" | "left" | "center";
   size?: "regular" | "middle" | "small" | "xsmall" | "bigger";
   weight?: 400 | 700;
-  color?: "primary" | "white" | "pink" | "yellow" | "blue" | "green";
+  color?: "primary" | "white" | "secondary";
 };
 
 export const Texte: Component<ComponentProps<"div"> & Props> = ({
@@ -28,7 +30,10 @@ export const Texte: Component<ComponentProps<"div"> & Props> = ({
         weight: weight,
         clickable: onClick ? true : undefined,
       })}
-      style={style}
+      style={{
+        ...assignInlineVars(themeVars, currentTheme()),
+        ...(style as JSX.CSSProperties),
+      }}
       ref={ref}
       onClick={onClick}
       title={title}

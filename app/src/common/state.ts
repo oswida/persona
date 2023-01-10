@@ -1,3 +1,9 @@
+import {
+  darkThemeClass,
+  darkThemeVars,
+  lightThemeClass,
+  lightThemeVars,
+} from "./theme.css";
 import { createSignal } from "solid-js";
 import {
   emptySessionInfo,
@@ -6,6 +12,13 @@ import {
   SessionInfo,
   WhiteboardState,
 } from "./types";
+
+// App state
+export const [currentTheme, setCurrentTheme] = createSignal<
+  typeof darkThemeVars | typeof lightThemeVars
+>(darkThemeVars);
+export const [currentThemeClass, setCurrentThemeClass] =
+  createSignal<string>(darkThemeClass);
 
 // Main session data
 export const [sessionData, setSessionData] = createSignal<SessionInfo>(

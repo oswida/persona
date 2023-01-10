@@ -1,16 +1,14 @@
-import { globalStyle, keyframes, style } from "@vanilla-extract/css";
+import { globalStyle, style } from "@vanilla-extract/css";
 import { themeVars } from "./common";
 
 globalStyle("html, body", {
   margin: 0,
   padding: 0,
-  fontFamily: "Arial, Helvetica, sans-serif",
-  fontSize: themeVars.fontSizes.standard,
 });
 
 export const appStyle = style({
-  backgroundColor: themeVars.colors.background,
-  color: themeVars.colors.fontPrimary,
+  backgroundColor: themeVars.color.background,
+  color: themeVars.color.primary,
   width: "100vw",
   height: "100vh",
   overflow: "hidden",

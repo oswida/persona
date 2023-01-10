@@ -1,6 +1,6 @@
 import { fabric } from "fabric";
 import { Accessor } from "solid-js";
-import { runtimeColors, setWbState, wbState } from "~/common";
+import { currentTheme, setWbState, wbState } from "~/common";
 import { WhiteboardState } from "./../../common/types";
 
 let mouseDown = false;
@@ -23,6 +23,8 @@ const startAddLine = (
   canvas: fabric.Canvas
 ) => {
   return (e: any) => {
+    console.log("start add line");
+
     mouseDown = true;
     let pointer = canvas.getPointer(e);
     drawInstance = new fabric.Line(
@@ -161,8 +163,8 @@ export const initCanvas = (element: string, width: number, height: number) => {
   const canvas = new fabric.Canvas(element, { height, width });
   fabric.Object.prototype.transparentCorners = false;
   fabric.Object.prototype.cornerStyle = "circle";
-  fabric.Object.prototype.borderColor = runtimeColors.background300;
-  fabric.Object.prototype.cornerColor = runtimeColors.background300;
+  fabric.Object.prototype.borderColor = "white"; //currentTheme().color.secondary;
+  fabric.Object.prototype.cornerColor = "white"; //currentTheme().color.secondary;
   fabric.Object.prototype.cornerSize = 6;
   fabric.Object.prototype.padding = 10;
   fabric.Object.prototype.borderDashArray = [5, 5];

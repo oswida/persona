@@ -1,9 +1,11 @@
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 import { useI18n } from "@solid-primitives/i18n";
+import { assignInlineVars } from "@vanilla-extract/dynamic";
 import { FaSolidTrashCan } from "solid-icons/fa";
 import { Component, For } from "solid-js";
 import { v4 as uuidv4 } from "uuid";
 import {
+  currentTheme,
   personaRollsKey,
   prettyNow,
   rollHistory,
@@ -13,8 +15,9 @@ import {
   selectedDice,
   sessionData,
   setRollHistory,
+  themeVars,
 } from "~/common";
-import { Button, Flex, Input, Texte } from "~/components";
+import { ButtonCt, Flex, Input, Texte } from "~/components";
 import { DiceRollButton } from "./DiceRollButton";
 import {
   DiceViewRootStyle,
@@ -123,15 +126,18 @@ export const DiceView: Component = () => {
   };
 
   return (
-    <div class={DiceViewRootStyle}>
+    <div
+      class={DiceViewRootStyle}
+      style={assignInlineVars(themeVars, currentTheme())}
+    >
       <div class={RollInfoStyle}>
-        <Flex type="column">
-          <Button noupper size="bigger" border="underline" onClick={roll}>
+        <Flex dn="column">
+          <ButtonCt size="big" border="underline" onClick={roll}>
             {t("Roll")}
             <span style={{ "font-weight": "bold", "margin-left": "0.5em" }}>
               {selectedDice().replace("d", t("dice_letter"))}
             </span>
-          </Button>
+          </ButtonCt>
           <Input
             title={t("Input_comment")}
             ref={(el) => (commentRef = el)}
@@ -140,7 +146,7 @@ export const DiceView: Component = () => {
           />
           <Texte
             ref={(el) => (outputRef = el)}
-            color="yellow"
+            color="secondary"
             style={{ overflow: "hidden", "text-align": "center" }}
           ></Texte>
         </Flex>

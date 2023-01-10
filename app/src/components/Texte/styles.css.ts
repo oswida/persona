@@ -3,7 +3,7 @@ import { themeVars } from "~/common";
 
 export const TexteStyle = recipe({
   base: {
-    color: themeVars.colors.fontPrimary,
+    color: themeVars.color.primary,
   },
   variants: {
     align: {
@@ -53,22 +53,13 @@ export const TexteStyle = recipe({
     },
     color: {
       primary: {
-        color: themeVars.colors.fontPrimary,
+        color: themeVars.color.primary,
       },
       white: {
         color: "#ffffff",
       },
-      pink: {
-        color: themeVars.colors.pink,
-      },
-      blue: {
-        color: themeVars.colors.blue,
-      },
-      yellow: {
-        color: themeVars.colors.yellow,
-      },
-      green: {
-        color: themeVars.colors.green,
+      secondary: {
+        color: themeVars.color.secondary,
       },
     },
     clickable: {

@@ -1,7 +1,7 @@
 import { useI18n } from "@solid-primitives/i18n";
 import { FaSolidMinus, FaSolidPlus } from "solid-icons/fa";
 import { setSelectedDice } from "~/common";
-import { Flex, Button, Texte, Input, InputButton } from "~/components";
+import { ButtonCt, Flex, InputButton, Texte } from "~/components";
 
 export const DiceRollButton = () => {
   let diceRef: HTMLInputElement;
@@ -72,70 +72,39 @@ export const DiceRollButton = () => {
   };
 
   return (
-    <Flex type="column">
+    <Flex dn="column">
       <Flex center>
         <Flex>
-          <Button
-            size="small"
-            border="underline"
-            noupper
-            onClick={() => setDice(4)}
-          >
+          <ButtonCt size="small" border="underline" onClick={() => setDice(4)}>
             {t("d4")}
-          </Button>
-          <Button
-            size="small"
-            border="underline"
-            noupper
-            onClick={() => setDice(6)}
-          >
+          </ButtonCt>
+          <ButtonCt size="small" border="underline" onClick={() => setDice(6)}>
             {t("d6")}
-          </Button>
-          <Button
-            size="small"
-            border="underline"
-            noupper
-            onClick={() => setDice(8)}
-          >
+          </ButtonCt>
+          <ButtonCt size="small" border="underline" onClick={() => setDice(8)}>
             {t("d8")}
-          </Button>
-          <Button
-            size="small"
-            border="underline"
-            noupper
-            onClick={() => setDice(10)}
-          >
+          </ButtonCt>
+          <ButtonCt size="small" border="underline" onClick={() => setDice(10)}>
             {t("d10")}
-          </Button>
+          </ButtonCt>
 
-          <Button
-            size="small"
-            border="underline"
-            noupper
-            onClick={() => setDice(12)}
-          >
+          <ButtonCt size="small" border="underline" onClick={() => setDice(12)}>
             {t("d12")}
-          </Button>
-          <Button
-            size="small"
-            border="underline"
-            noupper
-            onClick={() => setDice(20)}
-          >
+          </ButtonCt>
+          <ButtonCt size="small" border="underline" onClick={() => setDice(20)}>
             {t("d20")}
-          </Button>
-          <Button
+          </ButtonCt>
+          <ButtonCt
             size="small"
             border="underline"
-            noupper
             onClick={() => setDice(100)}
           >
             {t("d100")}
-          </Button>
+          </ButtonCt>
         </Flex>
       </Flex>
       <Flex center>
-        <Flex type="column" center>
+        <Flex dn="column" center>
           <FaSolidPlus onClick={inc} />
           <InputButton
             onChange={updateDice}
@@ -151,9 +120,9 @@ export const DiceRollButton = () => {
           />
           <FaSolidMinus onClick={dec} />
         </Flex>
-        <Texte color="yellow">{t("dice_letter")}</Texte>
+        <Texte color="secondary">{t("dice_letter")}</Texte>
         <Flex>
-          <Flex type="column" center>
+          <Flex dn="column" center>
             <FaSolidPlus onClick={incDice} />
             <InputButton
               onChange={updateDice}

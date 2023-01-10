@@ -2,9 +2,10 @@ import { style } from "@vanilla-extract/css";
 import { themeVars } from "~/common";
 
 export const DiceViewRootStyle = style({
+  fontFamily: themeVars.font.family,
+  fontSize: themeVars.font.size.standard,
   padding: "2px 5px",
   height: "calc(100vh - 70px)",
-  // borderRight: `solid 1px ${themeVars.colors.blue}`,
   borderRadius: 5,
   display: "flex",
   justifyContent: "center",
@@ -15,7 +16,7 @@ export const DiceViewRootStyle = style({
 });
 
 export const RollInfoStyle = style({
-  border: `solid 1px ${themeVars.colors.yellow}`,
+  border: `solid 1px ${themeVars.color.secondary}`,
   marginTop: 10,
   padding: 10,
   borderRadius: 5,
@@ -24,7 +25,7 @@ export const RollInfoStyle = style({
 });
 
 export const RollHistoryStyle = style({
-  border: `1px solid ${themeVars.colors.darkblue}`,
+  border: `1px solid ${themeVars.color.secondary}`,
   borderRadius: 5,
   padding: 5,
   height: 200,

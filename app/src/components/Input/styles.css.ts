@@ -7,11 +7,11 @@ export const InputStyle = recipe({
     outline: "none",
     border: "none",
     padding: "3px 7px",
-    fontFamily: themeVars.fontFamily,
-    fontSize: themeVars.fontSizes.bigger,
+    fontFamily: themeVars.font.family,
+    fontSize: themeVars.font.size.bigger,
     appearance: "textfield",
-    backgroundColor: themeVars.colors.background,
-    color: themeVars.colors.fontPrimary,
+    backgroundColor: themeVars.color.background,
+    color: themeVars.color.primary,
     borderRadius: 5,
   },
   variants: {
@@ -22,16 +22,13 @@ export const InputStyle = recipe({
     },
     underline: {
       true: {
-        borderBottom: `solid 1px ${themeVars.colors.fontPrimary}`,
-      },
-      blue: {
-        borderBottom: `solid 1px ${themeVars.colors.blue}`,
+        borderBottom: `solid 1px ${themeVars.color.primary}`,
       },
     },
     isTitle: {
       true: {
         fontWeight: "bold",
-        fontSize: themeVars.fontSizes.large,
+        fontSize: themeVars.font.size.large,
       },
     },
     center: {
@@ -41,12 +38,12 @@ export const InputStyle = recipe({
     },
     small: {
       true: {
-        fontSize: themeVars.fontSizes.small,
+        fontSize: themeVars.font.size.small,
       },
     },
     middle: {
       true: {
-        fontSize: themeVars.fontSizes.standard,
+        fontSize: themeVars.font.size.standard,
       },
     },
   },
@@ -55,17 +52,17 @@ export const InputStyle = recipe({
 export const InputButtonStyle = recipe({
   base: {
     appearance: "textfield",
-    fontFamily: themeVars.fontFamily,
-    fontSize: themeVars.fontSizes.bigger,
-    color: themeVars.colors.fontPrimary,
+    fontFamily: themeVars.font.family,
+    fontSize: themeVars.font.size.bigger,
+    color: themeVars.color.primary,
     outline: "none",
-    border: `solid 1px ${themeVars.colors.blue}`,
+    border: `solid 1px ${themeVars.color.secondary}`,
     borderRadius: 5,
     textAlign: "center",
     backgroundColor: "transparent",
     selectors: {
       "&:hover": {
-        color: themeVars.colors.blue,
+        color: themeVars.color.primary,
         textDecoration: "none",
         cursor: "pointer",
       },
@@ -82,7 +79,7 @@ export const InputButtonStyle = recipe({
         padding: 2,
         paddingLeft: 3,
         paddingRight: 3,
-        fontSize: themeVars.fontSizes.small,
+        fontSize: themeVars.font.size.small,
       },
     },
   },

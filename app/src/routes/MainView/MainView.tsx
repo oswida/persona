@@ -1,7 +1,5 @@
-import { FaSolidPalette } from "solid-icons/fa";
-import { Flex, Popover, Tabs, TabsDesc } from "~/components";
-import { CharEditor } from "~/views/CharEditor";
-import { sample } from "~/views/CharEditor/sample";
+import Div100vh from "solidjs-div-100vh";
+import { Flex, TabsCt, TabsDesc } from "~/components";
 import { DiceView } from "~/views/DiceView";
 import { WhiteboardView } from "~/views/WhiteboardView/WhiteboardView";
 import { MainStyle } from "./styles.css";
@@ -9,22 +7,16 @@ import { MainStyle } from "./styles.css";
 export const MainView = () => {
   const views: TabsDesc[] = [
     {
-      value: "charview",
-      label: "Characters",
-      content: <CharEditor schema={sample} data={{}} />,
-    },
-    {
-      value: "drawview",
       label: "Draw",
-      content: <WhiteboardView />,
+      value: <WhiteboardView />,
     },
   ];
   return (
-    <div class={MainStyle}>
-      <Flex type="row">
+    <Div100vh class={MainStyle}>
+      <Flex dn="row" style={{ width: "100%", height: "100%" }}>
         <DiceView />
-        <Tabs items={views}></Tabs>
+        <TabsCt items={views}></TabsCt>
       </Flex>
-    </div>
+    </Div100vh>
   );
 };

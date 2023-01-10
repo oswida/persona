@@ -25,11 +25,13 @@
     "@dice-roller/rpg-dice-roller": "^5.2.1",
     "@eonasdan/lz-string": "^1.0.3",
     "@json-editor/json-editor": "^2.9.0-beta.0",
+    "@kobalte/core": "^0.1.0",
     "@solid-primitives/context": "^0.1.2",
     "@solid-primitives/i18n": "^1.1.2",
     "@solid-primitives/scheduled": "^1.2.0",
     "@solidjs/router": "^0.5.0",
     "@vanilla-extract/css": "^1.9.1",
+    "@vanilla-extract/dynamic": "^2.0.3",
     "@vanilla-extract/recipes": "^0.2.5",
     "@zag-js/dialog": "^0.2.1",
     "@zag-js/popover": "^0.2.6",
@@ -42,6 +44,7 @@
     "paho-mqtt": "^1.1.0",
     "solid-icons": "^1.0.4",
     "solid-js": "^1.6.2",
+    "solidjs-div-100vh": "^1.0.1",
     "uuid": "^9.0.0"
   }
 }

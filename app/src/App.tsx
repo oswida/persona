@@ -1,13 +1,16 @@
 import { Route, Routes } from "@solidjs/router";
+import { assignInlineVars } from "@vanilla-extract/dynamic";
 import type { Component, ParentProps } from "solid-js";
 import { appStyle } from "./app.css";
-import { themeClass } from "./common";
+import { currentTheme, currentThemeClass, themeVars } from "./common";
 import { MainView } from "./routes/MainView";
 
 const Main: Component<ParentProps> = ({ children }) => {
   return (
-    <div class={themeClass}>
-      <div class={appStyle}>{children}</div>
+    <div class={currentThemeClass()}>
+      <div class={appStyle} style={assignInlineVars(themeVars, currentTheme())}>
+        {children}
+      </div>
     </div>
   );
 };
