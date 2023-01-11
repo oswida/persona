@@ -3,8 +3,8 @@ import { createTheme, createThemeContract } from "@vanilla-extract/css";
 export const themeVars = createThemeContract({
   color: {
     background: "",
-    backgroundMid: "",
-    backgroundLight: "",
+    backgroundSecondary: "",
+    accent: "",
     primary: "",
     secondary: "",
   },
@@ -20,43 +20,78 @@ export const themeVars = createThemeContract({
   },
 });
 
-export const [darkThemeClass, darkThemeVars] = createTheme({
-  color: {
-    background: "#3c2a4d",
-    backgroundMid: "#503a65",
-    backgroundLight: "#574f7d",
-    primary: "#e0f0ea",
-    secondary: "#95adbe",
+const themeFontSizes = {
+  standard: "17px",
+  bigger: "19px",
+  large: "21px",
+  smaller: "15px",
+  small: "13px",
+};
+
+const bluePalette = {
+  dark: {
+    background: "#21526B",
+    backgroundSecondary: "#398DB8",
+    accent: "#415D6B",
+    primary: "#fff",
+    secondary: "#000",
   },
+  light: {
+    background: "#91CFEE",
+    backgroundSecondary: "#4AB4EB",
+    accent: "#398DB8",
+    primary: "#000",
+    secondary: "#fff",
+  },
+};
+
+const greenPalette = {
+  dark: {
+    background: "#1C6B4D",
+    backgroundSecondary: "#30B884",
+    accent: "#3C6B59",
+    primary: "#fff",
+    secondary: "#000",
+  },
+  light: {
+    background: "#85EEC6",
+    backgroundSecondary: "#3DEBA8",
+    accent: "#30B884",
+    primary: "#000",
+    secondary: "#fff",
+  },
+};
+
+const brownPalette = {
+  dark: {
+    background: "#6B4428",
+    backgroundSecondary: "#B87445",
+    accent: "#EB9457",
+    primary: "#fff",
+    secondary: "#000",
+  },
+  light: {
+    background: "#EEC09F",
+    backgroundSecondary: "#EB9457",
+    accent: "#B87445",
+    primary: "#000",
+    secondary: "#fff",
+  },
+};
+
+export const [darkThemeClass, darkThemeVars] = createTheme({
+  color: bluePalette.dark,
   font: {
     family: "Oxanium",
-    size: {
-      standard: "15px",
-      bigger: "17px",
-      large: "19px",
-      smaller: "13px",
-      small: "11px",
-    },
+    size: themeFontSizes,
   },
 });
 
 export const [lightThemeClass, lightThemeVars] = createTheme({
-  color: {
-    background: "#e0f0ea",
-    backgroundMid: "#95adbe",
-    backgroundLight: "#574f7d",
-    primary: "#3c2a4d",
-    secondary: "#503a65",
-  },
+  color: bluePalette.light,
   font: {
     family: "Oxanium",
-    size: {
-      standard: "15px",
-      bigger: "17px",
-      large: "19px",
-      smaller: "13px",
-      small: "11px",
-    },
+    size: themeFontSizes,
   },
 });
 

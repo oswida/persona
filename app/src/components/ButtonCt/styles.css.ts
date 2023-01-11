@@ -18,7 +18,7 @@ export const ButtonStyle = recipe({
     justifyContent: "center",
     selectors: {
       "&:hover": {
-        backgroundColor: themeVars.color.backgroundMid,
+        backgroundColor: themeVars.color.backgroundSecondary,
         textDecoration: "none",
         cursor: "pointer",
       },
@@ -38,10 +38,10 @@ export const ButtonStyle = recipe({
     },
     border: {
       standard: {
-        border: `1px solid ${themeVars.color.primary}`,
+        border: `1px solid ${themeVars.color.backgroundSecondary}`,
       },
       underline: {
-        borderBottom: `1px solid ${themeVars.color.primary}`,
+        borderBottom: `1px solid ${themeVars.color.accent}`,
         borderBottomLeftRadius: "5px",
         borderBottomRightRadius: "5px",
       },
@@ -51,8 +51,7 @@ export const ButtonStyle = recipe({
     },
     selected: {
       true: {
-        backgroundColor: themeVars.color.secondary,
-        color: themeVars.color.background,
+        backgroundColor: themeVars.color.backgroundSecondary,
       },
     },
   },

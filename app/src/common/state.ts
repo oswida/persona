@@ -1,10 +1,10 @@
 import {
   darkThemeClass,
   darkThemeVars,
-  lightThemeClass,
   lightThemeVars,
+  themeVars,
 } from "./theme.css";
-import { createSignal } from "solid-js";
+import { createMemo, createSignal } from "solid-js";
 import {
   emptySessionInfo,
   initialWhiteboardState,
@@ -12,6 +12,7 @@ import {
   SessionInfo,
   WhiteboardState,
 } from "./types";
+import { assignInlineVars } from "@vanilla-extract/dynamic";
 
 // App state
 export const [currentTheme, setCurrentTheme] = createSignal<
@@ -19,6 +20,10 @@ export const [currentTheme, setCurrentTheme] = createSignal<
 >(darkThemeVars);
 export const [currentThemeClass, setCurrentThemeClass] =
   createSignal<string>(darkThemeClass);
+
+export const currentStyle = createMemo(() => {
+  return assignInlineVars(themeVars, currentTheme());
+});
 
 // Main session data
 export const [sessionData, setSessionData] = createSignal<SessionInfo>(

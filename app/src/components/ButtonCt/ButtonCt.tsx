@@ -1,7 +1,6 @@
-import { Button, PressEvent } from "@kobalte/core";
-import { assignInlineVars } from "@vanilla-extract/dynamic";
+import { Button } from "@kobalte/core";
 import { ComponentProps } from "solid-js";
-import { currentTheme, themeVars } from "~/common";
+import { currentStyle } from "~/common";
 import { ButtonStyle } from "./styles.css";
 
 type Props = {
@@ -24,7 +23,7 @@ export const ButtonCt = ({
   return (
     <Button
       class={ButtonStyle({ border: border, size: size, selected: selected })}
-      style={assignInlineVars(themeVars, currentTheme())}
+      style={currentStyle()}
       title={title}
       ref={ref}
       onPressEnd={onClick}
