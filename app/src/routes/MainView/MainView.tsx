@@ -1,4 +1,4 @@
-import { FaSolidMoon, FaSolidSun } from "solid-icons/fa";
+import { FaSolidDice, FaSolidMoon, FaSolidSun } from "solid-icons/fa";
 import { Match, Switch } from "solid-js";
 import Div100vh from "solidjs-div-100vh";
 import {
@@ -11,7 +11,8 @@ import {
   setCurrentTheme,
   setCurrentThemeClass,
 } from "~/common";
-import { ButtonCt } from "~/components";
+import { ButtonCt, Flex, PopoverCt } from "~/components";
+import { DiceRollerView } from "~/views/DiceRollerView";
 import { MainStyle, TopBarStyle } from "./styles.css";
 
 export const MainView = () => {
@@ -28,16 +29,23 @@ export const MainView = () => {
   return (
     <Div100vh class={MainStyle} style={currentStyle()}>
       <div class={TopBarStyle} style={currentStyle()}>
-        <ButtonCt onClick={switchTheme}>
-          <Switch>
-            <Match when={currentTheme() == darkThemeVars}>
-              <FaSolidSun />
-            </Match>
-            <Match when={currentTheme() == lightThemeVars}>
-              <FaSolidMoon />
-            </Match>
-          </Switch>
-        </ButtonCt>
+        <Flex>
+          <PopoverCt trigger={<FaSolidDice />}>
+            <DiceRollerView />
+          </PopoverCt>
+        </Flex>
+        <Flex>
+          <ButtonCt onClick={switchTheme}>
+            <Switch>
+              <Match when={currentTheme() == darkThemeVars}>
+                <FaSolidSun />
+              </Match>
+              <Match when={currentTheme() == lightThemeVars}>
+                <FaSolidMoon />
+              </Match>
+            </Switch>
+          </ButtonCt>
+        </Flex>
       </div>
     </Div100vh>
   );

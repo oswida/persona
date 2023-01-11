@@ -19,6 +19,8 @@ export const TexteStyle = recipe({
         display: "flex",
         width: "100%",
         justifyContent: "center",
+        alignItems: "center",
+        alignSelf: "center",
       },
     },
     size: {

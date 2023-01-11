@@ -1,6 +1,6 @@
 import { assignInlineVars } from "@vanilla-extract/dynamic";
 import { Component, ComponentProps, JSX, ParentProps } from "solid-js";
-import { themeVars, currentTheme } from "~/common";
+import { themeVars, currentTheme, currentStyle } from "~/common";
 import { TexteStyle } from "./styles.css";
 
 type Props = {
@@ -31,7 +31,7 @@ export const Texte: Component<ComponentProps<"div"> & Props> = ({
         clickable: onClick ? true : undefined,
       })}
       style={{
-        ...assignInlineVars(themeVars, currentTheme()),
+        ...currentStyle(),
         ...(style as JSX.CSSProperties),
       }}
       ref={ref}

@@ -39,3 +39,8 @@ export const [rollHistory, setRollHistory] = createSignal<RollInfo[]>([]);
 export const [wbState, setWbState] = createSignal<WhiteboardState>(
   initialWhiteboardState
 );
+
+// Dice Roller
+export const [selectedDicePool, setSelectedDicePool] = createSignal<
+  Record<string, number>
+>({});

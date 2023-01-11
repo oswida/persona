@@ -17,7 +17,7 @@ export const TopBarStyle = style({
   position: "fixed",
   top: "0px",
   left: "0px",
-  width: "100vw",
+  width: "calc(100% - 20px)",
   height: "2em",
   padding: "5px 10px",
   alignItems: "center",

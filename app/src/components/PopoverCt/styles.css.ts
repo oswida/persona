@@ -6,11 +6,11 @@ import { style } from "@vanilla-extract/css";
 
 export const PopoverRootStyle = style({
   fontFamily: themeVars.font.family,
-  backgroundColor: themeVars.color.backgroundLight,
+  backgroundColor: themeVars.color.accent,
   color: themeVars.color.primary,
   minWidth: "max-content",
   padding: "5px",
-  border: `solid 1px ${themeVars.color.secondary}`,
+  border: `solid 1px ${themeVars.color.backgroundSecondary}`,
   borderRadius: "5px",
 });
 
@@ -39,6 +39,9 @@ export const PopoverCloseButtonStyle = style({
   userSelect: "none",
   backgroundColor: "transparent",
   color: themeVars.color.primary,
+  position: "absolute",
+  right: "5px",
+  top: "5px",
 });
 
 export const PopoverContentStyle = style({

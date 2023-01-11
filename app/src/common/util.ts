@@ -5,7 +5,6 @@ import {
   decompress,
   decompressFromBase64,
 } from "@eonasdan/lz-string";
-import { AppDataType } from "./signals";
 
 export const extractQueryParam = (name: string) => {
   const re = new RegExp(`.*(${name}=[a-zA-Z]+).*`, "i");
@@ -39,6 +38,10 @@ const roller = new DiceRoller();
 
 export const rollSingle = (roll: string) => {
   return roller.roll(roll) as DiceRoll;
+};
+
+export const rollMultiple = (roll: string[]) => {
+  return roller.roll(...roll) as DiceRoll[];
 };
 
 export const rollFrom = (source: string[]) => {
@@ -97,17 +100,17 @@ export const prettyToday = () => {
     .replaceAll(" ", "_");
 };
 
-export const notify = (apd: AppDataType, msg: string, delay: number) => {
-  if (!apd) return;
-  apd.setNotification({
-    msg: msg,
-    delay: delay,
-  });
+// export const notify = (msg: string, delay: number) => {
+//   if (!apd) return;
+//   apd.setNotification({
+//     msg: msg,
+//     delay: delay,
+//   });
 
-  setTimeout(() => {
-    apd.setNotification({ msg: "", delay: 0 });
-  }, delay);
-};
+//   setTimeout(() => {
+//     apd.setNotification({ msg: "", delay: 0 });
+//   }, delay);
+// };
 
 export const generateSerialKeys = (length: number, separator: string) => {
   separator = separator || "-";

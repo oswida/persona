@@ -4,3 +4,4 @@ export * from "./Input";
 export * from "./PopoverCt";
 export * from "./TabsCt";
 export * from "./Texte";
+export * from "./Badge";
