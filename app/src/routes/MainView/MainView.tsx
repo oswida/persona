@@ -1,5 +1,11 @@
-import { FaSolidDice, FaSolidMoon, FaSolidSun } from "solid-icons/fa";
-import { Match, Switch } from "solid-js";
+import {
+  FaSolidDatabase,
+  FaSolidDice,
+  FaSolidGears,
+  FaSolidMoon,
+  FaSolidSun,
+} from "solid-icons/fa";
+import { createSignal, Match, Switch } from "solid-js";
 import Div100vh from "solidjs-div-100vh";
 import {
   currentStyle,
@@ -11,7 +17,7 @@ import {
   setCurrentTheme,
   setCurrentThemeClass,
 } from "~/common";
-import { ButtonCt, Flex, PopoverCt } from "~/components";
+import { ButtonCt, DialogCt, Flex, PopoverCt, Texte } from "~/components";
 import { DiceRollerView } from "~/views/DiceRollerView";
 import { MainStyle, TopBarStyle } from "./styles.css";
 
@@ -45,6 +51,9 @@ export const MainView = () => {
               </Match>
             </Switch>
           </ButtonCt>
+          <DialogCt trigger={<FaSolidGears />}>
+            <FaSolidDatabase />
+          </DialogCt>
         </Flex>
       </div>
     </Div100vh>
