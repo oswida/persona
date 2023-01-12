@@ -4,6 +4,7 @@ import type { Component, ParentProps } from "solid-js";
 import { appStyle } from "./app.css";
 import { currentTheme, currentThemeClass, themeVars } from "./common";
 import { MainView } from "./routes/MainView";
+import toast, { Toaster } from "solid-toast";
 
 const Main: Component<ParentProps> = ({ children }) => {
   return (
@@ -11,6 +12,7 @@ const Main: Component<ParentProps> = ({ children }) => {
       <div class={appStyle} style={assignInlineVars(themeVars, currentTheme())}>
         {children}
       </div>
+      <Toaster />
     </div>
   );
 };

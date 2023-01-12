@@ -82,7 +82,7 @@ const brownPalette = {
 export const [darkThemeClass, darkThemeVars] = createTheme({
   color: bluePalette.dark,
   font: {
-    family: "Lato",
+    family: "Merriweather",
     size: themeFontSizes,
   },
 });

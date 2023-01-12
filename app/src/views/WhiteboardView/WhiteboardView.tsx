@@ -55,7 +55,6 @@ export const WhiteboardView: Component = () => {
     const el = document.getElementById("whiteboardCanvas");
     if (!el) return;
     const style = window.getComputedStyle(el);
-    console.log("key", style.visibility);
   };
 
   const save = (e: any) => {

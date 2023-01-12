@@ -36,13 +36,14 @@ export const InputStyle = recipe({
         textAlign: "center",
       },
     },
-    small: {
-      true: {
+    size: {
+      small: {
         fontSize: themeVars.font.size.small,
       },
-    },
-    middle: {
-      true: {
+      smaller: {
+        fontSize: themeVars.font.size.smaller,
+      },
+      standard: {
         fontSize: themeVars.font.size.standard,
       },
     },

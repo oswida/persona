@@ -6,8 +6,7 @@ import { InputStyle } from "./styles.css";
 type Props = {
   underline?: boolean;
   center?: boolean;
-  small?: boolean;
-  middle?: boolean;
+  size: "standard" | "smaller" | "small";
   transparent?: boolean;
 };
 
@@ -18,12 +17,11 @@ export const Input = ({
   style,
   ref,
   placeholder,
-  small,
   transparent,
   onChange,
   onInput,
   value,
-  middle,
+  size,
   onBlur,
 }: ComponentProps<"input"> & Props) => {
   return (
@@ -33,8 +31,7 @@ export const Input = ({
           class={InputStyle({
             center: center,
             underline: underline,
-            small: small,
-            middle: middle,
+            size: size,
             transparent: transparent,
           })}
           style={{
@@ -55,7 +52,7 @@ export const Input = ({
           class={InputStyle({
             center: center,
             underline: underline,
-            small: small,
+            size: size,
           })}
           style={{
             ...assignInlineVars(themeVars, currentTheme()),

@@ -7,7 +7,7 @@ type Props = {
   align?: "right" | "left" | "center";
   size?: "regular" | "middle" | "small" | "xsmall" | "bigger";
   weight?: 400 | 700;
-  color?: "primary" | "white" | "secondary";
+  color?: "primary" | "white" | "secondary" | "background2";
 };
 
 export const Texte: Component<ComponentProps<"div"> & Props> = ({

@@ -5,3 +5,5 @@ export * from "./PopoverCt";
 export * from "./TabsCt";
 export * from "./Texte";
 export * from "./Badge";
+export * from "./Toast";
+export * from "./DialogCt";

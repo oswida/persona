@@ -23,7 +23,6 @@ const startAddLine = (
   canvas: fabric.Canvas
 ) => {
   return (e: any) => {
-    console.log("start add line");
 
     mouseDown = true;
     let pointer = canvas.getPointer(e);

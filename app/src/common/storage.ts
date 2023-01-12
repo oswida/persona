@@ -34,7 +34,6 @@ export const loadSessionData = () => {
 
 export const saveGenericData = (key: string, data: any) => {
   const toSave = compressData(data);
-  console.log("saving", toSave.toString().length, "bytes", toSave);
 
   localStorage.setItem(key, toSave);
   updateStoreSize();

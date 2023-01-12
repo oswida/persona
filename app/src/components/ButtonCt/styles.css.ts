@@ -16,11 +16,16 @@ export const ButtonStyle = recipe({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    cursor: "pointer",
+    textDecoration: "none",
     selectors: {
       "&:hover": {
         backgroundColor: themeVars.color.backgroundSecondary,
-        textDecoration: "none",
-        cursor: "pointer",
+      },
+      "&:disabled": {
+        backgroundColor: themeVars.color.accent,
+        color: themeVars.color.backgroundSecondary,
+        cursor: "not-allowed",
       },
     },
   },

@@ -3,6 +3,7 @@ import { selectedDicePool } from "~/common";
 
 export const computedDicePool = createMemo(() => {
   const pool = selectedDicePool();
+
   const dice: string[] = [];
   Object.keys(pool).forEach((key) => {
     const n = pool[key];

@@ -63,6 +63,9 @@ export const TexteStyle = recipe({
       secondary: {
         color: themeVars.color.secondary,
       },
+      background2: {
+        color: themeVars.color.backgroundSecondary,
+      },
     },
     clickable: {
       true: {
@@ -77,7 +80,7 @@ export const TexteStyle = recipe({
   },
   defaultVariants: {
     weight: 400,
-    color: "white",
+    color: "primary",
     size: "regular",
     align: "left",
   },

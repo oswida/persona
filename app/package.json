@@ -37,6 +37,7 @@
     "paho-mqtt": "^1.1.0",
     "solid-icons": "^1.0.4",
     "solid-js": "^1.6.2",
+    "solid-toast": "^0.4.0",
     "solidjs-div-100vh": "^1.0.1",
     "uuid": "^9.0.0"
   }
