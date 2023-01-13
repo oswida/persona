@@ -3,6 +3,7 @@ import { style } from "@vanilla-extract/css";
 
 export const TabsRootStyle = style({
   fontFamily: themeVars.font.family,
+  fontSize: themeVars.font.size.standard,
   width: "100%",
   height: "100%",
 });
@@ -10,23 +11,22 @@ export const TabsRootStyle = style({
 export const TabsTriggerGroupStyle = style({
   fontFamily: themeVars.font.family,
   backgroundColor: themeVars.color.background,
-  marginBottom: 10,
 });
 
 export const TabsTriggerStyle = style({
   fontFamily: themeVars.font.family,
-  backgroundColor: themeVars.color.background,
+  backgroundColor: themeVars.color.backgroundSecondary,
   outline: "none",
   border: "none",
-  marginRight: 5,
   padding: "5px 10px",
   color: themeVars.color.primary,
-  borderRadius: 5,
-  textTransform: "uppercase",
-  fontSize: themeVars.font.size.small,
+  borderTopLeftRadius: 5,
+  borderTopRightRadius: 5,
+  fontSize: themeVars.font.size.standard,
+  opacity: 0.8,
   selectors: {
     "&[data-selected]": {
-      color: themeVars.color.secondary,
+      opacity: 1,
       borderBottom: `solid 1px ${themeVars.color.secondary}`,
     },
   },

@@ -13,11 +13,11 @@ import {
   rollSingle,
   saveGenericData,
   selectedDice,
-  sessionData,
   setRollHistory,
+  settingsData,
   themeVars,
 } from "~/common";
-import { ButtonCt, Flex, Input, Texte } from "~/components";
+import { Button, Flex, Input, Texte } from "~/components";
 import { DiceRollButton } from "./DiceRollButton";
 import {
   DiceViewRootStyle,
@@ -106,7 +106,7 @@ export const DiceView: Component = () => {
   const roll = () => {
     const r = rollSingle(selectedDice());
     done = false;
-    const sd = sessionData();
+    const sd = settingsData();
     if (!sd || !commentRef) return;
     randomizeText(
       r,
@@ -132,12 +132,12 @@ export const DiceView: Component = () => {
     >
       <div class={RollInfoStyle}>
         <Flex dn="column">
-          <ButtonCt size="big" border="underline" onClick={roll}>
+          <Button size="big" border="underline" onClick={roll}>
             {t("Roll")}
             <span style={{ "font-weight": "bold", "margin-left": "0.5em" }}>
               {selectedDice().replace("d", t("dice_letter"))}
             </span>
-          </ButtonCt>
+          </Button>
           <Input
             title={t("Input_comment")}
             ref={(el) => (commentRef = el)}

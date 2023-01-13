@@ -1,18 +1,19 @@
+import { assignInlineVars } from "@vanilla-extract/dynamic";
+import { createMemo, createSignal } from "solid-js";
 import {
   darkThemeClass,
   darkThemeVars,
   lightThemeVars,
   themeVars,
 } from "./theme.css";
-import { createMemo, createSignal } from "solid-js";
 import {
-  emptySessionInfo,
+  emptySettings,
+  IdentSettings,
   initialWhiteboardState,
   RollInfo,
-  SessionInfo,
+  Settings,
   WhiteboardState,
 } from "./types";
-import { assignInlineVars } from "@vanilla-extract/dynamic";
 
 // App state
 export const [currentTheme, setCurrentTheme] = createSignal<
@@ -26,8 +27,8 @@ export const currentStyle = createMemo(() => {
 });
 
 // Main session data
-export const [sessionData, setSessionData] = createSignal<SessionInfo>(
-  emptySessionInfo()
+export const [settingsData, setSettingsData] = createSignal<Settings>(
+  emptySettings()
 );
 export const [storageSize, setStorageSize] = createSignal(0);
 

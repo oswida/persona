@@ -1,33 +1,33 @@
 import { v4 as uuidv4 } from "uuid";
-import { setSessionData, setStorageSize } from "./state";
-import { emptySessionInfo, SessionInfo } from "./types";
+import { setSettingsData, setStorageSize } from "./state";
+import { emptySettings, Settings } from "./types";
 import { compressData, decompressData } from "./util";
 
-export const personaSessionKey = "persona-session";
+export const personaSettingsKey = "persona-settings";
 export const personaRollsKey = "persona-rolls";
 
-export const saveSessionData = (value: SessionInfo) => {
-  localStorage.setItem(personaSessionKey, compressData(value));
+export const saveSettings = (value: Settings) => {
+  localStorage.setItem(personaSettingsKey, compressData(value));
   updateStoreSize();
 };
 
-export const loadSessionData = () => {
-  const sdata = localStorage.getItem(personaSessionKey);
+export const loadSettings = () => {
+  const sdata = localStorage.getItem(personaSettingsKey);
   if (!sdata) {
-    const sd = emptySessionInfo(true);
-    localStorage.setItem(personaSessionKey, compressData(sd));
-    setSessionData(sd);
-    saveSessionData(sd);
+    const sd = emptySettings(true);
+    localStorage.setItem(personaSettingsKey, compressData(sd));
+    setSettingsData(sd);
+    saveSettings(sd);
     return sd;
   } else {
-    const dd = decompressData(sdata) as SessionInfo;
-    if (!dd.lang) dd.lang = "en";
-    if (!dd.color) dd.color = "#ffffff";
-    if (dd.browserID.trim() == "") {
-      dd.browserID = uuidv4();
-      saveSessionData(dd);
+    const dd = decompressData(sdata) as Settings;
+    if (!dd.app.lang) dd.app.lang = "en";
+    if (!dd.ident.color) dd.ident.color = "#ffffff";
+    if (dd.ident.browserID.trim() == "") {
+      dd.ident.browserID = uuidv4();
+      saveSettings(dd);
     }
-    setSessionData(dd);
+    setSettingsData(dd);
     return dd;
   }
 };
@@ -48,7 +48,7 @@ export const loadRolls = (appData: any) => {
 
 export const updateStoreSize = () => {
   let size = 0;
-  const keys = [personaSessionKey, personaRollsKey];
+  const keys = [personaSettingsKey, personaRollsKey];
   keys.forEach((k) => {
     const data = localStorage.getItem(k);
     size += data ? data.length : 0;

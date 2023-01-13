@@ -24,7 +24,7 @@ export const DialogContentStyle = style({
   left: "50%",
   transform: "translate(-50%, -50%)",
   backgroundColor: themeVars.color.accent,
-  padding: "10px",
+
   border: `1px solid ${themeVars.color.backgroundSecondary}`,
   borderRadius: "5px",
   color: themeVars.color.primary,
@@ -41,9 +41,21 @@ export const DialogCloseButtonStyle = style({
   justifyContent: "center",
   alignItems: "center",
   userSelect: "none",
-  backgroundColor: "transparent",
+  backgroundColor: themeVars.color.backgroundSecondary,
   color: themeVars.color.primary,
-  position: "absolute",
-  right: "5px",
-  top: "5px",
+  alignSelf: "center",
+});
+
+export const DialogHeaderStyle = style({
+  backgroundColor: themeVars.color.backgroundSecondary,
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  padding: "10px",
+  alignItems: "center",
+  fontSize: `${themeVars.font.size.bigger} !important`,
+});
+
+export const DialogDescStyle = style({
+  padding: "10px",
 });

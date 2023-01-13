@@ -1,11 +1,9 @@
-import { Popover } from "@kobalte/core";
-import { assignInlineVars } from "@vanilla-extract/dynamic";
+import { Popover as Pop } from "@kobalte/core";
 import { Accessor, Component, ParentProps, Setter, Show } from "solid-js";
-import { currentStyle, currentTheme, themeVars } from "~/common";
-import { ButtonStyle } from "../ButtonCt/styles.css";
+import { currentStyle } from "~/common";
+import { ButtonStyle } from "../Button/styles.css";
 import { Flex } from "../Flex";
 import {
-  PopoverCloseButtonStyle,
   PopoverContentStyle,
   PopoverRootStyle,
   PopoverTitleStyle,
@@ -18,7 +16,7 @@ type Props = {
   setOpen?: Setter<boolean>;
 };
 
-export const PopoverCt: Component<Props & ParentProps> = ({
+export const Popover: Component<Props & ParentProps> = ({
   children,
   trigger,
   title,
@@ -26,29 +24,29 @@ export const PopoverCt: Component<Props & ParentProps> = ({
   setOpen,
 }) => {
   return (
-    <Popover
+    <Pop
       isOpen={open ? open() : undefined}
       onOpenChange={setOpen ? setOpen : undefined}
     >
-      <Popover.Trigger class={ButtonStyle({})} style={currentStyle()}>
+      <Pop.Trigger class={ButtonStyle({})} style={currentStyle()}>
         {trigger}
-      </Popover.Trigger>
+      </Pop.Trigger>
       {/* <Popover.Portal> */}
-      <Popover.Content class={PopoverRootStyle} style={currentStyle()}>
-        <Popover.Arrow style={currentStyle()} />
+      <Pop.Content class={PopoverRootStyle} style={currentStyle()}>
+        <Pop.Arrow style={currentStyle()} />
         <Flex>
           <Show when={title !== undefined}>
-            <Popover.Title class={PopoverTitleStyle}>{title}</Popover.Title>
+            <Pop.Title class={PopoverTitleStyle}>{title}</Pop.Title>
           </Show>
           {/* <Popover.CloseButton class={PopoverCloseButtonStyle}>
             ×
           </Popover.CloseButton> */}
         </Flex>
-        <Popover.Description class={PopoverContentStyle}>
+        <Pop.Description class={PopoverContentStyle}>
           {children}
-        </Popover.Description>
-      </Popover.Content>
+        </Pop.Description>
+      </Pop.Content>
       {/* </Popover.Portal> */}
-    </Popover>
+    </Pop>
   );
 };

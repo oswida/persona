@@ -1,9 +1,9 @@
 /* @refresh reload */
-import { hashIntegration, Router } from "@solidjs/router";
 import { createI18nContext, I18nContext } from "@solid-primitives/i18n";
+import { hashIntegration, Router } from "@solidjs/router";
 import { render } from "solid-js/web";
 import App from "./App";
-import { extractQueryParam, loadSessionData, updateStoreSize } from "./common";
+import { extractQueryParam, loadSettings, updateStoreSize } from "./common";
 import { messages_en } from "./locales/en/en";
 import { messages_pl } from "./locales/pl/pl";
 
@@ -13,10 +13,12 @@ const dictionaries = {
 };
 
 let lang = "en";
-const sdata = loadSessionData();
+const sdata = loadSettings();
+console.log(sdata);
+
 updateStoreSize();
-if (sdata.lang) {
-  lang = sdata.lang;
+if (sdata.app.lang) {
+  lang = sdata.app.lang;
 }
 const langparam = extractQueryParam("lang");
 if (langparam && langparam != "") {

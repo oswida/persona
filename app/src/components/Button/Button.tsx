@@ -1,4 +1,4 @@
-import { Button } from "@kobalte/core";
+import { Button as Btn } from "@kobalte/core";
 import { ComponentProps } from "solid-js";
 import { currentStyle } from "~/common";
 import { ButtonStyle } from "./styles.css";
@@ -10,7 +10,7 @@ type Props = {
   selected?: boolean;
 };
 
-export const ButtonCt = ({
+export const Button = ({
   size,
   border,
   children,
@@ -21,7 +21,7 @@ export const ButtonCt = ({
   disabled,
 }: ComponentProps<"button"> & Props) => {
   return (
-    <Button
+    <Btn
       class={ButtonStyle({ border: border, size: size, selected: selected })}
       style={currentStyle()}
       title={title}
@@ -30,6 +30,6 @@ export const ButtonCt = ({
       isDisabled={disabled}
     >
       {children}
-    </Button>
+    </Btn>
   );
 };

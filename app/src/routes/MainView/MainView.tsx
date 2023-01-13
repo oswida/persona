@@ -1,5 +1,4 @@
 import {
-  FaSolidDatabase,
   FaSolidDice,
   FaSolidGears,
   FaSolidMoon,
@@ -17,11 +16,14 @@ import {
   setCurrentTheme,
   setCurrentThemeClass,
 } from "~/common";
-import { ButtonCt, DialogCt, Flex, PopoverCt, Texte } from "~/components";
+import { Button, Dialog, Flex, Popover } from "~/components";
 import { DiceRollerView } from "~/views/DiceRollerView";
+import { SettingsView } from "~/views/SettingsView";
 import { MainStyle, TopBarStyle } from "./styles.css";
 
 export const MainView = () => {
+  const [so, setSo] = createSignal(false);
+
   const switchTheme = () => {
     if (currentTheme() == darkThemeVars) {
       setCurrentTheme(lightThemeVars);
@@ -36,12 +38,12 @@ export const MainView = () => {
     <Div100vh class={MainStyle} style={currentStyle()}>
       <div class={TopBarStyle} style={currentStyle()}>
         <Flex>
-          <PopoverCt trigger={<FaSolidDice />}>
+          <Popover trigger={<FaSolidDice />}>
             <DiceRollerView />
-          </PopoverCt>
+          </Popover>
         </Flex>
         <Flex>
-          <ButtonCt onClick={switchTheme}>
+          <Button onClick={switchTheme}>
             <Switch>
               <Match when={currentTheme() == darkThemeVars}>
                 <FaSolidSun />
@@ -50,10 +52,15 @@ export const MainView = () => {
                 <FaSolidMoon />
               </Match>
             </Switch>
-          </ButtonCt>
-          <DialogCt trigger={<FaSolidGears />}>
-            <FaSolidDatabase />
-          </DialogCt>
+          </Button>
+          <Dialog
+            trigger={<FaSolidGears />}
+            title="Settings"
+            open={so}
+            setOpen={setSo}
+          >
+            <SettingsView setOpen={setSo} />
+          </Dialog>
         </Flex>
       </div>
     </Div100vh>

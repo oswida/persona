@@ -9,7 +9,7 @@ import {
   Switch,
 } from "solid-js";
 import { rollMultiple, rollSingle, setSelectedDicePool } from "~/common";
-import { ButtonCt, Flex, Input, Texte } from "~/components";
+import { Button, Flex, Input, Texte } from "~/components";
 import { showError, showToast } from "~/components/Toast";
 import { DiceSelector } from "./DiceSelector";
 import { RollInfo } from "./RollInfo";
@@ -80,22 +80,22 @@ export const DiceRollerView: Component = () => {
         ></Input>
         <Switch>
           <Match when={poolSize() == 0 && customEmpty()}>
-            <ButtonCt disabled onClick={roll}>
+            <Button disabled onClick={roll}>
               <FaSolidDice style={{ "margin-right": "10px" }} />
               <Texte color="background2">Roll</Texte>
-            </ButtonCt>
+            </Button>
           </Match>
           <Match when={poolSize() > 0 || !customEmpty()}>
-            <ButtonCt onClick={roll}>
+            <Button onClick={roll}>
               <FaSolidDice style={{ "margin-right": "10px" }} />
               <Texte>Roll</Texte>
-            </ButtonCt>
+            </Button>
           </Match>
         </Switch>
 
-        <ButtonCt onClick={reset}>
+        <Button onClick={reset}>
           <Texte>Reset</Texte>
-        </ButtonCt>
+        </Button>
       </Flex>
     </Flex>
   );

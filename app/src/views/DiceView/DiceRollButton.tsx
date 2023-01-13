@@ -1,7 +1,7 @@
 import { useI18n } from "@solid-primitives/i18n";
 import { FaSolidMinus, FaSolidPlus } from "solid-icons/fa";
 import { setSelectedDice } from "~/common";
-import { ButtonCt, Flex, InputButton, Texte } from "~/components";
+import { Button, Flex, InputButton, Texte } from "~/components";
 
 export const DiceRollButton = () => {
   let diceRef: HTMLInputElement;
@@ -75,32 +75,28 @@ export const DiceRollButton = () => {
     <Flex dn="column">
       <Flex center>
         <Flex>
-          <ButtonCt size="small" border="underline" onClick={() => setDice(4)}>
+          <Button size="small" border="underline" onClick={() => setDice(4)}>
             {t("d4")}
-          </ButtonCt>
-          <ButtonCt size="small" border="underline" onClick={() => setDice(6)}>
+          </Button>
+          <Button size="small" border="underline" onClick={() => setDice(6)}>
             {t("d6")}
-          </ButtonCt>
-          <ButtonCt size="small" border="underline" onClick={() => setDice(8)}>
+          </Button>
+          <Button size="small" border="underline" onClick={() => setDice(8)}>
             {t("d8")}
-          </ButtonCt>
-          <ButtonCt size="small" border="underline" onClick={() => setDice(10)}>
+          </Button>
+          <Button size="small" border="underline" onClick={() => setDice(10)}>
             {t("d10")}
-          </ButtonCt>
+          </Button>
 
-          <ButtonCt size="small" border="underline" onClick={() => setDice(12)}>
+          <Button size="small" border="underline" onClick={() => setDice(12)}>
             {t("d12")}
-          </ButtonCt>
-          <ButtonCt size="small" border="underline" onClick={() => setDice(20)}>
+          </Button>
+          <Button size="small" border="underline" onClick={() => setDice(20)}>
             {t("d20")}
-          </ButtonCt>
-          <ButtonCt
-            size="small"
-            border="underline"
-            onClick={() => setDice(100)}
-          >
+          </Button>
+          <Button size="small" border="underline" onClick={() => setDice(100)}>
             {t("d100")}
-          </ButtonCt>
+          </Button>
         </Flex>
       </Flex>
       <Flex center>

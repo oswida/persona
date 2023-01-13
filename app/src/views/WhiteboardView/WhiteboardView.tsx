@@ -29,7 +29,7 @@ import {
   prettyToday,
   wbState,
 } from "~/common";
-import { ButtonCt, Flex, PopoverCt } from "~/components";
+import { Button, Flex, Popover } from "~/components";
 
 import { clearCanvas, initCanvas } from "./canvas";
 import { WhiteboardRootStyle, WhiteboardToolsStyle } from "./styles.css";
@@ -163,16 +163,16 @@ export const WhiteboardView: Component = () => {
           <ToolSwitchButton canvas={canvas} tool="eraser">
             <FaSolidEraser title="Eraser" />
           </ToolSwitchButton>
-          <ButtonCt
+          <Button
             onClick={() => clearCanvas(canvas())}
             style={{ "margin-left": "20px" }}
           >
             <FaSolidTrash title="Clear" />
-          </ButtonCt>
+          </Button>
         </Flex>
 
         <Flex>
-          <PopoverCt
+          <Popover
             trigger={
               <Dynamic component="i" style={{ width: "1em", height: "1em" }}>
                 {strokeIcon()}
@@ -193,9 +193,9 @@ export const WhiteboardView: Component = () => {
                 )}
               </For>
             </Flex>
-          </PopoverCt>
+          </Popover>
 
-          <PopoverCt
+          <Popover
             trigger={
               <Dynamic component="i" style={{ width: "1em", height: "1em" }}>
                 {fillIcon()}
@@ -216,9 +216,9 @@ export const WhiteboardView: Component = () => {
                 )}
               </For>
             </Flex>
-          </PopoverCt>
+          </Popover>
 
-          <PopoverCt
+          <Popover
             trigger={
               <Dynamic component="i" style={{ width: "1em", height: "1em" }}>
                 {sizeIcon(wbState().width)}
@@ -241,18 +241,18 @@ export const WhiteboardView: Component = () => {
                 )}
               </For>
             </Flex>
-          </PopoverCt>
+          </Popover>
         </Flex>
         <Flex>
-          <ButtonCt onClick={share} border="none" title={t("Share")}>
+          <Button onClick={share} border="none" title={t("Share")}>
             <FaSolidShareNodes />
-          </ButtonCt>
-          <ButtonCt onClick={importImage} border="none" title={t("Import")}>
+          </Button>
+          <Button onClick={importImage} border="none" title={t("Import")}>
             <FaSolidFileImport />
-          </ButtonCt>
-          <ButtonCt onClick={exp} border="none" title={t("Export")}>
+          </Button>
+          <Button onClick={exp} border="none" title={t("Export")}>
             <FaSolidFileExport />
-          </ButtonCt>
+          </Button>
         </Flex>
       </div>
       <div class={WhiteboardRootStyle} ref={(el) => (boardRoot = el)}>

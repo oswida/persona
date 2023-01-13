@@ -6,7 +6,7 @@ import { InputStyle } from "./styles.css";
 type Props = {
   underline?: boolean;
   center?: boolean;
-  size: "standard" | "smaller" | "small";
+  size?: "standard" | "smaller" | "small";
   transparent?: boolean;
 };
 

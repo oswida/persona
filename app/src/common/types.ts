@@ -9,28 +9,53 @@ export type RollInfo = {
   color: string;
 };
 
-export type SessionInfo = {
+export type IdentSettings = {
   username: string;
   browserID: string;
-  remote: string;
-  hosting: boolean;
-  nats: string;
-  nats_token: string;
-  lang?: string;
   color?: string;
 };
 
-export const emptySessionInfo = (generate?: boolean) => {
-  return {
-    username: "Noname",
-    browserID: generate ? uuidv4() : "",
-    hosting: false,
-    remote: "",
-    nats: "",
-    nats_token: "",
-    lang: "en",
-    color: "#fff",
+export type CommunicationSettings = {
+  type: "mqtt" | "nats";
+  mqtt: {
+    server: string;
+    credentials: string;
+    topic: string;
+    hosting: boolean;
   };
+};
+
+export type AppSettings = {
+  lang: string;
+};
+
+export type Settings = {
+  app: AppSettings;
+  ident: IdentSettings;
+  comms: CommunicationSettings;
+};
+
+export const emptySettings = (generate?: boolean) => {
+  const x: Settings = {
+    app: {
+      lang: "en",
+    },
+    ident: {
+      username: "Noname",
+      browserID: generate ? uuidv4() : "",
+      color: "#fff",
+    },
+    comms: {
+      type: "mqtt",
+      mqtt: {
+        server: "",
+        credentials: "",
+        topic: "",
+        hosting: false,
+      },
+    },
+  };
+  return x;
 };
 
 export type WhiteboardState = {
