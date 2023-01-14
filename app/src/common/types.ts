@@ -1,3 +1,4 @@
+import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 import { v4 as uuidv4 } from "uuid";
 
 export type RollInfo = {
@@ -70,4 +71,13 @@ export const initialWhiteboardState: WhiteboardState = {
   brush: "white",
   fill: "transparent",
   width: 0,
+};
+
+export type ChatEntry = {
+  etype: "roll" | "text";
+  rolls: DiceRoll[];
+  text: string;
+  author: string;
+  color: string;
+  tstamp: string;
 };

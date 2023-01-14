@@ -39,9 +39,9 @@ export const PopoverCloseButtonStyle = style({
   userSelect: "none",
   backgroundColor: "transparent",
   color: themeVars.color.primary,
-  position: "absolute",
-  right: "5px",
-  top: "5px",
+  // position: "absolute",
+  // right: "5px",
+  // top: "5px",
 });
 
 export const PopoverContentStyle = style({

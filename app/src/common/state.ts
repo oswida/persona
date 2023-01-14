@@ -13,6 +13,7 @@ import {
   RollInfo,
   Settings,
   WhiteboardState,
+  ChatEntry,
 } from "./types";
 
 // App state
@@ -45,3 +46,6 @@ export const [wbState, setWbState] = createSignal<WhiteboardState>(
 export const [selectedDicePool, setSelectedDicePool] = createSignal<
   Record<string, number>
 >({});
+
+// Chat
+export const [chatList, setChatList] = createSignal<ChatEntry[]>([]);

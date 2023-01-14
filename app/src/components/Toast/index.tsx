@@ -43,6 +43,7 @@ export const showError = (text: string) => {
     ),
     {
       duration: 5000,
+      unmountDelay: 500,
       position: "top-center",
     }
   );

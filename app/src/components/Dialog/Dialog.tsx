@@ -25,12 +25,21 @@ export const Dialog: ParentComponent<Props> = ({
   setOpen,
   children,
 }) => {
+  const setState = (value: boolean) => {
+    if (!setOpen) return;
+    setOpen(value);
+  };
+
   return (
     <Dlg
       isOpen={open ? open() : undefined}
-      onOpenChange={setOpen ? setOpen : undefined}
+      // onOpenChange={setOpen ? setOpen : undefined}
     >
-      <Dlg.Trigger class={ButtonStyle({})} style={currentStyle()}>
+      <Dlg.Trigger
+        class={ButtonStyle({})}
+        style={currentStyle()}
+        onPressChange={() => setState(true)}
+      >
         {trigger}
       </Dlg.Trigger>
 
@@ -39,7 +48,12 @@ export const Dialog: ParentComponent<Props> = ({
         <Dlg.Content class={DialogContentStyle} style={currentStyle()}>
           <div class={DialogHeaderStyle}>
             <div>{title}</div>
-            <Dlg.CloseButton class={DialogCloseButtonStyle}>×</Dlg.CloseButton>
+            <Dlg.CloseButton
+              class={DialogCloseButtonStyle}
+              onPressChange={() => setState(false)}
+            >
+              ×
+            </Dlg.CloseButton>
           </div>
           <Dlg.Description class={DialogDescStyle}>{children}</Dlg.Description>
         </Dlg.Content>

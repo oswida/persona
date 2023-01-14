@@ -8,6 +8,10 @@ export const TabsRootStyle = style({
   height: "100%",
 });
 
+export const TabsListStyle = style({
+  marginBottom: "10px",
+});
+
 export const TabsTriggerGroupStyle = style({
   fontFamily: themeVars.font.family,
   backgroundColor: themeVars.color.background,

@@ -45,6 +45,23 @@ const bluePalette = {
   },
 };
 
+const bluePalette2 = {
+  dark: {
+    background: "#080014",
+    backgroundSecondary: "#21293B",
+    accent: "#335064",
+    primary: "#fff",
+    secondary: "#91D3C2",
+  },
+  light: {
+    background: "#91CFEE",
+    backgroundSecondary: "#4AB4EB",
+    accent: "#398DB8",
+    primary: "#000",
+    secondary: "#fff",
+  },
+};
+
 const greenPalette = {
   dark: {
     background: "#1C6B4D",
@@ -80,7 +97,7 @@ const brownPalette = {
 };
 
 export const [darkThemeClass, darkThemeVars] = createTheme({
-  color: bluePalette.dark,
+  color: bluePalette2.dark,
   font: {
     family: "Merriweather",
     size: themeFontSizes,

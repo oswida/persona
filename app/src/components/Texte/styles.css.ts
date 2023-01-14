@@ -53,19 +53,17 @@ export const TexteStyle = recipe({
         fontWeight: 700,
       },
     },
-    color: {
+    themeColor: {
       primary: {
         color: themeVars.color.primary,
-      },
-      white: {
-        color: "#ffffff",
       },
       secondary: {
         color: themeVars.color.secondary,
       },
-      background2: {
-        color: themeVars.color.backgroundSecondary,
+      background: {
+        color: themeVars.color.background,
       },
+      none: {},
     },
     clickable: {
       true: {
@@ -80,8 +78,8 @@ export const TexteStyle = recipe({
   },
   defaultVariants: {
     weight: 400,
-    color: "primary",
     size: "regular",
     align: "left",
+    themeColor: "none",
   },
 });

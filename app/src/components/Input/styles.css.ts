@@ -6,7 +6,7 @@ export const InputStyle = recipe({
     boxShadow: "none",
     outline: "none",
     border: "none",
-    padding: "3px 7px",
+    padding: "4px 8px",
     fontFamily: themeVars.font.family,
     fontSize: themeVars.font.size.bigger,
     appearance: "textfield",

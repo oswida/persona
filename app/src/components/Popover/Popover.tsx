@@ -4,6 +4,7 @@ import { currentStyle } from "~/common";
 import { ButtonStyle } from "../Button/styles.css";
 import { Flex } from "../Flex";
 import {
+  PopoverCloseButtonStyle,
   PopoverContentStyle,
   PopoverRootStyle,
   PopoverTitleStyle,
@@ -23,30 +24,46 @@ export const Popover: Component<Props & ParentProps> = ({
   open,
   setOpen,
 }) => {
+  const setState = (value: boolean) => {
+    if (!setOpen) return;
+    setOpen(value);
+  };
+
+  const toggleState = () => {
+    if (!setOpen || !open) return;
+    setOpen(!open());
+  };
+
   return (
-    <Pop
-      isOpen={open ? open() : undefined}
-      onOpenChange={setOpen ? setOpen : undefined}
-    >
-      <Pop.Trigger class={ButtonStyle({})} style={currentStyle()}>
+    <Pop isOpen={open ? open() : undefined}>
+      <Pop.Trigger
+        class={ButtonStyle({})}
+        style={currentStyle()}
+        onPress={toggleState}
+      >
         {trigger}
       </Pop.Trigger>
-      {/* <Popover.Portal> */}
+      {/* <Pop.Portal> */}
       <Pop.Content class={PopoverRootStyle} style={currentStyle()}>
         <Pop.Arrow style={currentStyle()} />
-        <Flex>
-          <Show when={title !== undefined}>
+
+        <Show when={title !== undefined}>
+          <Flex style={{ "justify-content": "space-between" }}>
             <Pop.Title class={PopoverTitleStyle}>{title}</Pop.Title>
-          </Show>
-          {/* <Popover.CloseButton class={PopoverCloseButtonStyle}>
-            ×
-          </Popover.CloseButton> */}
-        </Flex>
+            <Pop.CloseButton
+              class={PopoverCloseButtonStyle}
+              onPressChange={() => setState(false)}
+            >
+              ×
+            </Pop.CloseButton>
+          </Flex>
+        </Show>
+
         <Pop.Description class={PopoverContentStyle}>
           {children}
         </Pop.Description>
       </Pop.Content>
-      {/* </Popover.Portal> */}
+      {/* </Pop.Portal> */}
     </Pop>
   );
 };

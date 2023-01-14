@@ -5,7 +5,6 @@ import { themeVars } from "~/common";
 import { Flex, Texte } from "~/components";
 
 export const RollInfo = ({ rolls }: { rolls: DiceRoll[] }) => {
- 
   return (
     <Flex dn="column">
       <Flex
@@ -20,12 +19,10 @@ export const RollInfo = ({ rolls }: { rolls: DiceRoll[] }) => {
       <For each={rolls}>
         {(it) => (
           <Flex>
-            <Texte color="secondary">{it.notation}:</Texte>
-            <Texte>
-              {" "}
-              <b>{it.total}</b>
-            </Texte>
+            <Texte themeColor="secondary">{it.notation}:</Texte>
             <Texte>{it.rolls.join(",")}</Texte>
+            <Texte>⇒</Texte>
+            <Texte weight={700}>{it.total}</Texte>
           </Flex>
         )}
       </For>

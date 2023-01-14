@@ -8,7 +8,16 @@ import {
   Match,
   Switch,
 } from "solid-js";
-import { rollMultiple, rollSingle, setSelectedDicePool } from "~/common";
+import {
+  ChatEntry,
+  chatList,
+  prettyNow,
+  rollMultiple,
+  rollSingle,
+  setChatList,
+  setSelectedDicePool,
+  settingsData,
+} from "~/common";
 import { Button, Flex, Input, Texte } from "~/components";
 import { showError, showToast } from "~/components/Toast";
 import { DiceSelector } from "./DiceSelector";
@@ -45,6 +54,18 @@ export const DiceRollerView: Component = () => {
         result = rollMultiple([...pl, ...custom]);
       }
       showToast(<RollInfo rolls={result} />);
+      const newState = [
+        ...chatList(),
+        {
+          etype: "roll",
+          author: settingsData().ident.username,
+          color: settingsData().ident.color,
+          tstamp: prettyNow(),
+          rolls: result,
+        } as ChatEntry,
+      ];
+      setChatList(newState);
+      //TODO send chat
     } catch (e: any) {
       showError("Bad dice specification");
     }

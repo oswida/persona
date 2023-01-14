@@ -1,7 +1,7 @@
 import { Tabs as Ts } from "@kobalte/core";
 import { For } from "solid-js";
 import { currentStyle } from "~/common";
-import { TabsRootStyle, TabsTriggerStyle } from "./styles.css";
+import { TabsListStyle, TabsRootStyle, TabsTriggerStyle } from "./styles.css";
 
 export type TabsDesc = {
   label: string;
@@ -12,7 +12,7 @@ export type TabsDesc = {
 export const Tabs = ({ items }: { items: TabsDesc[] }) => {
   return (
     <Ts class={TabsRootStyle} style={currentStyle()}>
-      <Ts.List>
+      <Ts.List class={TabsListStyle}>
         <For each={items}>
           {(it) => (
             <Ts.Trigger
