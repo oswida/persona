@@ -35,7 +35,7 @@ export const Popover: Component<Props & ParentProps> = ({
   };
 
   return (
-    <Pop isOpen={open ? open() : undefined}>
+    <Pop.Root isOpen={open ? open() : undefined}>
       <Pop.Trigger
         class={ButtonStyle({})}
         style={currentStyle()}
@@ -64,6 +64,6 @@ export const Popover: Component<Props & ParentProps> = ({
         </Pop.Description>
       </Pop.Content>
       {/* </Pop.Portal> */}
-    </Pop>
+    </Pop.Root>
   );
 };

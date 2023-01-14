@@ -10,12 +10,12 @@ type Props = {
 
 export const ToggleButton: Component<Props> = ({ pressed, released }) => {
   return (
-    <TB class={ToggleButtonStyle} style={currentStyle()}>
+    <TB.Root class={ToggleButtonStyle} style={currentStyle()}>
       {(state) => (
         <Show when={state.isPressed()} fallback={released}>
           {pressed}
         </Show>
       )}
-    </TB>
+    </TB.Root>
   );
 };

@@ -3,7 +3,13 @@ import { createI18nContext, I18nContext } from "@solid-primitives/i18n";
 import { hashIntegration, Router } from "@solidjs/router";
 import { render } from "solid-js/web";
 import App from "./App";
-import { extractQueryParam, loadSettings, updateStoreSize } from "./common";
+import {
+  extractQueryParam,
+  loadSettings,
+  settingsData,
+  updateStoreSize,
+} from "./common";
+import { mqttConnect } from "./common/mqtt";
 import { messages_en } from "./locales/en/en";
 import { messages_pl } from "./locales/pl/pl";
 
@@ -14,7 +20,6 @@ const dictionaries = {
 
 let lang = "en";
 const sdata = loadSettings();
-console.log(sdata);
 
 updateStoreSize();
 if (sdata.app.lang) {
@@ -26,6 +31,10 @@ if (langparam && langparam != "") {
 }
 
 const langContext = createI18nContext(dictionaries, lang);
+
+if (settingsData().comms.type == "mqtt") {
+  mqttConnect();
+}
 
 render(
   () => (

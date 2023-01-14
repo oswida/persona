@@ -31,7 +31,7 @@ export const Dialog: ParentComponent<Props> = ({
   };
 
   return (
-    <Dlg
+    <Dlg.Root
       isOpen={open ? open() : undefined}
       // onOpenChange={setOpen ? setOpen : undefined}
     >
@@ -58,6 +58,6 @@ export const Dialog: ParentComponent<Props> = ({
           <Dlg.Description class={DialogDescStyle}>{children}</Dlg.Description>
         </Dlg.Content>
       </div>
-    </Dlg>
+    </Dlg.Root>
   );
 };

@@ -11,7 +11,7 @@ export type TabsDesc = {
 
 export const Tabs = ({ items }: { items: TabsDesc[] }) => {
   return (
-    <Ts class={TabsRootStyle} style={currentStyle()}>
+    <Ts.Root class={TabsRootStyle} style={currentStyle()}>
       <Ts.List class={TabsListStyle}>
         <For each={items}>
           {(it) => (
@@ -33,6 +33,6 @@ export const Tabs = ({ items }: { items: TabsDesc[] }) => {
           </Ts.Content>
         )}
       </For>
-    </Ts>
+    </Ts.Root>
   );
 };

@@ -1,15 +1,6 @@
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 import { v4 as uuidv4 } from "uuid";
 
-export type RollInfo = {
-  id: string;
-  user: string;
-  time: string;
-  comment: string;
-  data: string;
-  color: string;
-};
-
 export type IdentSettings = {
   username: string;
   browserID: string;
@@ -21,7 +12,7 @@ export type CommunicationSettings = {
   mqtt: {
     server: string;
     credentials: string;
-    topic: string;
+    prefix: string;
     hosting: boolean;
   };
 };
@@ -51,7 +42,7 @@ export const emptySettings = (generate?: boolean) => {
       mqtt: {
         server: "",
         credentials: "",
-        topic: "",
+        prefix: "",
         hosting: false,
       },
     },
@@ -80,4 +71,25 @@ export type ChatEntry = {
   author: string;
   color: string;
   tstamp: string;
+};
+
+// Net
+export type NetMessage = {
+  sender: string;
+  data: any;
+};
+export type ConnectionInfo = {
+  username: string;
+  count?: number;
+  connected_at?: string;
+  last_seen_at?: string;
+};
+
+export type RollMessage = {
+  id: string;
+  user: string;
+  time: string;
+  comment: string;
+  color: string;
+  rolls: DiceRoll[];
 };

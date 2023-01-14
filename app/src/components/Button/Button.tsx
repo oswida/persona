@@ -21,7 +21,7 @@ export const Button = ({
   disabled,
 }: ComponentProps<"button"> & Props) => {
   return (
-    <Btn
+    <Btn.Root
       class={ButtonStyle({ border: border, size: size, selected: selected })}
       style={currentStyle()}
       title={title}
@@ -30,6 +30,6 @@ export const Button = ({
       isDisabled={disabled}
     >
       {children}
-    </Btn>
+    </Btn.Root>
   );
 };

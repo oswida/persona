@@ -325,6 +325,13 @@
   dependencies:
     "@floating-ui/core" "^1.0.5"
 
+"@internationalized/date@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@internationalized/date/-/date-3.0.2.tgz#1566a0bcbd82dce4dd54a5b26456bb701068cb89"
+  integrity sha512-9V1IxesP6ASZj/hYyOXOC4yPJvidbbStyWQKLCQSqhhKACMOXoo+BddXZJy47ju9mqOMpWdrJ2rTx4yTxK9oag==
+  dependencies:
+    "@swc/helpers" "^0.4.14"
+
 "@internationalized/number@^3.1.1":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@internationalized/number/-/number-3.1.2.tgz#4482a6ac573acfb18efd354a42008af20da6c89c"
@@ -386,24 +393,24 @@
   dependencies:
     core-js "^3.12.1"
 
-"@kobalte/core@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@kobalte/core/-/core-0.1.0.tgz#ca3a86a66d6ce0d29c6992aeb00048b52fe8501a"
-  integrity sha512-IYdL9RDexfV+x13RcwAxSyiL2GnEPDPygOWfN8wHcBla7DnUULwdNYUTmN6ABDq7XGP2Fuj5RGgoTkpJ1xoTgQ==
+"@kobalte/core@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@kobalte/core/-/core-0.3.0.tgz#545f7eed28c085c656d113bee34ad165e0fa312d"
+  integrity sha512-nnzEc7tsFlYmxWgQPBnWchPh3yKzJasZapD5VflucuVEemTY/YgNBNWLtWNn5CK/mpdxf1hqxQTOr4nki5Xy9g==
   dependencies:
     "@floating-ui/dom" "^1.0.7"
+    "@internationalized/date" "^3.0.2"
     "@internationalized/number" "^3.1.1"
     "@internationalized/string" "^3.0.0"
-    "@kobalte/utils" "^0.1.0"
+    "@kobalte/utils" "^0.3.0"
 
-"@kobalte/utils@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@kobalte/utils/-/utils-0.1.0.tgz#fd23017a2768f965a5c70c9dda527ad9319fa50a"
-  integrity sha512-3kMYChBPDGGPjtfJl47LjWl8Xz8gHANCnzLHnaXrIJENJcMFwpEApyBMTpO451xFZFwyBkDp++ledYql+OL9Dw==
+"@kobalte/utils@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@kobalte/utils/-/utils-0.3.0.tgz#efee952044c219b643dd569c991ee705a6238de2"
+  integrity sha512-VxsOds//aJ3MyRgLU2FOc0O8HFtRvyrR8Ep271B9duIGtl4wKVQ6zLLvLuZElLDUH45mcPqecs+ESm81L/Zysg==
   dependencies:
     "@solid-primitives/event-listener" "^2.2.4"
     "@solid-primitives/media" "^2.0.4"
-    "@solid-primitives/props" "^3.0.1"
     "@solid-primitives/refs" "^0.3.4"
     "@solid-primitives/utils" "^4.0.0"
 
@@ -453,13 +460,6 @@
   dependencies:
     "@solid-primitives/event-listener" "^2.2.4"
     "@solid-primitives/rootless" "^1.2.1"
-    "@solid-primitives/utils" "^4.0.0"
-
-"@solid-primitives/props@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@solid-primitives/props/-/props-3.0.1.tgz#411e8b122510b801cac824c71e7f6df9e5382242"
-  integrity sha512-5v27ex4KxxnIbgze1lXPEXHO/ebbtEjL6idkhezH/7jHpjunl8PYabpDgoGO16tb8DawcZWOAXa7waWqWPAe/A==
-  dependencies:
     "@solid-primitives/utils" "^4.0.0"
 
 "@solid-primitives/refs@^0.3.4":

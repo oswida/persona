@@ -8,3 +8,4 @@ export * from "./Tabs";
 export * from "./Texte";
 export * from "./Toast";
 export * from "./ToggleButton";
+export * from "./Select";
