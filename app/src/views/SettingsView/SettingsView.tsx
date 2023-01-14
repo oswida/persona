@@ -1,5 +1,6 @@
 import { FaSolidFloppyDisk } from "solid-icons/fa";
 import { Setter } from "solid-js";
+import { personaSettingsKey, saveGenericData, settingsData } from "~/common";
 import { Button, Flex, Tabs, TabsDesc, Texte } from "~/components";
 import { AppSettings } from "./AppSettings";
 import { CommSettings } from "./CommSettings";
@@ -26,7 +27,9 @@ export const SettingsView = ({ setOpen }: { setOpen: Setter<boolean> }) => {
 
   const save = () => {
     setOpen(false);
+    saveGenericData(personaSettingsKey, settingsData());
   };
+
   return (
     <Flex
       style={{ "min-width": "400px", "min-height": "200px", gap: "10px" }}

@@ -24,6 +24,7 @@ export const Input = ({
   size,
   onBlur,
   onKeyUp,
+  disabled,
 }: ComponentProps<"input"> & Props) => {
   return (
     <Switch>
@@ -47,6 +48,7 @@ export const Input = ({
           onInput={onInput}
           value={value}
           onKeyUp={onKeyUp}
+          disabled={disabled}
         />
       </Match>
       <Match when={value === undefined}>
@@ -67,6 +69,7 @@ export const Input = ({
           onBlur={onBlur}
           onInput={onInput}
           onKeyUp={onKeyUp}
+          disabled={disabled}
         />
       </Match>
     </Switch>

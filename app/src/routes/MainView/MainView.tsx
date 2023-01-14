@@ -3,9 +3,10 @@ import {
   FaSolidGears,
   FaSolidMessage,
   FaSolidMoon,
+  FaSolidNetworkWired,
   FaSolidSun,
 } from "solid-icons/fa";
-import { createSignal, Match, Switch } from "solid-js";
+import { createSignal, Match, Show, Switch } from "solid-js";
 import Div100vh from "solidjs-div-100vh";
 import {
   currentStyle,
@@ -14,6 +15,7 @@ import {
   darkThemeVars,
   lightThemeClass,
   lightThemeVars,
+  mqttConnectionStatus,
   setCurrentTheme,
   setCurrentThemeClass,
 } from "~/common";
@@ -45,6 +47,11 @@ export const MainView = () => {
           <Popover trigger={<FaSolidDice />} open={sd} setOpen={setSd}>
             <DiceRollerView />
           </Popover>
+        </Flex>
+        <Flex>
+          <Show when={mqttConnectionStatus()}>
+            <FaSolidNetworkWired color="green" />
+          </Show>
         </Flex>
         <Flex>
           <Popover trigger={<FaSolidMessage />} setOpen={setSc} open={sc}>

@@ -1,6 +1,8 @@
-import { themeVars } from "~/common";
 import { style } from "@vanilla-extract/css";
+import { themeVars } from "~/common";
 
 export const ToggleButtonStyle = style({
-  backgroundColor: themeVars.color.background,
+  backgroundColor: "transparent",
+  border: "none",
+  outline: "none",
 });
