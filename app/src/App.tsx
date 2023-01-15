@@ -5,6 +5,7 @@ import { appStyle } from "./app.css";
 import { currentTheme, currentThemeClass, themeVars } from "./common";
 import { MainView } from "./routes/MainView";
 import toast, { Toaster } from "solid-toast";
+import { ConnectView } from "./routes/ConnectView/ConnectView";
 
 const Main: Component<ParentProps> = ({ children }) => {
   return (
@@ -22,6 +23,7 @@ const App: Component = () => {
     <Main>
       <Routes>
         <Route path="/" component={MainView} />
+        <Route path="/connect" component={ConnectView} />
       </Routes>
     </Main>
   );

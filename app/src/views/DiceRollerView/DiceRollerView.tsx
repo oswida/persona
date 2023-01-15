@@ -1,4 +1,5 @@
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
+import { it } from "node:test";
 import { FaSolidDice } from "solid-icons/fa";
 import {
   Component,
@@ -11,13 +12,16 @@ import {
 import {
   ChatEntry,
   chatList,
+  mqttClient,
   prettyNow,
   rollMultiple,
   rollSingle,
+  SerializedRoll,
   setChatList,
   setSelectedDicePool,
   settingsData,
 } from "~/common";
+import { mqttPublish, mqttTopic, topicChat } from "~/common/mqtt";
 import { Button, Flex, Input, Texte } from "~/components";
 import { showError, showToast } from "~/components/Toast";
 import { DiceSelector } from "./DiceSelector";
@@ -54,18 +58,33 @@ export const DiceRollerView: Component = () => {
         result = rollMultiple([...pl, ...custom]);
       }
       showToast(<RollInfo rolls={result} />);
-      const newState = [
-        ...chatList(),
-        {
-          etype: "roll",
-          author: settingsData().ident.username,
-          color: settingsData().ident.color,
-          tstamp: prettyNow(),
-          rolls: result,
-        } as ChatEntry,
-      ];
+      const entry = {
+        etype: "roll",
+        author: settingsData().ident.username,
+        color: settingsData().ident.color,
+        tstamp: prettyNow(),
+        rolls: result.map(
+          (it) =>
+            ({
+              maxTotal: it.maxTotal,
+              minTotal: it.minTotal,
+              notation: it.notation,
+              output: it.output,
+              total: it.total,
+              rolls: it.rolls.map((r) => r.toString()),
+            } as SerializedRoll)
+        ),
+      } as ChatEntry;
+      const newState = [...chatList(), entry];
       setChatList(newState);
-      //TODO send chat
+      const cl = mqttClient();
+      if (!cl) return;
+      mqttPublish(
+        settingsData().ident.browserID,
+        cl,
+        mqttTopic(topicChat),
+        entry
+      );
     } catch (e: any) {
       showError("Bad dice specification");
     }

@@ -1,15 +1,15 @@
-import { it } from "node:test";
 import { FaSolidDice, FaSolidTrash } from "solid-icons/fa";
 import { createEffect, For } from "solid-js";
-import { Dynamic } from "solid-js/web";
 import {
   ChatEntry,
   chatList,
   currentStyle,
+  mqttClient,
   prettyNow,
   setChatList,
   settingsData,
 } from "~/common";
+import { mqttPublish, mqttTopic, topicChat } from "~/common/mqtt";
 import { Button, Flex, Input, Texte } from "~/components";
 import { ChatListStyle, ChatRootStyle } from "./styles.css";
 
@@ -19,19 +19,28 @@ export const ChatView = () => {
 
   const addText = (e: any) => {
     if (!refInput || refInput.value.trim() == "" || e.key != "Enter") return;
-    const newState = [
-      ...chatList(),
-      {
-        etype: "text",
-        text: refInput.value,
-        author: settingsData().ident.username,
-        color: settingsData().ident.color,
-        tstamp: prettyNow(),
-      } as ChatEntry,
-    ];
+    const entry = {
+      etype: "text",
+      text: refInput.value,
+      author: settingsData().ident.username,
+      color: settingsData().ident.color,
+      tstamp: prettyNow(),
+    } as ChatEntry;
+    const newState = [...chatList(), entry];
     setChatList(newState);
     refInput.value = "";
-    // TODO: publish
+    const cl = mqttClient();
+    if (!cl) return;
+    mqttPublish(
+      settingsData().ident.browserID,
+      cl,
+      mqttTopic(topicChat),
+      entry
+    );
+  };
+
+  const clearChat = () => {
+    setChatList([]);
   };
 
   const chatItem = (item: ChatEntry) => {
@@ -41,9 +50,11 @@ export const ChatView = () => {
           <Flex dn="column">
             <Flex vcenter>
               <Texte
-                color={item.color}
                 size={"small"}
-                style={{ "text-transform": "uppercase" }}
+                style={{
+                  "text-transform": "uppercase",
+                  color: `${item.color}`,
+                }}
               >
                 {item.author}:
               </Texte>
@@ -66,9 +77,8 @@ export const ChatView = () => {
         return (
           <Flex vcenter>
             <Texte
-              color={item.color}
               size={"small"}
-              style={{ "text-transform": "uppercase" }}
+              style={{ "text-transform": "uppercase", color: `${item.color}` }}
             >
               {item.author}:
             </Texte>
@@ -90,7 +100,7 @@ export const ChatView = () => {
       <Flex style={{ "justify-content": "space-between" }}>
         <Texte>Chat</Texte>
         <Flex>
-          <Button>
+          <Button onClick={clearChat}>
             <FaSolidTrash />
           </Button>
         </Flex>

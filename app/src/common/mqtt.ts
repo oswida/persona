@@ -1,3 +1,4 @@
+import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 import { Client, Message } from "paho-mqtt";
 import { chatList, setChatList, settingsData } from "~/common";
 import {
@@ -6,11 +7,11 @@ import {
   setMqttConnectionStatus,
   setNetConnections,
 } from ".";
-import { ChatEntry, ConnectionInfo, NetMessage, RollMessage } from "./types";
+import { ChatEntry, ConnectionInfo, NetMessage } from "./types";
 import { compressData64, decompressData64, prettyNow } from "./util";
 
 export const topicConnect = "TopicConnect";
-export const topicRoll = "TopicRoll";
+export const topicChat = "TopicChat";
 export const topicBoard = "TopicBoard";
 export const topicChars = "TopicChars";
 export const topicDraw = "TopicDraw";
@@ -65,19 +66,9 @@ export const mqttProcess = (msg: Message) => {
       setNetConnections(nst);
       //notify(apd, `User ${info.username} connected`, 5000);
       break;
-    case mqttTopic(topicRoll):
-      const data = m.data as RollMessage;
-      const newState = [
-        ...chatList(),
-        {
-          author: data.user,
-          color: data.color,
-          etype: "roll",
-          rolls: data.rolls,
-          text: data.comment,
-          tstamp: data.time,
-        } as ChatEntry,
-      ];
+    case mqttTopic(topicChat):
+      const data = m.data as ChatEntry;
+      const newState = [...chatList(), data];
       setChatList(newState);
       // saveGenericData(inodRollsKey, newState);
       break;
@@ -152,7 +143,7 @@ export const mqttClientLink = () => {
   const obj = {
     server: settingsData().comms.mqtt.server,
     credentials: settingsData().comms.mqtt.credentials,
-    topic: settingsData().ident.browserID,
+    prefix: settingsData().ident.browserID,
   };
   return `${window.location}connect?data=${encodeURIComponent(
     compressData64(obj)

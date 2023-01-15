@@ -27,6 +27,11 @@ export const SettingsView = ({ setOpen }: { setOpen: Setter<boolean> }) => {
 
   const save = () => {
     setOpen(false);
+    const newState = { ...settingsData() };
+    const mqttEnv = newState.comms.mqtt;
+    if (mqttEnv.server.trim() !== "" && mqttEnv.hosting) {
+      newState.comms.mqtt.prefix = newState.ident.browserID;
+    }
     saveGenericData(personaSettingsKey, settingsData());
   };
 

@@ -1,4 +1,5 @@
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
+import { RollResults } from "@dice-roller/rpg-dice-roller/types/results";
 import { v4 as uuidv4 } from "uuid";
 
 export type IdentSettings = {
@@ -66,11 +67,21 @@ export const initialWhiteboardState: WhiteboardState = {
 
 export type ChatEntry = {
   etype: "roll" | "text";
-  rolls: DiceRoll[];
+  rolls: SerializedRoll[];
   text: string;
   author: string;
   color: string;
   tstamp: string;
+};
+
+export type SerializedRoll = {
+  output: string;
+  total: number;
+  minTotal: number;
+  maxTotal: number;
+  notation: string;
+  rolls: string[];
+  type: string;
 };
 
 // Net

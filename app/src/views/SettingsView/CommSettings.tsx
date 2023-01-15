@@ -5,6 +5,7 @@ import {
   setSettingsData,
   settingsData,
 } from "~/common";
+import { mqttClientLink } from "~/common/mqtt";
 import {
   Badge,
   Flex,
@@ -24,7 +25,6 @@ export const CommSettings = () => {
     const newState = { ...settingsData() };
     newState.comms.mqtt.hosting = pressed;
     setSettingsData(newState);
-    // saveGenericData(personaSettingsKey, newState);
   };
 
   const isHost = createMemo(() => {
@@ -86,6 +86,14 @@ export const CommSettings = () => {
             ref={(e) => (refPrefix = e)}
             onChange={update}
           />
+        </Show>
+        <Show when={isHost()}>
+          <Flex dn="column">
+            <Texte>Connection link</Texte>
+            <Texte size="small" style={{ "overflow-wrap": "anywhere" }}>
+              {mqttClientLink()}
+            </Texte>
+          </Flex>
         </Show>
       </Flex>
     </Flex>

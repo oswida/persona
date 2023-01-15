@@ -7,7 +7,6 @@ type Props = {
   align?: "right" | "left" | "center";
   size?: "regular" | "middle" | "small" | "xsmall" | "bigger";
   weight?: 400 | 700;
-  color?: string;
   themeColor?: "primary" | "secondary" | "background" | "none";
 };
 
