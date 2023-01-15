@@ -16,6 +16,7 @@ export const themeVars = createThemeContract({
       large: "",
       smaller: "",
       small: "",
+      xsmall: "",
     },
   },
 });
@@ -26,6 +27,7 @@ const themeFontSizes = {
   large: "21px",
   smaller: "15px",
   small: "13px",
+  xsmall: "11px",
 };
 
 const bluePalette = {
