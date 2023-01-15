@@ -20,9 +20,11 @@ import {
   setCurrentThemeClass,
 } from "~/common";
 import { Button, Dialog, Flex, Popover } from "~/components";
+import { SampleTpl } from "~/templates/data";
 import { ChatView } from "~/views/ChatView";
 import { DiceRollerView } from "~/views/DiceRollerView";
 import { SettingsView } from "~/views/SettingsView";
+import { TplView } from "~/views/TplView";
 import { MainStyle, TopBarStyle } from "./styles.css";
 
 export const MainView = () => {
@@ -42,41 +44,46 @@ export const MainView = () => {
 
   return (
     <Div100vh class={MainStyle} style={currentStyle()}>
-      <div class={TopBarStyle} style={currentStyle()}>
-        <Flex>
-          <Popover trigger={<FaSolidDice />} open={sd} setOpen={setSd}>
-            <DiceRollerView />
-          </Popover>
+      <Flex dn="column">
+        <div class={TopBarStyle} style={currentStyle()}>
+          <Flex>
+            <Popover trigger={<FaSolidDice />} open={sd} setOpen={setSd}>
+              <DiceRollerView />
+            </Popover>
+          </Flex>
+          <Flex>
+            <Show when={mqttConnectionStatus()}>
+              <FaSolidNetworkWired color="green" />
+            </Show>
+          </Flex>
+          <Flex>
+            <Popover trigger={<FaSolidMessage />} setOpen={setSc} open={sc}>
+              <ChatView />
+            </Popover>
+            <Button onClick={switchTheme}>
+              <Switch>
+                <Match when={currentTheme() == darkThemeVars}>
+                  <FaSolidSun />
+                </Match>
+                <Match when={currentTheme() == lightThemeVars}>
+                  <FaSolidMoon />
+                </Match>
+              </Switch>
+            </Button>
+            <Dialog
+              trigger={<FaSolidGears />}
+              title="Settings"
+              open={so}
+              setOpen={setSo}
+            >
+              <SettingsView setOpen={setSo} />
+            </Dialog>
+          </Flex>
+        </div>
+        <Flex style={{ "margin-top": "60px" }}>
+          <TplView tpl={SampleTpl} />
         </Flex>
-        <Flex>
-          <Show when={mqttConnectionStatus()}>
-            <FaSolidNetworkWired color="green" />
-          </Show>
-        </Flex>
-        <Flex>
-          <Popover trigger={<FaSolidMessage />} setOpen={setSc} open={sc}>
-            <ChatView />
-          </Popover>
-          <Button onClick={switchTheme}>
-            <Switch>
-              <Match when={currentTheme() == darkThemeVars}>
-                <FaSolidSun />
-              </Match>
-              <Match when={currentTheme() == lightThemeVars}>
-                <FaSolidMoon />
-              </Match>
-            </Switch>
-          </Button>
-          <Dialog
-            trigger={<FaSolidGears />}
-            title="Settings"
-            open={so}
-            setOpen={setSo}
-          >
-            <SettingsView setOpen={setSo} />
-          </Dialog>
-        </Flex>
-      </div>
+      </Flex>
     </Div100vh>
   );
 };

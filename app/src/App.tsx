@@ -6,6 +6,7 @@ import { currentTheme, currentThemeClass, themeVars } from "./common";
 import { MainView } from "./routes/MainView";
 import toast, { Toaster } from "solid-toast";
 import { ConnectView } from "./routes/ConnectView/ConnectView";
+import { TplView } from "./views/TplView";
 
 const Main: Component<ParentProps> = ({ children }) => {
   return (
