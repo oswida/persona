@@ -6,7 +6,7 @@ import { InputStyle } from "./styles.css";
 type Props = {
   underline?: boolean;
   center?: boolean;
-  size?: "standard" | "smaller" | "small";
+  fontSize?: "standard" | "smaller" | "small";
   transparent?: boolean;
 };
 
@@ -21,10 +21,11 @@ export const Input = ({
   onChange,
   onInput,
   value,
-  size,
+  fontSize,
   onBlur,
   onKeyUp,
   disabled,
+  size,
 }: ComponentProps<"input"> & Props) => {
   return (
     <Switch>
@@ -33,7 +34,7 @@ export const Input = ({
           class={InputStyle({
             center: center,
             underline: underline,
-            size: size,
+            size: fontSize,
             transparent: transparent,
           })}
           style={{
@@ -49,6 +50,7 @@ export const Input = ({
           value={value}
           onKeyUp={onKeyUp}
           disabled={disabled}
+          size={size}
         />
       </Match>
       <Match when={value === undefined}>
@@ -56,7 +58,7 @@ export const Input = ({
           class={InputStyle({
             center: center,
             underline: underline,
-            size: size,
+            size: fontSize,
           })}
           style={{
             ...assignInlineVars(themeVars, currentTheme()),
@@ -70,6 +72,7 @@ export const Input = ({
           onInput={onInput}
           onKeyUp={onKeyUp}
           disabled={disabled}
+          size={size}
         />
       </Match>
     </Switch>

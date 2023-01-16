@@ -4,31 +4,66 @@ export type TplElementType =
   | "text"
   | "numeric"
   | "numeric_with_max"
-  | "resource";
+  | "resource"
+  | "table"
+  | "image";
+
+export type TplImg = {
+  label?: string;
+  url: string;
+  width?: string;
+  height?: string;
+};
+
+export type TplTable = {
+  label?: string;
+  headers?: string[];
+  colCount: number;
+  rowCount: number;
+  inputSize: number;
+  rowLabels?: string[];
+  help?: string;
+};
 
 export type TplResource = {
-  value: number;
-  max: number;
+  label?: string;
+  count: number;
   decoration: "circle" | "square" | "star";
   color?: string;
-  canChange: boolean;
+  adjustable?: boolean;
+  descriptions?: boolean;
+  help?: string;
 };
 
 export type TplNumericWithMax = {
-  value: number;
+  label?: string;
+  help?: string;
   max: number;
   decoration: "circle" | "square" | "underline" | "none";
 };
 
 export type TplNumeric = {
-  value: number;
+  label?: string;
+  help?: string;
   decoration: "circle" | "square" | "underline" | "none";
+};
+
+export type TplText = {
+  value: string;
+  marked: boolean;
 };
 
 export type TplElement = {
   id: string;
   etype: TplElementType;
-  content: string | TplNumeric | TplNumericWithMax;
+  content:
+    | string
+    | TplText
+    | TplNumeric
+    | TplNumericWithMax
+    | TplResource
+    | TplTable
+    | TplImg;
   tip?: string;
 };
 

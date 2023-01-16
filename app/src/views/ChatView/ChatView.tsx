@@ -108,7 +108,7 @@ export const ChatView = () => {
       <div class={ChatListStyle} ref={(e: any) => (refList = e)}>
         <For each={chatList()}>{(it) => chatItem(it)}</For>
       </div>
-      <Input size="smaller" ref={(e) => (refInput = e)} onKeyUp={addText} />
+      <Input fontSize="smaller" ref={(e) => (refInput = e)} onKeyUp={addText} />
     </div>
   );
 };

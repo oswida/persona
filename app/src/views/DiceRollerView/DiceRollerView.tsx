@@ -1,5 +1,4 @@
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
-import { it } from "node:test";
 import { FaSolidDice } from "solid-icons/fa";
 import {
   Component,
@@ -113,7 +112,7 @@ export const DiceRollerView: Component = () => {
         style={{ gap: "20px", "margin-top": "15px", "margin-bottom": "5px" }}
       >
         <Input
-          size="smaller"
+          fontSize="smaller"
           style={{ width: "4rem" }}
           ref={(e) => (refCustom = e)}
           onInput={checkCustomEmpty}

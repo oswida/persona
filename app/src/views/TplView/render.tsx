@@ -1,20 +1,17 @@
 import { For, Show } from "solid-js";
 import { currentStyle } from "~/common";
 import { Flex } from "~/components";
-import {
-  TplElement,
-  TplNumeric,
-  TplNumericWithMax,
-  TplPage,
-} from "~/templates/types";
+import { TplElement, TplPage } from "~/templates/types";
+import { Img } from "./element/Img";
+import { Numeric } from "./element/Numeric";
+import { Resource } from "./element/Resource";
+import { Table } from "./element/Table";
+import { TextEl } from "./element/TextEl";
 import {
   TpleHeaderStyle,
   TpleHelpStyle,
   TpleSectionStyle,
-  TplNumericStyle,
   TplPageStyle,
-  TplSlashStyle,
-  TplTextStyle,
 } from "./styles.css";
 
 export const renderPage = (page: TplPage) => {
@@ -54,45 +51,21 @@ export const renderPage = (page: TplPage) => {
 const renderElement = (e: TplElement) => {
   switch (e.etype) {
     case "text":
-      return <div class={TplTextStyle}>{e.content as string}</div>;
+      return <TextEl element={e} />;
     case "help":
       return <div class={TpleHelpStyle}>{e.content as string}</div>;
     case "header":
       return <div class={TpleHeaderStyle}>{e.content as string}</div>;
-    case "numeric": {
-      const n = e.content as TplNumeric;
-      return (
-        <input
-          id={e.id}
-          title={e.tip}
-          type="number"
-          class={TplNumericStyle({ decoration: n.decoration })}
-          value={n.value}
-        />
-      );
-    }
+    case "numeric":
     case "numeric_with_max": {
-      const n = e.content as TplNumericWithMax;
-      return (
-        <Flex>
-          <input
-            id={e.id}
-            title={e.tip}
-            type="number"
-            class={TplNumericStyle({ decoration: n.decoration })}
-            value={n.value}
-          />
-          <div class={TplSlashStyle}></div>
-          <input
-            id={`${e.id}-max`}
-            title={e.tip}
-            type="number"
-            class={TplNumericStyle({ decoration: n.decoration })}
-            value={n.max}
-          />
-        </Flex>
-      );
+      return <Numeric element={e} />;
     }
+    case "resource":
+      return <Resource element={e} />;
+    case "table":
+      return <Table element={e} />;
+    case "image":
+      return <Img element={e} />;
   }
   return <div></div>;
 };
