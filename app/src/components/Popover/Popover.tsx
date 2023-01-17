@@ -1,5 +1,13 @@
-import { Popover as Pop } from "@kobalte/core";
-import { Accessor, Component, ParentProps, Setter, Show } from "solid-js";
+import * as popover from "@zag-js/popover";
+import { normalizeProps, useMachine } from "@zag-js/solid";
+import {
+  Component,
+  createMemo,
+  createUniqueId,
+  ParentProps,
+  Show,
+} from "solid-js";
+import { Portal } from "solid-js/web";
 import { currentStyle } from "~/common";
 import { ButtonStyle } from "../Button/styles.css";
 import { Flex } from "../Flex";
@@ -13,57 +21,52 @@ import {
 type Props = {
   trigger: any;
   title?: string;
-  open?: Accessor<boolean>;
-  setOpen?: Setter<boolean>;
+  hasClose?: boolean;
+  persistent?: boolean;
 };
 
 export const Popover: Component<Props & ParentProps> = ({
-  children,
   trigger,
+  children,
   title,
-  open,
-  setOpen,
+  hasClose,
+  persistent,
 }) => {
-  const setState = (value: boolean) => {
-    if (!setOpen) return;
-    setOpen(value);
-  };
+  const [state, send] = useMachine(
+    popover.machine({
+      id: createUniqueId(),
+      closeOnInteractOutside: !persistent,
+    })
+  );
 
-  const toggleState = () => {
-    if (!setOpen || !open) return;
-    setOpen(!open());
-  };
+  const api = createMemo(() => popover.connect(state, send, normalizeProps));
 
   return (
-    <Pop.Root isOpen={open ? open() : undefined}>
-      <Pop.Trigger
-        class={ButtonStyle({})}
-        style={currentStyle()}
-        onPress={toggleState}
-      >
+    <div class={PopoverRootStyle} style={currentStyle()}>
+      <button class={ButtonStyle({})} {...api().triggerProps}>
         {trigger}
-      </Pop.Trigger>
-      {/* <Pop.Portal> */}
-      <Pop.Content class={PopoverRootStyle} style={currentStyle()}>
-        <Pop.Arrow style={currentStyle()} />
+      </button>
 
-        <Show when={title !== undefined}>
-          <Flex style={{ "justify-content": "space-between" }}>
-            <Pop.Title class={PopoverTitleStyle}>{title}</Pop.Title>
-            <Pop.CloseButton
-              class={PopoverCloseButtonStyle}
-              onPressChange={() => setState(false)}
-            >
-              ×
-            </Pop.CloseButton>
-          </Flex>
-        </Show>
-
-        <Pop.Description class={PopoverContentStyle}>
-          {children}
-        </Pop.Description>
-      </Pop.Content>
-      {/* </Pop.Portal> */}
-    </Pop.Root>
+      <div
+        class={PopoverContentStyle}
+        style={currentStyle()}
+        {...api().positionerProps}
+      >
+        <div {...api().contentProps}>
+          <Show when={hasClose !== undefined}>
+            <div class={PopoverTitleStyle}>
+              <div {...api().titleProps}>{title}</div>
+              <button
+                class={PopoverCloseButtonStyle}
+                {...api().closeTriggerProps}
+              >
+                ×
+              </button>
+            </div>
+          </Show>
+          <div {...api().descriptionProps}>{children}</div>
+        </div>
+      </div>
+    </div>
   );
 };

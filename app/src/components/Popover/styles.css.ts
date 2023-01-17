@@ -1,17 +1,11 @@
 import { themeVars } from "~/common";
-import { currentTheme } from "~/common";
 import { style } from "@vanilla-extract/css";
 
 // This is portalled so we have to use runtime colors
 
 export const PopoverRootStyle = style({
   fontFamily: themeVars.font.family,
-  backgroundColor: themeVars.color.accent,
   color: themeVars.color.primary,
-  minWidth: "max-content",
-  padding: "5px",
-  border: `solid 1px ${themeVars.color.backgroundSecondary}`,
-  borderRadius: "5px",
 });
 
 export const PopoverTitleStyle = style({
@@ -39,12 +33,11 @@ export const PopoverCloseButtonStyle = style({
   userSelect: "none",
   backgroundColor: "transparent",
   color: themeVars.color.primary,
-  // position: "absolute",
-  // right: "5px",
-  // top: "5px",
+  alignSelf: "flex-end",
 });
 
 export const PopoverContentStyle = style({
-  marginTop: "5px",
-  marginBottom: "5px",
+  backgroundColor: themeVars.color.accent,
+  padding: "5px",
+  borderRadius: "5px",
 });

@@ -1,4 +1,3 @@
-import { generateSerialKeys } from "~/common";
 import {
   TplColumn,
   TplElement,
@@ -7,7 +6,7 @@ import {
   TplRow,
   TplSection,
 } from "~/templates/types";
-import { SizeSwitchButton } from "../WhiteboardView/Tools";
+import { v4 as uuidv4 } from "uuid";
 
 export const genElement = (
   etype: TplElementType,
@@ -15,7 +14,7 @@ export const genElement = (
   tip?: string
 ) => {
   return {
-    id: generateSerialKeys(10, "-"),
+    id: uuidv4(),
     content: content,
     etype: etype,
     tip: tip,
@@ -24,7 +23,7 @@ export const genElement = (
 
 export const genPage = (title: string, sections: TplSection[] = []) => {
   return {
-    id: generateSerialKeys(10, "-"),
+    id: uuidv4(),
     sections: sections,
     title: title,
   } as TplPage;
@@ -32,7 +31,7 @@ export const genPage = (title: string, sections: TplSection[] = []) => {
 
 export const genSection = (title?: string, rows: TplRow[] = []) => {
   return {
-    id: generateSerialKeys(10, "-"),
+    id: uuidv4(),
     title: title,
     rows: rows,
   } as TplSection;
@@ -40,14 +39,14 @@ export const genSection = (title?: string, rows: TplRow[] = []) => {
 
 export const genRow = (columns: TplColumn[] = []) => {
   return {
-    id: generateSerialKeys(10, "-"),
+    id: uuidv4(),
     columns: columns,
   } as TplRow;
 };
 
 export const genColumn = (size: string, elements: TplElement[] = []) => {
   return {
-    id: generateSerialKeys(10, "-"),
+    id: uuidv4(),
     size: size,
     elements: elements,
   } as TplColumn;

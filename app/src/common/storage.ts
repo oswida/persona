@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import { setSettingsData, setStorageSize } from "./state";
+import { setPlaySessionList, setSettingsData, setStorageSize } from "./state";
 import { emptySettings, Settings } from "./types";
 import { compressData, decompressData } from "./util";
 
 export const personaSettingsKey = "persona-settings";
+export const personaSessionsKey = "persona-sessions";
 export const personaRollsKey = "persona-rolls";
 
 export const saveSettings = (value: Settings) => {
@@ -44,6 +45,14 @@ export const loadRolls = (appData: any) => {
   if (!data) return;
   const dd = decompressData(data);
   appData.setRollHistory(dd);
+};
+
+export const loadSessions = () => {
+  const data = localStorage.getItem(personaSessionsKey);
+  if (!data) return;
+  let dd = decompressData(data);
+  if (!dd) dd = [];
+  setPlaySessionList(dd);
 };
 
 export const updateStoreSize = () => {

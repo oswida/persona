@@ -1,6 +1,7 @@
 import { assignInlineVars } from "@vanilla-extract/dynamic";
 import { Client } from "paho-mqtt";
 import { createMemo, createSignal } from "solid-js";
+import { Tpl } from "~/templates/types";
 import {
   darkThemeClass,
   darkThemeVars,
@@ -8,13 +9,13 @@ import {
   themeVars,
 } from "./theme.css";
 import {
-  emptySettings,
-  IdentSettings,
-  initialWhiteboardState,
-  Settings,
-  WhiteboardState,
   ChatEntry,
   ConnectionInfo,
+  emptySettings,
+  initialWhiteboardState,
+  PlaySession,
+  Settings,
+  WhiteboardState,
 } from "./types";
 
 // App state
@@ -28,7 +29,7 @@ export const currentStyle = createMemo(() => {
   return assignInlineVars(themeVars, currentTheme());
 });
 
-// Main session data
+// Main settings data
 export const [settingsData, setSettingsData] = createSignal<Settings>(
   emptySettings()
 );
@@ -61,3 +62,14 @@ export const [mqttConnectionStatus, setMqttConnectionStatus] =
 export const [mqttClient, setMqttClient] = createSignal<Client | undefined>(
   undefined
 );
+
+// Templates
+export const [csTemplateList, setCsTemplateList] = createSignal<
+  Record<string, Tpl>
+>({});
+
+// Play session
+export const [playSession, setPlaySession] = createSignal<PlaySession>();
+export const [playSessionList, setPlaySessionList] = createSignal<
+  PlaySession[]
+>([]);

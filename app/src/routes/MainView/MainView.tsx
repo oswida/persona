@@ -4,6 +4,7 @@ import {
   FaSolidMessage,
   FaSolidMoon,
   FaSolidNetworkWired,
+  FaSolidPersonWalkingArrowRight,
   FaSolidSun,
 } from "solid-icons/fa";
 import { createSignal, Match, Show, Switch } from "solid-js";
@@ -19,18 +20,25 @@ import {
   setCurrentTheme,
   setCurrentThemeClass,
 } from "~/common";
-import { Button, Dialog, Flex, Popover } from "~/components";
+import { Button, Dialog, Flex, Popover, Select } from "~/components";
 import { SampleTpl } from "~/templates/data";
 import { ChatView } from "~/views/ChatView";
 import { DiceRollerView } from "~/views/DiceRollerView";
+import { SessionView } from "~/views/SessionView";
 import { SettingsView } from "~/views/SettingsView";
 import { TplView } from "~/views/TplView";
-import { MainStyle, TopBarStyle } from "./styles.css";
+import {
+  FooterStyle,
+  MainContentStyle,
+  MainStyle,
+  TopBarStyle,
+} from "./styles.css";
 
 export const MainView = () => {
   const [so, setSo] = createSignal(false);
   const [sd, setSd] = createSignal(false);
   const [sc, setSc] = createSignal(false);
+  const [ss, setSs] = createSignal(false);
 
   const switchTheme = () => {
     if (currentTheme() == darkThemeVars) {
@@ -43,12 +51,17 @@ export const MainView = () => {
   };
 
   return (
-    <Div100vh class={MainStyle} style={currentStyle()}>
+    <Div100vh class={MainStyle} style={currentStyle()} id="main-div">
       <Flex dn="column">
         <div class={TopBarStyle} style={currentStyle()}>
           <Flex>
-            <Popover trigger={<FaSolidDice />} open={sd} setOpen={setSd}>
+            <Popover persistent trigger={<FaSolidDice />}>
               <DiceRollerView />
+            </Popover>
+          </Flex>
+          <Flex>
+            <Popover trigger={<FaSolidPersonWalkingArrowRight />}>
+              <SessionView />
             </Popover>
           </Flex>
           <Flex>
@@ -57,7 +70,7 @@ export const MainView = () => {
             </Show>
           </Flex>
           <Flex>
-            <Popover trigger={<FaSolidMessage />} setOpen={setSc} open={sc}>
+            <Popover persistent trigger={<FaSolidMessage />}>
               <ChatView />
             </Popover>
             <Button onClick={switchTheme}>
@@ -80,9 +93,25 @@ export const MainView = () => {
             </Dialog>
           </Flex>
         </div>
-        <Flex style={{ "margin-top": "60px" }}>
-          <TplView tpl={SampleTpl} />
-        </Flex>
+        <div class={MainContentStyle}>
+          <Flex style={{ "margin-top": "60px" }} dn="column">
+            <Select
+              options={[
+                { label: "A", value: "A" },
+                { label: "Bsdsd", value: "sdsds" },
+              ]}
+              label="Session"
+            />
+            {/* <TplView tpl={SampleTpl} /> */}
+          </Flex>
+        </div>
+        {/* <div class={FooterStyle}>
+          <Flex>
+            <Popover trigger={<FaSolidDice />} open={sd} setOpen={setSd}>
+              <DiceRollerView />
+            </Popover>
+          </Flex>
+        </div> */}
       </Flex>
     </Div100vh>
   );

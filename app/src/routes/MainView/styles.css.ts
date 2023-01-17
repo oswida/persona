@@ -24,3 +24,18 @@ export const TopBarStyle = style({
   justifyContent: "space-between",
   backgroundColor: themeVars.color.accent,
 });
+
+export const FooterStyle = style({
+  display: "flex",
+  position: "fixed",
+  bottom: "0px",
+  left: "0px",
+  width: "calc(100% - 20px)",
+  height: "2em",
+  padding: "5px 10px",
+  alignItems: "center",
+  justifyContent: "space-between",
+  backgroundColor: themeVars.color.accent,
+});
+
+export const MainContentStyle = style({});

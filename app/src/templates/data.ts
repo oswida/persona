@@ -1,11 +1,5 @@
 import { TplImg, TplResource, TplTable, TplText } from "~/templates/types";
-import {
-  genColumn,
-  genElement,
-  genPage,
-  genRow,
-  genSection,
-} from "./../views/TplView/gen";
+import { genColumn, genElement, genPage, genRow, genSection } from "./gen";
 import { Tpl, TplNumeric, TplNumericWithMax } from "./types";
 
 export const SampleTpl = {

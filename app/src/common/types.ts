@@ -1,5 +1,4 @@
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
-import { RollResults } from "@dice-roller/rpg-dice-roller/types/results";
 import { v4 as uuidv4 } from "uuid";
 
 export type IdentSettings = {
@@ -103,4 +102,29 @@ export type RollMessage = {
   comment: string;
   color: string;
   rolls: DiceRoll[];
+};
+
+export type CharsheetData = {
+  id: string;
+  playerId: string;
+  playerName: string;
+  templateId: string;
+  values: Record<string, any>;
+};
+
+export type CardData = {
+  id: string;
+  templateId: string;
+  isPublic: boolean;
+  values: Record<string, any>;
+};
+
+export type PlaySession = {
+  id: string;
+  name: string;
+  ownerId: string;
+  players: string[];
+  charsheets: CharsheetData[];
+  cards: CardData[];
+  backgroundImg: string;
 };

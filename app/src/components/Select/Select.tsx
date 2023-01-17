@@ -1,37 +1,63 @@
-import { Select as St } from "@kobalte/core";
-import { FaSolidSort } from "solid-icons/fa";
-import { Component, For, ParentProps } from "solid-js";
+import * as select from "@zag-js/select";
+import { Option } from "@zag-js/select/dist/select.types";
+import { normalizeProps, useMachine } from "@zag-js/solid";
+import { Component, createMemo, createUniqueId } from "solid-js";
 import { currentStyle } from "~/common";
-import { SelectRootStyle, SelectTriggerStyle } from "./styles.css";
-
-export type SelectItem = {
-  key: string;
-  value: string;
-};
+import { ButtonStyle } from "../Button/styles.css";
+import {
+  SelectContentStyle,
+  SelectItemStyle,
+  SelectLabelStyle,
+  SelectRootStyle,
+  SelectTriggerStyle,
+} from "./styles.css";
 
 type Props = {
-  items: SelectItem[];
+  label?: string;
+  options: Option[];
+  width?: string;
   placeholder?: string;
 };
 
-export const Select: Component<Props> = ({ placeholder, items }) => {
+export const Select: Component<Props> = ({
+  label,
+  options,
+  width,
+  placeholder,
+}) => {
+  const [state, send] = useMachine(select.machine({ id: createUniqueId() }));
+  const api = createMemo(() => select.connect(state, send, normalizeProps));
+
   return (
-    <St.Root>
-      <St.Trigger class={SelectTriggerStyle} style={currentStyle()}>
-        <St.Value placeholder={placeholder ? placeholder : "...select item"} />
-        <St.Icon>
-          <FaSolidSort />
-        </St.Icon>
-      </St.Trigger>
-      {/* <St.Portal> */}
-      <St.Content class={SelectRootStyle} style={currentStyle()}>
-        <St.Listbox>
-          <For each={items}>
-            {(it) => <St.Item value={it.key}>{it.value}</St.Item>}
-          </For>
-        </St.Listbox>
-      </St.Content>
-      {/* </St.Portal> */}
-    </St.Root>
+    <div style={{ ...currentStyle(), width: width }} class={SelectRootStyle}>
+      <div class={SelectTriggerStyle}>
+        <label class={SelectLabelStyle} {...api().labelProps}>
+          {label}
+        </label>
+        <button
+          class={ButtonStyle({ border: "underline" })}
+          {...api().triggerProps}
+        >
+          <span>
+            {api().selectedOption?.label ?? placeholder ?? "Select option"}
+          </span>
+        </button>
+      </div>
+
+      <div class={SelectContentStyle} {...api().positionerProps}>
+        <div {...api().contentProps}>
+          {options.map(({ label, value }) => (
+            <div
+              class={SelectItemStyle}
+              id={value}
+              {...api().getOptionProps({ label, value })}
+            >
+              <span>{label}</span>
+              {value === api().selectedOption?.value && "✓"}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
