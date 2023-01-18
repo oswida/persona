@@ -1,4 +1,6 @@
+import { CopyToClipboard } from "solid-copy-to-clipboard";
 import {
+  FaSolidClipboard,
   FaSolidDice,
   FaSolidGamepad,
   FaSolidGears,
@@ -9,6 +11,7 @@ import {
   FaSolidSun,
 } from "solid-icons/fa";
 import { createSignal, Match, Show, Switch } from "solid-js";
+import toast from "solid-toast";
 import Div100vh from "solidjs-div-100vh";
 import {
   currentStyle,
@@ -24,8 +27,9 @@ import {
   setSettingsData,
   settingsData,
 } from "~/common";
-import { mqttDisconnect } from "~/common/mqtt";
+import { mqttClientLink, mqttDisconnect } from "~/common/mqtt";
 import { Button, Dialog, Flex, Popover, Select, Texte } from "~/components";
+import { ButtonStyle } from "~/components/Button/styles.css";
 import { ChatView } from "~/views/ChatView";
 import { DiceRollerView } from "~/views/DiceRollerView";
 import { SessionView } from "~/views/SessionView";
@@ -67,6 +71,9 @@ export const MainView = () => {
             </Popover>
           </Flex>
           <Flex vcenter>
+            <Show when={mqttConnectionStatus()}>
+              <FaSolidNetworkWired />
+            </Show>
             <Dialog title="Session management" trigger={<FaSolidGamepad />}>
               <SessionView />
             </Dialog>
@@ -84,14 +91,36 @@ export const MainView = () => {
                   ].name
                 }
               </Texte>
-              <Button onClick={stopSession}>
+              <Button onClick={stopSession} title="Stop hosting">
                 <FaSolidStop />
               </Button>
+              <CopyToClipboard
+                text={mqttClientLink()}
+                onCopy={() => toast("Session link copied to clipboard")}
+                eventTrigger="onClick"
+              >
+                <div title="Copy session link" class={ButtonStyle({})}>
+                  <FaSolidClipboard />
+                </div>
+              </CopyToClipboard>
             </Show>
-          </Flex>
-          <Flex>
-            <Show when={mqttConnectionStatus()}>
-              <FaSolidNetworkWired color="green" />
+            <Show
+              when={
+                settingsData().app.sessions.current != "" &&
+                !settingsData().app.sessions.hosting
+              }
+            >
+              <Texte size="small">
+                Connected to:{" "}
+                {
+                  settingsData().app.sessions.client[
+                    settingsData().app.sessions.current
+                  ].name
+                }
+              </Texte>
+              <Button onClick={stopSession} title="Stop Disconnect">
+                <FaSolidStop />
+              </Button>
             </Show>
           </Flex>
           <Flex>
@@ -115,15 +144,6 @@ export const MainView = () => {
         </div>
         <div class={MainContentStyle}>
           <Flex style={{ "margin-top": "60px" }} dn="column">
-            <Select
-              options={() => {
-                return [
-                  { label: "A", value: "A" },
-                  { label: "Bsdsd", value: "sdsds" },
-                ];
-              }}
-              label="Session"
-            />
             {/* <TplView tpl={SampleTpl} /> */}
           </Flex>
         </div>

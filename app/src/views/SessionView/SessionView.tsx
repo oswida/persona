@@ -105,6 +105,17 @@ export const SessionView = () => {
     mqttConnect();
   };
 
+  const startClient = () => {
+    const id = played();
+    if (!id || id.trim() === "") return;
+    const newSettings = { ...settingsData() };
+    newSettings.app.sessions.current = id;
+    newSettings.app.sessions.hosting = false;
+    saveSettings(newSettings);
+    setSettingsData(newSettings);
+    mqttConnect();
+  };
+
   return (
     <Flex dn="column">
       <Texte size="small">Hosted</Texte>
@@ -137,7 +148,7 @@ export const SessionView = () => {
           options={clientItems}
           onChange={onPlayedChange}
         />
-        <Button>
+        <Button onClick={startClient}>
           <FaSolidPlug />
           <Texte style={{ "margin-left": "5px" }}>Connect</Texte>
         </Button>

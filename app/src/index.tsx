@@ -34,6 +34,10 @@ if (langparam && langparam != "") {
 const langContext = createI18nContext(dictionaries, lang);
 initTemplateList();
 
+if (sdata.app.sessions.current !== "") {
+  mqttConnect();
+}
+
 render(
   () => (
     <I18nContext.Provider value={langContext}>

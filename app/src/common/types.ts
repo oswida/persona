@@ -110,6 +110,7 @@ export type NetMessage = {
 };
 export type ConnectionInfo = {
   username: string;
+  color: string;
   count?: number;
   connected_at?: string;
   last_seen_at?: string;
