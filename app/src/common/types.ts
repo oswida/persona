@@ -1,6 +1,23 @@
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 import { v4 as uuidv4 } from "uuid";
 
+export type PlaySession = {
+  id: string;
+  name: string;
+  ownerId: string;
+  players: string[];
+  charsheets: CharsheetData[];
+  cards: CardData[];
+  backgroundImg: string;
+};
+
+export type SessionSettings = {
+  hosted: Record<string, PlaySession>;
+  client: Record<string, PlaySession>;
+  current: string;
+  hosting: boolean;
+};
+
 export type IdentSettings = {
   username: string;
   browserID: string;
@@ -12,13 +29,12 @@ export type CommunicationSettings = {
   mqtt: {
     server: string;
     credentials: string;
-    prefix: string;
-    hosting: boolean;
   };
 };
 
 export type AppSettings = {
   lang: string;
+  sessions: SessionSettings;
 };
 
 export type Settings = {
@@ -31,6 +47,12 @@ export const emptySettings = (generate?: boolean) => {
   const x: Settings = {
     app: {
       lang: "en",
+      sessions: {
+        hosted: {},
+        client: {},
+        current: "",
+        hosting: false,
+      } as SessionSettings,
     },
     ident: {
       username: "Noname",
@@ -42,8 +64,6 @@ export const emptySettings = (generate?: boolean) => {
       mqtt: {
         server: "",
         credentials: "",
-        prefix: "",
-        hosting: false,
       },
     },
   };
@@ -117,14 +137,4 @@ export type CardData = {
   templateId: string;
   isPublic: boolean;
   values: Record<string, any>;
-};
-
-export type PlaySession = {
-  id: string;
-  name: string;
-  ownerId: string;
-  players: string[];
-  charsheets: CharsheetData[];
-  cards: CardData[];
-  backgroundImg: string;
 };

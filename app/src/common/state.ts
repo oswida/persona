@@ -67,9 +67,3 @@ export const [mqttClient, setMqttClient] = createSignal<Client | undefined>(
 export const [csTemplateList, setCsTemplateList] = createSignal<
   Record<string, Tpl>
 >({});
-
-// Play session
-export const [playSession, setPlaySession] = createSignal<PlaySession>();
-export const [playSessionList, setPlaySessionList] = createSignal<
-  PlaySession[]
->([]);

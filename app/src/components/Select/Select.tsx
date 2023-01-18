@@ -1,7 +1,7 @@
 import * as select from "@zag-js/select";
 import { Option } from "@zag-js/select/dist/select.types";
 import { normalizeProps, useMachine } from "@zag-js/solid";
-import { Component, createMemo, createUniqueId } from "solid-js";
+import { Accessor, Component, createMemo, createUniqueId } from "solid-js";
 import { currentStyle } from "~/common";
 import { ButtonStyle } from "../Button/styles.css";
 import {
@@ -14,9 +14,11 @@ import {
 
 type Props = {
   label?: string;
-  options: Option[];
+  options: Accessor<Option[]>;
+  selected?: number;
   width?: string;
   placeholder?: string;
+  onChange?: (details: Option | null) => void;
 };
 
 export const Select: Component<Props> = ({
@@ -24,8 +26,16 @@ export const Select: Component<Props> = ({
   options,
   width,
   placeholder,
+  selected,
+  onChange,
 }) => {
-  const [state, send] = useMachine(select.machine({ id: createUniqueId() }));
+  const [state, send] = useMachine(
+    select.machine({
+      id: createUniqueId(),
+      selectedOption: selected ? options()[selected] : undefined,
+      onChange: onChange,
+    })
+  );
   const api = createMemo(() => select.connect(state, send, normalizeProps));
 
   return (
@@ -46,7 +56,7 @@ export const Select: Component<Props> = ({
 
       <div class={SelectContentStyle} {...api().positionerProps}>
         <div {...api().contentProps}>
-          {options.map(({ label, value }) => (
+          {options().map(({ label, value }) => (
             <div
               class={SelectItemStyle}
               id={value}

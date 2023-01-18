@@ -1,6 +1,5 @@
-import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 import { Client, Message } from "paho-mqtt";
-import { chatList, setChatList, settingsData } from "~/common";
+import { chatList, mqttClient, setChatList, settingsData } from "~/common";
 import {
   netConnections,
   setMqttClient,
@@ -30,7 +29,7 @@ export const mqttUnpack = (payload: any) => {
 };
 
 export const mqttTopic = (name: string) => {
-  let prefix = settingsData().comms.mqtt.prefix;
+  let prefix = settingsData().app.sessions.current;
   return `${prefix}/${name}`;
 };
 
@@ -84,10 +83,20 @@ export const mqttProcess = (msg: Message) => {
   }
 };
 
+export const mqttDisconnect = () => {
+  const cl = mqttClient();
+  if (!cl) return;
+  cl.disconnect();
+  setMqttClient(undefined);
+};
+
 export const mqttConnect = () => {
   const ident = settingsData().ident;
   const env = settingsData().comms.mqtt;
-  if (env.server == "") return;
+  if (env.server == "") {
+    console.error("Server not defined");
+    return;
+  }
   const client = new Client(env.server, ident.browserID);
   if (client.isConnected()) {
     client.disconnect();
@@ -139,13 +148,14 @@ export const mqttConnect = () => {
 };
 
 export const mqttClientLink = () => {
-  if (!settingsData().comms.mqtt.hosting) return "";
-  const obj = {
-    server: settingsData().comms.mqtt.server,
-    credentials: settingsData().comms.mqtt.credentials,
-    prefix: settingsData().ident.browserID,
-  };
-  return `${window.location}connect?data=${encodeURIComponent(
-    compressData64(obj)
-  )}`;
+  //TODO:
+  // if (!settingsData().comms.mqtt.hosting) return "";
+  // const obj = {
+  //   server: settingsData().comms.mqtt.server,
+  //   credentials: settingsData().comms.mqtt.credentials,
+  //   prefix: settingsData().ident.browserID,
+  // };
+  // return `${window.location}connect?data=${encodeURIComponent(
+  //   compressData64(obj)
+  // )}`;
 };

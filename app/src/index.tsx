@@ -5,7 +5,6 @@ import { render } from "solid-js/web";
 import App from "./App";
 import {
   extractQueryParam,
-  loadSessions,
   loadSettings,
   settingsData,
   updateStoreSize,
@@ -33,13 +32,7 @@ if (langparam && langparam != "") {
 }
 
 const langContext = createI18nContext(dictionaries, lang);
-
-if (settingsData().comms.type == "mqtt") {
-  mqttConnect();
-}
-
 initTemplateList();
-loadSessions();
 
 render(
   () => (

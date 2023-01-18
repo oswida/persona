@@ -22,12 +22,13 @@ export const DialogContentStyle = style({
   position: "fixed",
   top: "50%",
   left: "50%",
+  padding: "5px",
   transform: "translate(-50%, -50%)",
-  backgroundColor: themeVars.color.accent,
-
+  backgroundColor: themeVars.color.backgroundSecondary,
   border: `1px solid ${themeVars.color.accent}`,
   borderRadius: "5px",
   color: themeVars.color.primary,
+  zIndex: 50,
 });
 
 export const DialogCloseButtonStyle = style({
@@ -51,11 +52,11 @@ export const DialogHeaderStyle = style({
   display: "flex",
   flexDirection: "row",
   justifyContent: "space-between",
-  padding: "10px",
+  marginBottom: "5px",
+  padding: "5px",
+  borderRadius: "5px",
+  marginLeft: 0,
   alignItems: "center",
-  fontSize: `${themeVars.font.size.bigger} !important`,
-});
-
-export const DialogDescStyle = style({
-  padding: "10px",
+  flex: 1,
+  backgroundColor: themeVars.color.accent,
 });

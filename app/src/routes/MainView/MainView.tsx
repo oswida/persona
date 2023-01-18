@@ -1,10 +1,11 @@
 import {
   FaSolidDice,
+  FaSolidGamepad,
   FaSolidGears,
   FaSolidMessage,
   FaSolidMoon,
   FaSolidNetworkWired,
-  FaSolidPersonWalkingArrowRight,
+  FaSolidStop,
   FaSolidSun,
 } from "solid-icons/fa";
 import { createSignal, Match, Show, Switch } from "solid-js";
@@ -17,22 +18,19 @@ import {
   lightThemeClass,
   lightThemeVars,
   mqttConnectionStatus,
+  saveSettings,
   setCurrentTheme,
   setCurrentThemeClass,
+  setSettingsData,
+  settingsData,
 } from "~/common";
-import { Button, Dialog, Flex, Popover, Select } from "~/components";
-import { SampleTpl } from "~/templates/data";
+import { mqttDisconnect } from "~/common/mqtt";
+import { Button, Dialog, Flex, Popover, Select, Texte } from "~/components";
 import { ChatView } from "~/views/ChatView";
 import { DiceRollerView } from "~/views/DiceRollerView";
 import { SessionView } from "~/views/SessionView";
 import { SettingsView } from "~/views/SettingsView";
-import { TplView } from "~/views/TplView";
-import {
-  FooterStyle,
-  MainContentStyle,
-  MainStyle,
-  TopBarStyle,
-} from "./styles.css";
+import { MainContentStyle, MainStyle, TopBarStyle } from "./styles.css";
 
 export const MainView = () => {
   const [so, setSo] = createSignal(false);
@@ -50,6 +48,15 @@ export const MainView = () => {
     }
   };
 
+  const stopSession = () => {
+    const newSettings = { ...settingsData() };
+    newSettings.app.sessions.current = "";
+    newSettings.app.sessions.hosting = false;
+    setSettingsData(newSettings);
+    saveSettings(newSettings);
+    mqttDisconnect();
+  };
+
   return (
     <Div100vh class={MainStyle} style={currentStyle()} id="main-div">
       <Flex dn="column">
@@ -59,10 +66,28 @@ export const MainView = () => {
               <DiceRollerView />
             </Popover>
           </Flex>
-          <Flex>
-            <Popover trigger={<FaSolidPersonWalkingArrowRight />}>
+          <Flex vcenter>
+            <Dialog title="Session management" trigger={<FaSolidGamepad />}>
               <SessionView />
-            </Popover>
+            </Dialog>
+            <Show
+              when={
+                settingsData().app.sessions.current != "" &&
+                settingsData().app.sessions.hosting
+              }
+            >
+              <Texte size="small">
+                Hosting:{" "}
+                {
+                  settingsData().app.sessions.hosted[
+                    settingsData().app.sessions.current
+                  ].name
+                }
+              </Texte>
+              <Button onClick={stopSession}>
+                <FaSolidStop />
+              </Button>
+            </Show>
           </Flex>
           <Flex>
             <Show when={mqttConnectionStatus()}>
@@ -83,12 +108,7 @@ export const MainView = () => {
                 </Match>
               </Switch>
             </Button>
-            <Dialog
-              trigger={<FaSolidGears />}
-              title="Settings"
-              open={so}
-              setOpen={setSo}
-            >
+            <Dialog trigger={<FaSolidGears />} title="Settings">
               <SettingsView setOpen={setSo} />
             </Dialog>
           </Flex>
@@ -96,10 +116,12 @@ export const MainView = () => {
         <div class={MainContentStyle}>
           <Flex style={{ "margin-top": "60px" }} dn="column">
             <Select
-              options={[
-                { label: "A", value: "A" },
-                { label: "Bsdsd", value: "sdsds" },
-              ]}
+              options={() => {
+                return [
+                  { label: "A", value: "A" },
+                  { label: "Bsdsd", value: "sdsds" },
+                ];
+              }}
               label="Session"
             />
             {/* <TplView tpl={SampleTpl} /> */}
