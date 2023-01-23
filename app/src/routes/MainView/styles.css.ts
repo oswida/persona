@@ -38,4 +38,9 @@ export const FooterStyle = style({
   backgroundColor: themeVars.color.accent,
 });
 
-export const MainContentStyle = style({});
+export const MainContentStyle = style({
+  marginTop: "60px",
+  display: "flex",
+  flexDirection: "column",
+  padding: "10px",
+});

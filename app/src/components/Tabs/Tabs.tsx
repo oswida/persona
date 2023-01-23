@@ -1,38 +1,59 @@
-import { Tabs as Ts } from "@kobalte/core";
-import { For } from "solid-js";
+import * as tabs from "@zag-js/tabs";
+import { normalizeProps, useMachine } from "@zag-js/solid";
+import {
+  Component,
+  createMemo,
+  createUniqueId,
+  For,
+  ParentProps,
+} from "solid-js";
+import {
+  TabsContentStyle,
+  TabsRootStyle,
+  TabsTriggerGroupStyle,
+  TabsTriggerStyle,
+} from "./styles.css";
 import { currentStyle } from "~/common";
-import { TabsListStyle, TabsRootStyle, TabsTriggerStyle } from "./styles.css";
 
-export type TabsDesc = {
+export type TabDesc = {
+  value: string;
   label: string;
-  key: string;
-  value: any;
+  content: any;
 };
 
-export const Tabs = ({ items }: { items: TabsDesc[] }) => {
+type Props = {
+  items: TabDesc[];
+};
+
+export const Tabs: Component<Props & ParentProps> = ({ children, items }) => {
+  const [state, send] = useMachine(tabs.machine({ id: createUniqueId() }));
+
+  const api = createMemo(() => tabs.connect(state, send, normalizeProps));
+
   return (
-    <Ts.Root class={TabsRootStyle} style={currentStyle()}>
-      <Ts.List class={TabsListStyle}>
+    <div class={TabsRootStyle} style={currentStyle()} {...api().rootProps}>
+      <div class={TabsTriggerGroupStyle} {...api().tablistProps}>
         <For each={items}>
-          {(it) => (
-            <Ts.Trigger
-              value={it.key}
+          {(item) => (
+            <button
               class={TabsTriggerStyle}
-              style={currentStyle()}
+              {...api().getTriggerProps({ value: item.value })}
             >
-              {it.label}
-            </Ts.Trigger>
+              {item.label}
+            </button>
           )}
         </For>
-        <Ts.Indicator />
-      </Ts.List>
+      </div>
       <For each={items}>
-        {(it) => (
-          <Ts.Content style={currentStyle()} value={it.key}>
-            {it.value}
-          </Ts.Content>
+        {(item) => (
+          <div
+            class={TabsContentStyle}
+            {...api().getContentProps({ value: item.value })}
+          >
+            {item.content}
+          </div>
         )}
       </For>
-    </Ts.Root>
+    </div>
   );
 };

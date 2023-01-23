@@ -14,7 +14,7 @@ export const TabsListStyle = style({
 
 export const TabsTriggerGroupStyle = style({
   fontFamily: themeVars.font.family,
-  backgroundColor: themeVars.color.background,
+  backgroundColor: themeVars.color.accent,
 });
 
 export const TabsTriggerStyle = style({
@@ -32,6 +32,12 @@ export const TabsTriggerStyle = style({
     "&[data-selected]": {
       opacity: 1,
       borderBottom: `solid 1px ${themeVars.color.secondary}`,
+      color: themeVars.color.secondary,
     },
   },
+});
+
+export const TabsContentStyle = style({
+  border: `1px solid ${themeVars.color.backgroundSecondary}`,
+  padding: "5px",
 });

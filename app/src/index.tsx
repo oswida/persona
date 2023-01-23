@@ -5,6 +5,7 @@ import { render } from "solid-js/web";
 import App from "./App";
 import {
   extractQueryParam,
+  loadCards,
   loadSettings,
   settingsData,
   updateStoreSize,
@@ -21,6 +22,7 @@ const dictionaries = {
 
 let lang = "en";
 const sdata = loadSettings();
+loadCards();
 
 updateStoreSize();
 if (sdata.app.lang) {

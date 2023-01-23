@@ -9,6 +9,7 @@ import {
   themeVars,
 } from "./theme.css";
 import {
+  CardData,
   ChatEntry,
   ConnectionInfo,
   emptySettings,
@@ -67,3 +68,8 @@ export const [mqttClient, setMqttClient] = createSignal<Client | undefined>(
 export const [csTemplateList, setCsTemplateList] = createSignal<
   Record<string, Tpl>
 >({});
+
+// Cards
+export const [cardsData, setCardsData] = createSignal<Record<string, CardData>>(
+  {}
+);

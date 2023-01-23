@@ -4,6 +4,7 @@ import {
   FaSolidDice,
   FaSolidGamepad,
   FaSolidGears,
+  FaSolidIdCard,
   FaSolidMessage,
   FaSolidMoon,
   FaSolidNetworkWired,
@@ -28,8 +29,17 @@ import {
   settingsData,
 } from "~/common";
 import { mqttClientLink, mqttDisconnect } from "~/common/mqtt";
-import { Button, Dialog, Flex, Popover, Select, Texte } from "~/components";
+import {
+  Accordion,
+  Button,
+  Dialog,
+  Flex,
+  Popover,
+  Select,
+  Texte,
+} from "~/components";
 import { ButtonStyle } from "~/components/Button/styles.css";
+import { CardList } from "~/views/CardView";
 import { ChatView } from "~/views/ChatView";
 import { DiceRollerView } from "~/views/DiceRollerView";
 import { SessionView } from "~/views/SessionView";
@@ -70,6 +80,11 @@ export const MainView = () => {
               <DiceRollerView />
             </Popover>
           </Flex>
+          {/* <Flex>
+            <Popover title="Cards" persistent trigger={<FaSolidIdCard />}>
+              <CardList />
+            </Popover>
+          </Flex> */}
           <Flex vcenter>
             <Show when={mqttConnectionStatus()}>
               <FaSolidNetworkWired />
@@ -143,9 +158,10 @@ export const MainView = () => {
           </Flex>
         </div>
         <div class={MainContentStyle}>
-          <Flex style={{ "margin-top": "60px" }} dn="column">
-            {/* <TplView tpl={SampleTpl} /> */}
+          <Flex>
+            <CardList />
           </Flex>
+          {/* <TplView tpl={SampleTpl} /> */}
         </div>
         {/* <div class={FooterStyle}>
           <Flex>

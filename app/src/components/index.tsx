@@ -7,5 +7,6 @@ export * from "./Popover";
 export * from "./Tabs";
 export * from "./Texte";
 export * from "./Toast";
-export * from "./ToggleButton";
 export * from "./Select";
+export * from "./Accordion";
+export * from "./Checkbox";

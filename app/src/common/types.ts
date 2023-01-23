@@ -7,7 +7,7 @@ export type PlaySession = {
   ownerId: string;
   players: string[];
   charsheets: CharsheetData[];
-  cards: CardData[];
+  cards: string[];
   backgroundImg: string;
 };
 
@@ -135,7 +135,8 @@ export type CharsheetData = {
 
 export type CardData = {
   id: string;
-  templateId: string;
+  title: string;
+  content: string;
+  footer: string;
   isPublic: boolean;
-  values: Record<string, any>;
 };

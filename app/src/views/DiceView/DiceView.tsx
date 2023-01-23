@@ -8,12 +8,9 @@ import {
   currentTheme,
   personaRollsKey,
   prettyNow,
-  rollHistory,
-  RollInfo,
   rollSingle,
   saveGenericData,
   selectedDice,
-  setRollHistory,
   settingsData,
   themeVars,
 } from "~/common";

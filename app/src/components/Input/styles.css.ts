@@ -88,3 +88,46 @@ export const InputButtonStyle = recipe({
     size: "standard",
   },
 });
+
+export const InputAreaStyle = recipe({
+  base: {
+    userSelect: "contain",
+    fontFamily: themeVars.font.family,
+    background: themeVars.color.background,
+    color: themeVars.color.primary,
+    outline: "none",
+    lineHeight: "1.1em",
+    fontSize: themeVars.font.size.bigger,
+    padding: 5,
+    borderRadius: 5,
+    textAlign: "left",
+    overflow: "auto",
+    selectors: {
+      "&[disabled]": {
+        opacity: 0.3,
+      },
+    },
+  },
+  variants: {
+    small: {
+      true: {
+        fontSize: themeVars.font.size.standard,
+      },
+    },
+    border: {
+      none: {
+        border: "none",
+      },
+      down: {
+        borderBottom: `solid 1px ${themeVars.color.backgroundSecondary}`,
+      },
+      full: {
+        border: `solid 1px ${themeVars.color.backgroundSecondary}`,
+        borderRadius: 5,
+      },
+    },
+  },
+  defaultVariants: {
+    border: "none",
+  },
+});

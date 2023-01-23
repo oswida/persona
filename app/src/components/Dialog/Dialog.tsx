@@ -2,9 +2,11 @@ import * as dialog from "@zag-js/dialog";
 import { Portal } from "solid-js/web";
 import { useMachine, normalizeProps } from "@zag-js/solid";
 import {
+  Accessor,
   Component,
   createMemo,
   createUniqueId,
+  JSX,
   ParentProps,
   Show,
 } from "solid-js";
@@ -16,22 +18,23 @@ import {
   DialogHeaderStyle,
   DialogOverlayStyle,
 } from "./styles.css";
-import { DialogCloseButton } from "@kobalte/core/dist/types/dialog/dialog-close-button";
-import { Flex } from "../Flex";
 
 type Props = {
   trigger: any;
   title?: string;
+  passApi?: (api: any) => void;
 };
 
 export const Dialog: Component<Props & ParentProps> = ({
   children,
   trigger,
   title,
+  passApi,
 }) => {
   const [state, send] = useMachine(dialog.machine({ id: createUniqueId() }));
 
   const api = createMemo(() => dialog.connect(state, send, normalizeProps));
+  if (passApi) passApi(api);
 
   return (
     <>

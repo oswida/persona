@@ -7,10 +7,8 @@ import {
   ParentProps,
   Show,
 } from "solid-js";
-import { Portal } from "solid-js/web";
 import { currentStyle } from "~/common";
 import { ButtonStyle } from "../Button/styles.css";
-import { Flex } from "../Flex";
 import {
   PopoverCloseButtonStyle,
   PopoverContentStyle,
@@ -53,7 +51,7 @@ export const Popover: Component<Props & ParentProps> = ({
         {...api().positionerProps}
       >
         <div {...api().contentProps}>
-          <Show when={hasClose !== undefined}>
+          <Show when={hasClose !== undefined || title}>
             <div class={PopoverTitleStyle}>
               <div {...api().titleProps}>{title}</div>
               <button

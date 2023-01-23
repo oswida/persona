@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import { setSettingsData, setStorageSize } from "./state";
-import { emptySettings, Settings } from "./types";
+import { setCardsData, setSettingsData, setStorageSize } from "./state";
+import { CardData, emptySettings, Settings } from "./types";
 import { compressData, decompressData } from "./util";
 
 export const personaSettingsKey = "persona-settings";
+export const personaCardsKey = "persona-cards";
 export const personaRollsKey = "persona-rolls";
 
 export const saveSettings = (value: Settings) => {
@@ -30,6 +31,17 @@ export const loadSettings = () => {
     setSettingsData(dd);
     return dd;
   }
+};
+
+export const loadCards = () => {
+  const sdata = localStorage.getItem(personaCardsKey);
+  if (!sdata) {
+    setCardsData({});
+    saveGenericData(personaCardsKey, {});
+    return;
+  }
+  const dd = decompressData(sdata) as Record<string, CardData>;
+  setCardsData(dd);
 };
 
 export const saveGenericData = (key: string, data: any) => {
