@@ -7,7 +7,7 @@ export type PlaySession = {
   ownerId: string;
   players: string[];
   charsheets: CharsheetData[];
-  cards: string[];
+  cards: CardData[];
   backgroundImg: string;
 };
 

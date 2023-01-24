@@ -13,6 +13,7 @@ import {
   personaCardsKey,
   saveGenericData,
   setCardsData,
+  themeVars,
 } from "~/common";
 import {
   Accordion,
@@ -52,24 +53,8 @@ export const CardList = () => {
     saveGenericData(personaCardsKey, newState);
   };
 
-  const next = () => {
-    const sw = swiper();
-    if (!sw) return;
-    sw.slideNext();
-  };
-
-  const prev = () => {
-    const sw = swiper();
-    if (!sw) return;
-    sw.slidePrev();
-  };
-
   const flt = (e: any) => {
-    // const sw = swiper();
-    // if (!sw) return;
     setCFilter(e.target.value);
-
-    // sw.update();
   };
 
   const itemList = createMemo(() => {
@@ -86,32 +71,6 @@ export const CardList = () => {
 
   return (
     <Flex dn="column" center>
-      {/* <Swiper
-        class={CardSwiperStyle}
-        style={currentStyle()}
-        spaceBetween={50}
-        slidesPerView={1}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => setSwiper(swiper)}
-        modules={[EffectCards, EffectCoverflow, Mousewheel]}
-        effect={"cards"}
-        mousewheel={true}
-      >
-        <For
-          each={Object.values(cardsData()).filter(
-            (v) => filter().trim() == "" || v.title.includes(filter())
-          )}
-        >
-          {(it) => (
-            <SwiperSlide class={CardStyle}>
-              <Flex dn="column">
-                <Texte>{it.title}</Texte>
-                <Texte>{it.content}</Texte>
-              </Flex>
-            </SwiperSlide>
-          )}
-        </For>
-      </Swiper> */}
       <div style={{ "max-height": "50vh", "overflow-y": "auto" }}>
         <Dynamic component={Accordion} items={itemList} />
       </div>
@@ -120,8 +79,6 @@ export const CardList = () => {
         <Dialog trigger={"Create"} title="Create card" passApi={setApi}>
           <CardDialog item={selectedItem} onClick={create} api={api} />
         </Dialog>
-        <Button onClick={prev}>Prev</Button>
-        <Button onClick={next}>Next</Button>
       </Flex>
     </Flex>
   );

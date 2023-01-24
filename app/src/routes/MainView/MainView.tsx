@@ -40,6 +40,7 @@ import {
 } from "~/components";
 import { ButtonStyle } from "~/components/Button/styles.css";
 import { CardList } from "~/views/CardView";
+import { CardEditor } from "~/views/CardView/CardEditor";
 import { ChatView } from "~/views/ChatView";
 import { DiceRollerView } from "~/views/DiceRollerView";
 import { SessionView } from "~/views/SessionView";
@@ -80,11 +81,11 @@ export const MainView = () => {
               <DiceRollerView />
             </Popover>
           </Flex>
-          {/* <Flex>
+          <Flex>
             <Popover title="Cards" persistent trigger={<FaSolidIdCard />}>
-              <CardList />
+              <CardEditor />
             </Popover>
-          </Flex> */}
+          </Flex>
           <Flex vcenter>
             <Show when={mqttConnectionStatus()}>
               <FaSolidNetworkWired />

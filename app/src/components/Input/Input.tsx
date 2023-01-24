@@ -59,6 +59,7 @@ export const Input = ({
             center: center,
             underline: underline,
             size: fontSize,
+            transparent: transparent,
           })}
           style={{
             ...assignInlineVars(themeVars, currentTheme()),
