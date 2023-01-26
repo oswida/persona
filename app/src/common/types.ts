@@ -7,7 +7,7 @@ export type PlaySession = {
   ownerId: string;
   players: string[];
   charsheets: CharsheetData[];
-  cards: CardData[];
+  cards: Record<string, CardData>;
   backgroundImg: string;
 };
 
@@ -34,7 +34,6 @@ export type CommunicationSettings = {
 
 export type AppSettings = {
   lang: string;
-  sessions: SessionSettings;
 };
 
 export type Settings = {
@@ -47,12 +46,6 @@ export const emptySettings = (generate?: boolean) => {
   const x: Settings = {
     app: {
       lang: "en",
-      sessions: {
-        hosted: {},
-        client: {},
-        current: "",
-        hosting: false,
-      } as SessionSettings,
     },
     ident: {
       username: "Noname",
@@ -68,6 +61,15 @@ export const emptySettings = (generate?: boolean) => {
     },
   };
   return x;
+};
+
+export const emptySessions = () => {
+  return {
+    hosted: {},
+    client: {},
+    current: "",
+    hosting: false,
+  } as SessionSettings;
 };
 
 export type WhiteboardState = {

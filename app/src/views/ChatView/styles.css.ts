@@ -9,10 +9,12 @@ export const ChatRootStyle = style({
   flexDirection: "column",
   gap: "10px",
   justifyContent: "center",
+  padding: "5px",
+  height: "calc(100vh - 3em - 20px)",
 });
 
 export const ChatListStyle = style({
-  height: "60vh",
+  flex: 1,
   overflowY: "auto",
   backgroundColor: themeVars.color.backgroundSecondary,
   borderRadius: "5px",

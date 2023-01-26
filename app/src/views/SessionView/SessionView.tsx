@@ -1,16 +1,20 @@
+import { Option } from "@zag-js/select/dist/select.types";
 import { FaSolidNetworkWired, FaSolidPlug, FaSolidTrash } from "solid-icons/fa";
 import { createMemo, createSignal } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { v4 as uuidv4 } from "uuid";
 import {
+  personaSessionsKey,
   PlaySession,
+  saveGenericData,
   saveSettings,
+  sessionData,
+  setSessionData,
   setSettingsData,
   settingsData,
 } from "~/common";
-import { Button, Flex, Input, Select, Texte } from "~/components";
-import { Option } from "@zag-js/select/dist/select.types";
 import { mqttConnect } from "~/common/mqtt";
+import { Button, Flex, Input, Select, Texte } from "~/components";
 
 export const SessionView = () => {
   let refName: HTMLInputElement;
@@ -19,9 +23,9 @@ export const SessionView = () => {
 
   const create = () => {
     if (!refName || refName.value.trim() === "") return;
-    const newSettings = { ...settingsData() };
+    const newSettings = { ...sessionData() };
     const newId = uuidv4();
-    newSettings.app.sessions.hosted[newId] = {
+    newSettings.hosted[newId] = {
       id: newId,
       name: refName.value,
       ownerId: settingsData().ident.browserID,
@@ -29,8 +33,8 @@ export const SessionView = () => {
       charsheets: {},
       players: {},
     } as PlaySession;
-    saveSettings(newSettings);
-    setSettingsData(newSettings);
+    saveGenericData(personaSessionsKey, newSettings);
+    setSessionData(newSettings);
     refName.value = "";
   };
 
@@ -53,18 +57,18 @@ export const SessionView = () => {
   const delHosted = () => {
     const id = hosted();
     if (!id || id.trim() == "") return;
-    const newSettings = { ...settingsData() };
+    const newSettings = { ...sessionData() };
     const nh: Record<string, PlaySession> = {};
-    Object.keys(newSettings.app.sessions.hosted).forEach((key) => {
-      if (key != id) nh[key] = newSettings.app.sessions.hosted[key];
+    Object.keys(newSettings.hosted).forEach((key) => {
+      if (key != id) nh[key] = newSettings.hosted[key];
     });
-    newSettings.app.sessions.hosted = nh;
-    saveSettings(newSettings);
-    setSettingsData(newSettings);
+    newSettings.hosted = nh;
+    saveGenericData(personaSessionsKey, newSettings);
+    setSessionData(newSettings);
   };
 
   const hostedItems = createMemo(() => {
-    return Object.values(settingsData().app.sessions.hosted)
+    return Object.values(sessionData().hosted)
       .map((it) => ({
         label: it.name,
         value: it.id,
@@ -75,18 +79,18 @@ export const SessionView = () => {
   const delPlayed = () => {
     const id = played();
     if (!id || id.trim() == "") return;
-    const newSettings = { ...settingsData() };
+    const newSettings = { ...sessionData() };
     const nh: Record<string, PlaySession> = {};
-    Object.keys(newSettings.app.sessions.client).forEach((key) => {
-      if (key != id) nh[key] = newSettings.app.sessions.client[key];
+    Object.keys(newSettings.client).forEach((key) => {
+      if (key != id) nh[key] = newSettings.client[key];
     });
-    newSettings.app.sessions.client = nh;
-    saveSettings(newSettings);
-    setSettingsData(newSettings);
+    newSettings.client = nh;
+    saveGenericData(personaSessionsKey, newSettings);
+    setSessionData(newSettings);
   };
 
   const clientItems = createMemo(() => {
-    return Object.values(settingsData().app.sessions.client)
+    return Object.values(sessionData().client)
       .map((it) => ({
         label: it.name,
         value: it.id,
@@ -97,22 +101,22 @@ export const SessionView = () => {
   const startHosting = () => {
     const id = hosted();
     if (!id || id.trim() === "") return;
-    const newSettings = { ...settingsData() };
-    newSettings.app.sessions.current = id;
-    newSettings.app.sessions.hosting = true;
-    saveSettings(newSettings);
-    setSettingsData(newSettings);
+    const newSettings = { ...sessionData() };
+    newSettings.current = id;
+    newSettings.hosting = true;
+    saveGenericData(personaSessionsKey, newSettings);
+    setSessionData(newSettings);
     mqttConnect();
   };
 
   const startClient = () => {
     const id = played();
     if (!id || id.trim() === "") return;
-    const newSettings = { ...settingsData() };
-    newSettings.app.sessions.current = id;
-    newSettings.app.sessions.hosting = false;
-    saveSettings(newSettings);
-    setSettingsData(newSettings);
+    const newSettings = { ...sessionData() };
+    newSettings.current = id;
+    newSettings.hosting = false;
+    saveGenericData(personaSessionsKey, newSettings);
+    setSessionData(newSettings);
     mqttConnect();
   };
 

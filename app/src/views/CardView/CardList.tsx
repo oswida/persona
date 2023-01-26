@@ -1,11 +1,3 @@
-import { Accessor, createMemo, createSignal, For, JSX } from "solid-js";
-import { Dynamic } from "solid-js/web";
-import { EffectCards, EffectCoverflow, Mousewheel } from "swiper";
-import "swiper/css";
-import "swiper/css/effect-cards";
-import "swiper/css/effect-coverflow";
-import { Swiper, SwiperSlide } from "swiper/solid";
-import { v4 as uuidv4 } from "uuid";
 import {
   CardData,
   cardsData,
@@ -13,73 +5,85 @@ import {
   personaCardsKey,
   saveGenericData,
   setCardsData,
-  themeVars,
 } from "~/common";
+import { v4 as uuidv4 } from "uuid";
+import { createMemo, createSignal } from "solid-js";
+import { CardListStyle, CardZoneStyle } from "./styles.css";
 import {
   Accordion,
   AccordionDesc,
   Button,
-  Dialog,
   Flex,
   Input,
   Texte,
 } from "~/components";
-import { CardDialog } from "./CardDialog";
-import { CardView } from "./CardView";
-import { CardStyle, CardSwiperStyle } from "./styles.css";
+import { FaSolidDeleteLeft, FaSolidPlus } from "solid-icons/fa";
+import { CardItem } from "./CardItem";
 
 export const CardList = () => {
-  const [swiper, setSwiper] = createSignal<any>();
-  const [cfilter, setCFilter] = createSignal("");
-  const [selectedItem, setSelectedItem] = createSignal<CardData>();
-  const [api, setApi] = createSignal<
-    Accessor<{
-      isPressed: boolean;
-      pressableProps: JSX.HTMLAttributes<any>;
-    }>
-  >();
+  const [filter, setFilter] = createSignal("");
+  let refFlt: HTMLInputElement;
 
-  const create = (value: CardData) => {
+  const create = () => {
     const newState = { ...cardsData() };
     const id = uuidv4();
-    newState[id] = {
+    const value = {
       id: id,
-      title: value.title,
-      content: value.content,
-      footer: value.footer,
+      title: "New",
+      content: "",
+      footer: "",
       isPublic: false,
     } as CardData;
+    newState[id] = value;
     setCardsData(newState);
     saveGenericData(personaCardsKey, newState);
   };
 
-  const flt = (e: any) => {
-    setCFilter(e.target.value);
-  };
-
-  const itemList = createMemo(() => {
+  const items = createMemo(() => {
     return Object.values(cardsData())
-      .filter((v) => cfilter().trim() == "" || v.title.includes(cfilter()))
+      .filter((it) => filter() == "" || it.title.includes(filter()))
+      .sort((a, b) => a.title.localeCompare(b.title))
       .map((it) => {
         return {
           title: it.title,
           value: it.id,
-          content: <CardView item={it} />,
+          content: <CardItem item={it} />,
         } as AccordionDesc;
       });
   });
 
+  const flt = () => {
+    if (!refFlt) return;
+    setFilter(refFlt.value.trim());
+  };
+
+  const clear = () => {
+    if (!refFlt) return;
+    setFilter("");
+    refFlt.value = "";
+  };
+
   return (
-    <Flex dn="column" center>
-      <div style={{ "max-height": "50vh", "overflow-y": "auto" }}>
-        <Dynamic component={Accordion} items={itemList} />
-      </div>
-      <Input underline onInput={flt} />
-      <Flex center>
-        <Dialog trigger={"Create"} title="Create card" passApi={setApi}>
-          <CardDialog item={selectedItem} onClick={create} api={api} />
-        </Dialog>
+    <div class={CardListStyle} style={currentStyle()}>
+      <Flex style={{ "align-items": "center" }}>
+        <Texte>Cards</Texte>
+        <Button onClick={create}>
+          <FaSolidPlus />
+        </Button>
+        <Input
+          underline
+          transparent
+          fontSize="small"
+          ref={(e) => (refFlt = e)}
+          onInput={flt}
+        />
+        <Button onClick={clear}>
+          <FaSolidDeleteLeft />
+        </Button>
       </Flex>
-    </Flex>
+      <div class={CardZoneStyle}>
+        <Accordion items={items} />
+      </div>
+    </div>
   );
 };

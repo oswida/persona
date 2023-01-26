@@ -12,9 +12,11 @@ import {
   CardData,
   ChatEntry,
   ConnectionInfo,
+  emptySessions,
   emptySettings,
   initialWhiteboardState,
   PlaySession,
+  SessionSettings,
   Settings,
   WhiteboardState,
 } from "./types";
@@ -51,6 +53,7 @@ export const [selectedDicePool, setSelectedDicePool] = createSignal<
 
 // Chat
 export const [chatList, setChatList] = createSignal<ChatEntry[]>([]);
+export const [chatVisible, setChatVisible] = createSignal(false);
 
 // Net
 export const [netConnections, setNetConnections] = createSignal<
@@ -73,3 +76,7 @@ export const [csTemplateList, setCsTemplateList] = createSignal<
 export const [cardsData, setCardsData] = createSignal<Record<string, CardData>>(
   {}
 );
+export const [cardsVisible, setCardsVisible] = createSignal(false);
+
+// Sessions
+export const [sessionData, setSessionData] = createSignal<SessionSettings>(emptySessions());

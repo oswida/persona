@@ -11,7 +11,7 @@ import {
 import { Button, Checkbox, Flex } from "~/components";
 import { CardStyle } from "./styles.css";
 
-export const CardView = ({ item }: { item: CardData }) => {
+export const CardItem = ({ item }: { item: CardData }) => {
   const deleteCard = () => {
     const data = cardsData();
     if (!data) return;

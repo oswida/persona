@@ -1,11 +1,13 @@
-import { themeVars } from "~/common";
 import { style } from "@vanilla-extract/css";
+import { themeVars } from "~/common";
 
 // This is portalled so we have to use runtime colors
 
 export const PopoverRootStyle = style({
-  fontFamily: themeVars.font.family,
+  backgroundColor: themeVars.color.accent,
   color: themeVars.color.primary,
+  fontFamily: themeVars.font.family,
+  fontSize: themeVars.font.size.standard,
 });
 
 export const PopoverTitleStyle = style({

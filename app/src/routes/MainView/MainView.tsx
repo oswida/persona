@@ -12,9 +12,12 @@ import {
   FaSolidSun,
 } from "solid-icons/fa";
 import { createSignal, Match, Show, Switch } from "solid-js";
+import { Dynamic } from "solid-js/web";
 import toast from "solid-toast";
 import Div100vh from "solidjs-div-100vh";
 import {
+  cardsVisible,
+  chatVisible,
   currentStyle,
   currentTheme,
   darkThemeClass,
@@ -22,22 +25,21 @@ import {
   lightThemeClass,
   lightThemeVars,
   mqttConnectionStatus,
+  personaSessionsKey,
+  saveGenericData,
   saveSettings,
+  sessionData,
+  setCardsVisible,
+  setChatVisible,
   setCurrentTheme,
   setCurrentThemeClass,
+  setSessionData,
   setSettingsData,
   settingsData,
+  storageSize,
 } from "~/common";
 import { mqttClientLink, mqttDisconnect } from "~/common/mqtt";
-import {
-  Accordion,
-  Button,
-  Dialog,
-  Flex,
-  Popover,
-  Select,
-  Texte,
-} from "~/components";
+import { Button, Dialog, Flex, Popover, Texte } from "~/components";
 import { ButtonStyle } from "~/components/Button/styles.css";
 import { CardList } from "~/views/CardView";
 import { CardEditor } from "~/views/CardView/CardEditor";
@@ -45,13 +47,11 @@ import { ChatView } from "~/views/ChatView";
 import { DiceRollerView } from "~/views/DiceRollerView";
 import { SessionView } from "~/views/SessionView";
 import { SettingsView } from "~/views/SettingsView";
+import { TableView } from "~/views/TableView";
 import { MainContentStyle, MainStyle, TopBarStyle } from "./styles.css";
 
 export const MainView = () => {
   const [so, setSo] = createSignal(false);
-  const [sd, setSd] = createSignal(false);
-  const [sc, setSc] = createSignal(false);
-  const [ss, setSs] = createSignal(false);
 
   const switchTheme = () => {
     if (currentTheme() == darkThemeVars) {
@@ -64,11 +64,11 @@ export const MainView = () => {
   };
 
   const stopSession = () => {
-    const newSettings = { ...settingsData() };
-    newSettings.app.sessions.current = "";
-    newSettings.app.sessions.hosting = false;
-    setSettingsData(newSettings);
-    saveSettings(newSettings);
+    const newSettings = { ...sessionData() };
+    newSettings.current = "";
+    newSettings.hosting = false;
+    setSessionData(newSettings);
+    saveGenericData(personaSessionsKey, newSettings);
     mqttDisconnect();
   };
 
@@ -77,15 +77,16 @@ export const MainView = () => {
       <Flex dn="column">
         <div class={TopBarStyle} style={currentStyle()}>
           <Flex>
+            <Button onClick={() => setCardsVisible(!cardsVisible())}>
+              <FaSolidIdCard />
+            </Button>
+          </Flex>
+          <Flex>
             <Popover persistent trigger={<FaSolidDice />}>
               <DiceRollerView />
             </Popover>
           </Flex>
-          <Flex>
-            <Popover title="Cards" persistent trigger={<FaSolidIdCard />}>
-              <CardEditor />
-            </Popover>
-          </Flex>
+
           <Flex vcenter>
             <Show when={mqttConnectionStatus()}>
               <FaSolidNetworkWired />
@@ -93,19 +94,9 @@ export const MainView = () => {
             <Dialog title="Session management" trigger={<FaSolidGamepad />}>
               <SessionView />
             </Dialog>
-            <Show
-              when={
-                settingsData().app.sessions.current != "" &&
-                settingsData().app.sessions.hosting
-              }
-            >
+            <Show when={sessionData().current != "" && sessionData().hosting}>
               <Texte size="small">
-                Hosting:{" "}
-                {
-                  settingsData().app.sessions.hosted[
-                    settingsData().app.sessions.current
-                  ].name
-                }
+                Hosting: {sessionData().hosted[sessionData().current].name}
               </Texte>
               <Button onClick={stopSession} title="Stop hosting">
                 <FaSolidStop />
@@ -120,19 +111,9 @@ export const MainView = () => {
                 </div>
               </CopyToClipboard>
             </Show>
-            <Show
-              when={
-                settingsData().app.sessions.current != "" &&
-                !settingsData().app.sessions.hosting
-              }
-            >
+            <Show when={sessionData().current != "" && !sessionData().hosting}>
               <Texte size="small">
-                Connected to:{" "}
-                {
-                  settingsData().app.sessions.client[
-                    settingsData().app.sessions.current
-                  ].name
-                }
+                Connected to: {sessionData().client[sessionData().current].name}
               </Texte>
               <Button onClick={stopSession} title="Stop Disconnect">
                 <FaSolidStop />
@@ -140,9 +121,12 @@ export const MainView = () => {
             </Show>
           </Flex>
           <Flex>
-            <Popover persistent trigger={<FaSolidMessage />}>
-              <ChatView />
-            </Popover>
+            <Dynamic component={Texte} size="small">
+              {storageSize() / 1000} KB
+            </Dynamic>
+            <Button onClick={() => setChatVisible(!chatVisible())}>
+              <FaSolidMessage />
+            </Button>
             <Button onClick={switchTheme}>
               <Switch>
                 <Match when={currentTheme() == darkThemeVars}>
@@ -158,11 +142,16 @@ export const MainView = () => {
             </Dialog>
           </Flex>
         </div>
-        <div class={MainContentStyle}>
+        <div class={MainContentStyle} id="main-content">
           <Flex>
-            <CardList />
+            <Show when={cardsVisible()}>
+              <CardList />
+            </Show>
+            <TableView />
+            <Show when={chatVisible()}>
+              <ChatView />
+            </Show>
           </Flex>
-          {/* <TplView tpl={SampleTpl} /> */}
         </div>
         {/* <div class={FooterStyle}>
           <Flex>

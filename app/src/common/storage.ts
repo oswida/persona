@@ -1,11 +1,17 @@
 import { v4 as uuidv4 } from "uuid";
-import { setCardsData, setSettingsData, setStorageSize } from "./state";
+import {
+  setCardsData,
+  setSessionData,
+  setSettingsData,
+  setStorageSize,
+} from "./state";
 import { CardData, emptySettings, Settings } from "./types";
 import { compressData, decompressData } from "./util";
 
 export const personaSettingsKey = "persona-settings";
 export const personaCardsKey = "persona-cards";
 export const personaRollsKey = "persona-rolls";
+export const personaSessionsKey = "persona-sessions";
 
 export const saveSettings = (value: Settings) => {
   localStorage.setItem(personaSettingsKey, compressData(value));
@@ -58,9 +64,21 @@ export const loadRolls = (appData: any) => {
   appData.setRollHistory(dd);
 };
 
+export const loadSessions = () => {
+  const data = localStorage.getItem(personaSessionsKey);
+  if (!data) return;
+  const dd = decompressData(data);
+  setSessionData(dd);
+};
+
 export const updateStoreSize = () => {
   let size = 0;
-  const keys = [personaSettingsKey, personaRollsKey];
+  const keys = [
+    personaSettingsKey,
+    personaRollsKey,
+    personaCardsKey,
+    personaSessionsKey,
+  ];
   keys.forEach((k) => {
     const data = localStorage.getItem(k);
     size += data ? data.length : 0;

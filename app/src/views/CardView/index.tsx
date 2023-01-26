@@ -1,2 +1,2 @@
 export * from "./CardList";
-export * from "./CardView";
+export * from "./CardItem";

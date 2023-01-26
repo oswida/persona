@@ -13,13 +13,14 @@ import {
   cardsData,
   currentStyle,
   personaCardsKey,
+  personaSettingsKey,
   PlaySession,
   saveGenericData,
   setCardsData,
+  setSettingsData,
   settingsData,
 } from "~/common";
-import { Button, Dialog, Flex, Input, InputArea, Texte } from "~/components";
-import { CardDialog } from "./CardDialog";
+import { Button, Flex, Input, InputArea, showToast, Texte } from "~/components";
 import { CardListboxItemStyle, CardListboxStyle } from "./styles.css";
 
 export const CardEditor = () => {
@@ -36,18 +37,20 @@ export const CardEditor = () => {
   >();
   const [cfilter, setCFilter] = createSignal("");
 
-  const create = (value: CardData) => {
+  const create = () => {
     const newState = { ...cardsData() };
     const id = uuidv4();
-    newState[id] = {
+    const value = {
       id: id,
-      title: value.title,
-      content: value.content,
-      footer: value.footer,
+      title: "New",
+      content: "",
+      footer: "",
       isPublic: false,
     } as CardData;
+    newState[id] = value;
     setCardsData(newState);
     saveGenericData(personaCardsKey, newState);
+    select(value);
   };
 
   const del = () => {
@@ -124,7 +127,12 @@ export const CardEditor = () => {
         session = sett.app.sessions.client[sett.app.sessions.current];
         if (!session) return;
       }
-      session.cards;
+      const item = selectedItem();
+      if (!item) return;
+      session.cards[item.id] = item;
+      setSettingsData(sett);
+      saveGenericData(personaSettingsKey, sett);
+      showToast(<Texte>Card added to the current session</Texte>);
     }
   };
 
@@ -163,13 +171,9 @@ export const CardEditor = () => {
           <Button onClick={fltClear}>
             <FaSolidDeleteLeft />
           </Button>
-          <Dialog
-            trigger={<FaSolidAddressCard title="New" />}
-            title="Create card"
-            passApi={setApi}
-          >
-            <CardDialog item={selectedItem} onClick={create} api={api} />
-          </Dialog>
+          <Button title="New" onClick={create}>
+            <FaSolidAddressCard />
+          </Button>
           <Button onClick={del}>
             <FaSolidTrash />
           </Button>

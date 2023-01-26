@@ -5,7 +5,6 @@ export const MainStyle = style({
   width: "100vw",
   height: "100vh",
   overflow: "auto",
-  padding: "5px",
   fontFamily: themeVars.font.family,
   fontSize: themeVars.font.size.standard,
   backgroundColor: themeVars.color.background,
@@ -39,8 +38,8 @@ export const FooterStyle = style({
 });
 
 export const MainContentStyle = style({
-  marginTop: "60px",
+  marginTop: "2.5em",
   display: "flex",
   flexDirection: "column",
-  padding: "10px",
+  padding: "5px",
 });

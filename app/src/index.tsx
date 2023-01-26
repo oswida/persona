@@ -6,7 +6,9 @@ import App from "./App";
 import {
   extractQueryParam,
   loadCards,
+  loadSessions,
   loadSettings,
+  sessionData,
   settingsData,
   updateStoreSize,
 } from "./common";
@@ -23,6 +25,7 @@ const dictionaries = {
 let lang = "en";
 const sdata = loadSettings();
 loadCards();
+loadSessions();
 
 updateStoreSize();
 if (sdata.app.lang) {
@@ -36,7 +39,7 @@ if (langparam && langparam != "") {
 const langContext = createI18nContext(dictionaries, lang);
 initTemplateList();
 
-if (sdata.app.sessions.current !== "") {
+if (sessionData().current !== "") {
   mqttConnect();
 }
 

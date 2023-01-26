@@ -1,13 +1,16 @@
+import { setElementVars } from "@vanilla-extract/dynamic";
 import * as popover from "@zag-js/popover";
 import { normalizeProps, useMachine } from "@zag-js/solid";
 import {
   Component,
+  createEffect,
   createMemo,
   createUniqueId,
   ParentProps,
   Show,
 } from "solid-js";
-import { currentStyle } from "~/common";
+import { Dynamic, Portal } from "solid-js/web";
+import { currentStyle, currentTheme, themeVars } from "~/common";
 import { ButtonStyle } from "../Button/styles.css";
 import {
   PopoverCloseButtonStyle,
@@ -45,25 +48,27 @@ export const Popover: Component<Props & ParentProps> = ({
         {trigger}
       </button>
 
-      <div
-        class={PopoverContentStyle}
-        style={currentStyle()}
-        {...api().positionerProps}
-      >
-        <div {...api().contentProps}>
-          <Show when={hasClose !== undefined || title}>
-            <div class={PopoverTitleStyle}>
-              <div {...api().titleProps}>{title}</div>
-              <button
-                class={PopoverCloseButtonStyle}
-                {...api().closeTriggerProps}
-              >
-                ×
-              </button>
-            </div>
-          </Show>
-          <div {...api().descriptionProps}>{children}</div>
-        </div>
+      <div id="pop-content" {...api().positionerProps}>
+        <Show when={api().isOpen}>
+          <div
+            {...api().contentProps}
+            class={PopoverContentStyle}
+            style={currentStyle()}
+          >
+            <Show when={hasClose !== undefined || title}>
+              <div class={PopoverTitleStyle} style={currentStyle()}>
+                <div {...api().titleProps}>{title}</div>
+                <button
+                  class={PopoverCloseButtonStyle}
+                  {...api().closeTriggerProps}
+                >
+                  ×
+                </button>
+              </div>
+            </Show>
+            <div {...api().descriptionProps}>{children}</div>
+          </div>
+        </Show>
       </div>
     </div>
   );
