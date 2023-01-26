@@ -44,7 +44,6 @@
     "fabric": "^5.3.0",
     "paho-mqtt": "^1.1.0",
     "solid-copy-to-clipboard": "^0.1.0",
-    "solid-dnd-directive": "^0.2.0",
     "solid-icons": "^1.0.4",
     "solid-js": "^1.6.2",
     "solid-toast": "^0.4.0",

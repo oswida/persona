@@ -1870,13 +1870,6 @@ solid-copy-to-clipboard@^0.1.0:
   dependencies:
     copy-to-clipboard "^3.3.1"
 
-solid-dnd-directive@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/solid-dnd-directive/-/solid-dnd-directive-0.2.0.tgz#f7e63a91e47f53e764b9b0fafe3513dca101d412"
-  integrity sha512-4aPKidTrwSVBHqeiUPPe218t+HyRp0S4iYNJw7nDsWqP33HHYhAwvAyWVfqlqHBlnA/+A5jdevRvbCOiLV5Qew==
-  dependencies:
-    svelte-dnd-action "0.9.11"
-
 solid-icons@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/solid-icons/-/solid-icons-1.0.4.tgz#13eb122fe927110e2463c96d226492fb837a9802"
@@ -1964,11 +1957,6 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
-
-svelte-dnd-action@0.9.11:
-  version "0.9.11"
-  resolved "https://registry.yarnpkg.com/svelte-dnd-action/-/svelte-dnd-action-0.9.11.tgz#7ef6b014f8af3443dd5cfb711a75428b1364e449"
-  integrity sha512-hkuBs8rT0yVD0Xq9p9GxeHN1zYD8r7oZO872VQHg7DJe3cAYwus4WXpx3DNYZiTcLcIOmDw3BVNdKvAl/B6VPg==
 
 swiper@^8.4.6:
   version "8.4.6"
