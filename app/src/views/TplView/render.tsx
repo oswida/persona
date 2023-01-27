@@ -1,5 +1,4 @@
 import { For, Show } from "solid-js";
-import { currentStyle } from "~/common";
 import { Flex } from "~/components";
 import { TplElement, TplPage } from "~/templates/types";
 import { Img } from "./element/Img";
@@ -16,7 +15,7 @@ import {
 
 export const renderPage = (page: TplPage) => {
   return (
-    <div class={TplPageStyle} style={currentStyle()}>
+    <div class={TplPageStyle}>
       <Flex dn="column">
         <For each={page.sections}>
           {(s) => (

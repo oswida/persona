@@ -1,9 +1,4 @@
-import { createMemo, createSignal, For } from "solid-js";
-import { sessionData } from "~/common";
-
-import { dndzone as dndZoneDirective } from "solid-dnd-directive";
-
-const dndzone = dndZoneDirective;
+import { createSignal } from "solid-js";
 
 export const TableView = () => {
   // let transform = { x: 0, y: 0 };

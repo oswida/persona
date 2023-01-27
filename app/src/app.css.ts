@@ -6,6 +6,10 @@ globalStyle("html, body", {
   padding: 0,
 });
 
+globalStyle("*, *:before, *:after", {
+  boxSizing: "border-box",
+});
+
 export const appStyle = style({
   backgroundColor: themeVars.color.background,
   color: themeVars.color.primary,

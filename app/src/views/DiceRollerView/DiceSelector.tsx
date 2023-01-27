@@ -1,6 +1,6 @@
 import { createMemo, Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
-import { currentStyle, selectedDicePool, setSelectedDicePool } from "~/common";
+import { selectedDicePool, setSelectedDicePool } from "~/common";
 import { DiceSelectorControl, DiceSelectorStyle } from "./styles.css";
 
 export const DiceSelector = ({ dice }: { dice: string }) => {
@@ -19,7 +19,7 @@ export const DiceSelector = ({ dice }: { dice: string }) => {
   });
 
   return (
-    <div style={currentStyle()} class={DiceSelectorStyle} onClick={addToPool}>
+    <div class={DiceSelectorStyle} onClick={addToPool}>
       <div>{dice}</div>
       <Show when={val() > 0}>
         <Dynamic component="div" class={DiceSelectorControl}>

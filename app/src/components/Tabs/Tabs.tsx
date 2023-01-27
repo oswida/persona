@@ -13,7 +13,6 @@ import {
   TabsTriggerGroupStyle,
   TabsTriggerStyle,
 } from "./styles.css";
-import { currentStyle } from "~/common";
 
 export type TabDesc = {
   value: string;
@@ -31,7 +30,7 @@ export const Tabs: Component<Props & ParentProps> = ({ children, items }) => {
   const api = createMemo(() => tabs.connect(state, send, normalizeProps));
 
   return (
-    <div class={TabsRootStyle} style={currentStyle()} {...api().rootProps}>
+    <div class={TabsRootStyle} {...api().rootProps}>
       <div class={TabsTriggerGroupStyle} {...api().tablistProps}>
         <For each={items}>
           {(item) => (

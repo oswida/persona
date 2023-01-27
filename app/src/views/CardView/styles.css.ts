@@ -13,7 +13,8 @@ export const CardStyle = style({
 });
 
 export const CardListStyle = style({
-  height: "calc(100vh - 3em - 20px)",
+  height: "calc(100vh - 2em - 10px)",
+  maxWidth: "25vw",
   flex: 1,
   backgroundColor: themeVars.color.accent,
   display: "flex",

@@ -113,7 +113,7 @@ export const DiceRollerView: Component = () => {
       >
         <Input
           fontSize="smaller"
-          style={{ width: "4rem" }}
+          style={{ width: "6rem" }}
           ref={(e) => (refCustom = e)}
           onInput={checkCustomEmpty}
         ></Input>

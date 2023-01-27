@@ -1,7 +1,6 @@
 import {
   CardData,
   cardsData,
-  currentStyle,
   personaCardsKey,
   saveGenericData,
   setCardsData,
@@ -64,7 +63,7 @@ export const CardList = () => {
   };
 
   return (
-    <div class={CardListStyle} style={currentStyle()}>
+    <div class={CardListStyle}>
       <Flex style={{ "align-items": "center" }}>
         <Texte>Cards</Texte>
         <Button onClick={create}>

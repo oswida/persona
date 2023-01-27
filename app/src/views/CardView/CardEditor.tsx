@@ -11,7 +11,6 @@ import { v4 as uuidv4 } from "uuid";
 import {
   CardData,
   cardsData,
-  currentStyle,
   personaCardsKey,
   personaSettingsKey,
   PlaySession,
@@ -21,7 +20,6 @@ import {
   settingsData,
 } from "~/common";
 import { Button, Flex, Input, InputArea, showToast, Texte } from "~/components";
-import { CardListboxItemStyle, CardListboxStyle } from "./styles.css";
 
 export const CardEditor = () => {
   let refTitle: HTMLInputElement;

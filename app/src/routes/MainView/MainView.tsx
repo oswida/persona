@@ -27,22 +27,19 @@ import {
   mqttConnectionStatus,
   personaSessionsKey,
   saveGenericData,
-  saveSettings,
   sessionData,
   setCardsVisible,
   setChatVisible,
   setCurrentTheme,
   setCurrentThemeClass,
   setSessionData,
-  setSettingsData,
-  settingsData,
   storageSize,
 } from "~/common";
 import { mqttClientLink, mqttDisconnect } from "~/common/mqtt";
 import { Button, Dialog, Flex, Popover, Texte } from "~/components";
 import { ButtonStyle } from "~/components/Button/styles.css";
 import { CardList } from "~/views/CardView";
-import { CardEditor } from "~/views/CardView/CardEditor";
+
 import { ChatView } from "~/views/ChatView";
 import { DiceRollerView } from "~/views/DiceRollerView";
 import { SessionView } from "~/views/SessionView";
@@ -73,9 +70,9 @@ export const MainView = () => {
   };
 
   return (
-    <Div100vh class={MainStyle} style={currentStyle()} id="main-div">
+    <Div100vh class={MainStyle} id="main-div" style={currentStyle()}>
       <Flex dn="column">
-        <div class={TopBarStyle} style={currentStyle()}>
+        <div class={TopBarStyle}>
           <Flex>
             <Button onClick={() => setCardsVisible(!cardsVisible())}>
               <FaSolidIdCard />

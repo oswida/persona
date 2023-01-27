@@ -1,6 +1,6 @@
 import { Route, Routes } from "@solidjs/router";
 import { assignInlineVars } from "@vanilla-extract/dynamic";
-import type { Component, ParentProps } from "solid-js";
+import { Component, createEffect, ParentProps } from "solid-js";
 import { appStyle } from "./app.css";
 import { currentTheme, currentThemeClass, themeVars } from "./common";
 import { MainView } from "./routes/MainView";
@@ -9,11 +9,15 @@ import { ConnectView } from "./routes/ConnectView/ConnectView";
 import { TplView } from "./views/TplView";
 
 const Main: Component<ParentProps> = ({ children }) => {
+  createEffect(() => {
+    const el = document.documentElement.classList.add(currentThemeClass());
+  });
+
   return (
-    <div class={currentThemeClass()}>
-      <div class={appStyle} style={assignInlineVars(themeVars, currentTheme())}>
-        {children}
-      </div>
+    // <div class={currentThemeClass()}>
+    <div>
+      {/* <div class={appStyle} style={assignInlineVars(themeVars, currentTheme())}> */}
+      <div class={appStyle}>{children}</div>
       <Toaster />
     </div>
   );

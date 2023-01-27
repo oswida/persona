@@ -1,16 +1,16 @@
-import { themeVars } from "~/common";
 import { style } from "@vanilla-extract/css";
+import { themeVars } from "~/common";
 
 export const ChatRootStyle = style({
   backgroundColor: themeVars.color.accent,
-  minWidth: "400px",
-  width: "400px",
+  width: "20vw",
   display: "flex",
   flexDirection: "column",
   gap: "10px",
   justifyContent: "center",
   padding: "5px",
-  height: "calc(100vh - 3em - 20px)",
+  height: "calc(100vh - 2em - 10px)",
+  alignSelf: "flex-end",
 });
 
 export const ChatListStyle = style({

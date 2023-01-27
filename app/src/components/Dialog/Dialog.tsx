@@ -11,7 +11,6 @@ import {
   Show,
 } from "solid-js";
 import { ButtonStyle } from "../Button/styles.css";
-import { currentStyle } from "~/common";
 import {
   DialogCloseButtonStyle,
   DialogContentStyle,
@@ -38,11 +37,7 @@ export const Dialog: Component<Props & ParentProps> = ({
 
   return (
     <>
-      <button
-        class={ButtonStyle({})}
-        style={currentStyle()}
-        {...api().triggerProps}
-      >
+      <button class={ButtonStyle({})} {...api().triggerProps}>
         {trigger}
       </button>
       <Show when={api().isOpen}>
