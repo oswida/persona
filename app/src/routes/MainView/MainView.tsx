@@ -10,6 +10,7 @@ import {
   FaSolidNetworkWired,
   FaSolidStop,
   FaSolidSun,
+  FaSolidUser,
 } from "solid-icons/fa";
 import { createSignal, Match, Show, Switch } from "solid-js";
 import { Dynamic } from "solid-js/web";
@@ -17,6 +18,7 @@ import toast from "solid-toast";
 import Div100vh from "solidjs-div-100vh";
 import {
   cardsVisible,
+  charsheetVisible,
   chatVisible,
   currentStyle,
   currentTheme,
@@ -29,6 +31,7 @@ import {
   saveGenericData,
   sessionData,
   setCardsVisible,
+  setCharsheetVisible,
   setChatVisible,
   setCurrentTheme,
   setCurrentThemeClass,
@@ -39,6 +42,7 @@ import { mqttClientLink, mqttDisconnect } from "~/common/mqtt";
 import { Button, Dialog, Flex, Popover, Texte } from "~/components";
 import { ButtonStyle } from "~/components/Button/styles.css";
 import { CardList } from "~/views/CardView";
+import { CharsheetView } from "~/views/CharsheetView";
 
 import { ChatView } from "~/views/ChatView";
 import { DiceRollerView } from "~/views/DiceRollerView";
@@ -74,8 +78,17 @@ export const MainView = () => {
       <Flex dn="column">
         <div class={TopBarStyle}>
           <Flex>
-            <Button onClick={() => setCardsVisible(!cardsVisible())}>
+            <Button
+              onClick={() => setCardsVisible(!cardsVisible())}
+              selected={cardsVisible}
+            >
               <FaSolidIdCard />
+            </Button>
+            <Button
+              onClick={() => setCharsheetVisible(!charsheetVisible())}
+              selected={charsheetVisible}
+            >
+              <FaSolidUser />
             </Button>
           </Flex>
           <Flex>
@@ -121,7 +134,10 @@ export const MainView = () => {
             <Dynamic component={Texte} size="small">
               {storageSize() / 1000} KB
             </Dynamic>
-            <Button onClick={() => setChatVisible(!chatVisible())}>
+            <Button
+              onClick={() => setChatVisible(!chatVisible())}
+              selected={chatVisible}
+            >
               <FaSolidMessage />
             </Button>
             <Button onClick={switchTheme}>
@@ -143,6 +159,9 @@ export const MainView = () => {
           <Flex>
             <Show when={cardsVisible()}>
               <CardList />
+            </Show>
+            <Show when={charsheetVisible()}>
+              <CharsheetView />
             </Show>
             <TableView />
             <Show when={chatVisible()}>

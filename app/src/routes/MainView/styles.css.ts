@@ -17,11 +17,11 @@ export const TopBarStyle = style({
   top: "0px",
   left: "0px",
   width: "100%",
-  height: "2em",
-  padding: "5px 10px",
+  height: "2.5em",
+  padding: "10px 10px",
   alignItems: "center",
   justifyContent: "space-between",
-  backgroundColor: themeVars.color.accent,
+  backgroundColor: themeVars.color.backgroundSecondary,
 });
 
 export const FooterStyle = style({

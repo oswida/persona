@@ -1,23 +1,25 @@
+import { FaSolidDeleteLeft, FaSolidPlus } from "solid-icons/fa";
+import { createMemo, createSignal } from "solid-js";
+import { v4 as uuidv4 } from "uuid";
 import {
   CardData,
   cardsData,
   personaCardsKey,
   saveGenericData,
   setCardsData,
+  settingsData,
 } from "~/common";
-import { v4 as uuidv4 } from "uuid";
-import { createMemo, createSignal } from "solid-js";
-import { CardListStyle, CardZoneStyle } from "./styles.css";
 import {
   Accordion,
   AccordionDesc,
   Button,
+  Checkbox,
   Flex,
   Input,
   Texte,
 } from "~/components";
-import { FaSolidDeleteLeft, FaSolidPlus } from "solid-icons/fa";
 import { CardItem } from "./CardItem";
+import { CardListStyle, CardZoneStyle } from "./styles.css";
 
 export const CardList = () => {
   const [filter, setFilter] = createSignal("");
@@ -28,6 +30,7 @@ export const CardList = () => {
     const id = uuidv4();
     const value = {
       id: id,
+      owner: settingsData().ident.browserID,
       title: "New",
       content: "",
       footer: "",
@@ -69,6 +72,16 @@ export const CardList = () => {
         <Button onClick={create}>
           <FaSolidPlus />
         </Button>
+      </Flex>
+      <Flex>
+        <Checkbox label="Only current session" />
+        <Checkbox label="Only owned" />
+      </Flex>
+      <div class={CardZoneStyle}>
+        <Accordion items={items} />
+      </div>
+      <Flex>
+        <Texte>Filter: </Texte>
         <Input
           underline
           transparent
@@ -80,9 +93,6 @@ export const CardList = () => {
           <FaSolidDeleteLeft />
         </Button>
       </Flex>
-      <div class={CardZoneStyle}>
-        <Accordion items={items} />
-      </div>
     </div>
   );
 };

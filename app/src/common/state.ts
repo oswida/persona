@@ -10,12 +10,12 @@ import {
 } from "./theme.css";
 import {
   CardData,
+  CharsheetData,
   ChatEntry,
   ConnectionInfo,
   emptySessions,
   emptySettings,
   initialWhiteboardState,
-  PlaySession,
   SessionSettings,
   Settings,
   WhiteboardState,
@@ -79,4 +79,12 @@ export const [cardsData, setCardsData] = createSignal<Record<string, CardData>>(
 export const [cardsVisible, setCardsVisible] = createSignal(false);
 
 // Sessions
-export const [sessionData, setSessionData] = createSignal<SessionSettings>(emptySessions());
+export const [sessionData, setSessionData] = createSignal<SessionSettings>(
+  emptySessions()
+);
+
+//Charsheets
+export const [charsheetData, setCharsheetData] = createSignal<
+  Record<string, CharsheetData>
+>({});
+export const [charsheetVisible, setCharsheetVisible] = createSignal(false);

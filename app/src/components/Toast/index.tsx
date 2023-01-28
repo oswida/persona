@@ -1,4 +1,4 @@
-import { FaSolidExplosion, FaSolidStop } from "solid-icons/fa";
+import { FaSolidExplosion } from "solid-icons/fa";
 import toast, { ToastPosition } from "solid-toast";
 import { currentStyle } from "~/common";
 import { Flex } from "../Flex";
@@ -21,7 +21,7 @@ export const showToast = (
       </div>
     ),
     {
-      duration: 50000,
+      duration: 10000,
       position: position,
     }
   );

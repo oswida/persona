@@ -2,9 +2,7 @@ import { style } from "@vanilla-extract/css";
 import { themeVars } from "~/common";
 
 export const TableStyle = style({
-  position: "relative",
-  width: "50vw",
-  height: "50vh",
+  flex: 1,
 });
 
 export const TableMovingStyle = style({

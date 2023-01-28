@@ -1,3 +1,4 @@
+import { setCharsheetData } from "~/common";
 import { v4 as uuidv4 } from "uuid";
 import {
   setCardsData,
@@ -12,6 +13,7 @@ export const personaSettingsKey = "persona-settings";
 export const personaCardsKey = "persona-cards";
 export const personaRollsKey = "persona-rolls";
 export const personaSessionsKey = "persona-sessions";
+export const personaCharsheetKey = "persona-charsheets";
 
 export const saveSettings = (value: Settings) => {
   localStorage.setItem(personaSettingsKey, compressData(value));
@@ -71,6 +73,13 @@ export const loadSessions = () => {
   setSessionData(dd);
 };
 
+export const loadCharsheets = () => {
+  const data = localStorage.getItem(personaCharsheetKey);
+  if (!data) return;
+  const dd = decompressData(data);
+  setCharsheetData(dd);
+};
+
 export const updateStoreSize = () => {
   let size = 0;
   const keys = [
@@ -78,6 +87,7 @@ export const updateStoreSize = () => {
     personaRollsKey,
     personaCardsKey,
     personaSessionsKey,
+    personaCharsheetKey,
   ];
   keys.forEach((k) => {
     const data = localStorage.getItem(k);

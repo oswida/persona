@@ -22,12 +22,12 @@ export const themeVars = createThemeContract({
 });
 
 const themeFontSizes = {
-  standard: "17px",
-  bigger: "19px",
-  large: "21px",
-  smaller: "15px",
-  small: "13px",
-  xsmall: "11px",
+  standard: "15px",
+  bigger: "17px",
+  large: "20px",
+  smaller: "13px",
+  small: "11px",
+  xsmall: "10px",
 };
 
 const bluePalette = {
@@ -47,13 +47,13 @@ const bluePalette = {
   },
 };
 
-const bluePalette2 = {
+const sandPalette = {
   dark: {
-    background: "#080014",
-    backgroundSecondary: "#21293B",
-    accent: "#335064",
+    background: "#3B2300",
+    backgroundSecondary: "#724C13",
+    accent: "#AA7C39",
     primary: "#fff",
-    secondary: "#91D3C2",
+    secondary: "#FFDCA9",
   },
   light: {
     background: "#91CFEE",
@@ -64,44 +64,10 @@ const bluePalette2 = {
   },
 };
 
-const greenPalette = {
-  dark: {
-    background: "#1C6B4D",
-    backgroundSecondary: "#30B884",
-    accent: "#3C6B59",
-    primary: "#fff",
-    secondary: "#000",
-  },
-  light: {
-    background: "#85EEC6",
-    backgroundSecondary: "#3DEBA8",
-    accent: "#30B884",
-    primary: "#000",
-    secondary: "#fff",
-  },
-};
-
-const brownPalette = {
-  dark: {
-    background: "#6B4428",
-    backgroundSecondary: "#B87445",
-    accent: "#EB9457",
-    primary: "#fff",
-    secondary: "#000",
-  },
-  light: {
-    background: "#EEC09F",
-    backgroundSecondary: "#EB9457",
-    accent: "#B87445",
-    primary: "#000",
-    secondary: "#fff",
-  },
-};
-
 export const [darkThemeClass, darkThemeVars] = createTheme({
-  color: bluePalette2.dark,
+  color: sandPalette.dark,
   font: {
-    family: "Merriweather",
+    family: "Cantarell",
     size: themeFontSizes,
   },
 });

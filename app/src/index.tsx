@@ -6,6 +6,7 @@ import App from "./App";
 import {
   extractQueryParam,
   loadCards,
+  loadCharsheets,
   loadSessions,
   loadSettings,
   sessionData,
@@ -26,6 +27,7 @@ let lang = "en";
 const sdata = loadSettings();
 loadCards();
 loadSessions();
+loadCharsheets();
 
 updateStoreSize();
 if (sdata.app.lang) {

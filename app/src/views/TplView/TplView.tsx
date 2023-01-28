@@ -1,5 +1,5 @@
 import { Component } from "solid-js";
-import { Tabs, TabsDesc } from "~/components";
+import { TabDesc, Tabs } from "~/components";
 import { Tpl } from "~/templates/types";
 import { renderPage } from "./render";
 
@@ -8,10 +8,10 @@ type Props = {
 };
 
 export const TplView: Component<Props> = ({ tpl }) => {
-  const tabs: TabsDesc[] = tpl.pages.map((it) => ({
-    key: it.id,
+  const tabs: TabDesc[] = tpl.pages.map((it) => ({
+    value: it.id,
     label: it.title,
-    value: renderPage(it),
+    content: renderPage(it),
   }));
 
   return <Tabs items={tabs} />;

@@ -17,13 +17,14 @@ export const ButtonStyle = recipe({
     justifyContent: "center",
     cursor: "pointer",
     textDecoration: "none",
+    textAlign: "center",
     selectors: {
       "&:hover": {
-        backgroundColor: themeVars.color.backgroundSecondary,
+        backgroundColor: themeVars.color.accent,
       },
       "&:disabled": {
         backgroundColor: themeVars.color.accent,
-        color: themeVars.color.backgroundSecondary,
+        color: themeVars.color.secondary,
         cursor: "not-allowed",
       },
     },
@@ -42,7 +43,7 @@ export const ButtonStyle = recipe({
     },
     border: {
       standard: {
-        border: `1px solid ${themeVars.color.backgroundSecondary}`,
+        border: `1px solid ${themeVars.color.accent}`,
       },
       underline: {
         borderBottom: `1px solid ${themeVars.color.accent}`,
@@ -55,7 +56,8 @@ export const ButtonStyle = recipe({
     },
     selected: {
       true: {
-        backgroundColor: themeVars.color.backgroundSecondary,
+        backgroundColor: themeVars.color.secondary,
+        color: themeVars.color.backgroundSecondary,
       },
     },
   },

@@ -1,7 +1,7 @@
 import { themeVars } from "~/common";
 import { style } from "@vanilla-extract/css";
 
-export const CardStyle = style({
+export const CsStyle = style({
   backgroundColor: themeVars.color.backgroundSecondary,
   color: themeVars.color.primary,
   padding: "10px",
@@ -12,9 +12,9 @@ export const CardStyle = style({
   minHeight: "200px",
 });
 
-export const CardListStyle = style({
+export const CsListStyle = style({
   height: "calc(100vh - 2em - 10px)",
-  width: "25vw",
+  width: "30vw",
   flex: 1,
   backgroundColor: themeVars.color.accent,
   display: "flex",
@@ -23,7 +23,7 @@ export const CardListStyle = style({
   gap: "10px",
 });
 
-export const CardZoneStyle = style({
+export const CsZoneStyle = style({
   flex: 1,
   backgroundColor: themeVars.color.backgroundSecondary,
   padding: "5px",

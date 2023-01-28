@@ -48,7 +48,7 @@ export const Select: Component<Props> = ({
           class={ButtonStyle({ border: "underline" })}
           {...api().triggerProps}
         >
-          <span>
+          <span class={ButtonStyle({})}>
             {api().selectedOption?.label ?? placeholder ?? "Select option"}
           </span>
         </button>

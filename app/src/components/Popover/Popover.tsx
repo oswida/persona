@@ -1,6 +1,7 @@
 import * as popover from "@zag-js/popover";
 import { normalizeProps, useMachine } from "@zag-js/solid";
 import {
+  Accessor,
   Component,
   createMemo,
   createUniqueId,
@@ -11,7 +12,6 @@ import { ButtonStyle } from "../Button/styles.css";
 import {
   PopoverCloseButtonStyle,
   PopoverContentStyle,
-  PopoverRootStyle,
   PopoverTitleStyle,
 } from "./styles.css";
 
@@ -39,8 +39,13 @@ export const Popover: Component<Props & ParentProps> = ({
   const api = createMemo(() => popover.connect(state, send, normalizeProps));
 
   return (
-    <div class={PopoverRootStyle}>
-      <button class={ButtonStyle({})} {...api().triggerProps}>
+    <div>
+      <button
+        class={ButtonStyle({
+          selected: api().isOpen,
+        })}
+        {...api().triggerProps}
+      >
         {trigger}
       </button>
 

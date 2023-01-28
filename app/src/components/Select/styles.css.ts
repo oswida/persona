@@ -8,7 +8,7 @@ export const SelectRootStyle = style({
 });
 
 export const SelectContentStyle = style({
-  backgroundColor: themeVars.color.backgroundSecondary,
+  backgroundColor: themeVars.color.accent,
   color: themeVars.color.primary,
   border: "none",
   outline: "none",
@@ -18,10 +18,10 @@ export const SelectContentStyle = style({
 
 export const SelectLabelStyle = style({
   color: themeVars.color.primary,
+  backgroundColor: "transparent",
 });
 
 export const SelectTriggerStyle = style({
-  backgroundColor: themeVars.color.backgroundSecondary,
   color: themeVars.color.primary,
   display: "flex",
   flexDirection: "row",
@@ -49,7 +49,8 @@ export const SelectItemStyle = style({
   justifyContent: "space-between",
   selectors: {
     "&:hover": {
-      backgroundColor: themeVars.color.accent,
+      backgroundColor: themeVars.color.secondary,
+      color: themeVars.color.backgroundSecondary,
     },
   },
 });

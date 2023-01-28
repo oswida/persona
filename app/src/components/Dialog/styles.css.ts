@@ -1,8 +1,8 @@
-import { themeVars } from "~/common";
 import { style } from "@vanilla-extract/css";
+import { themeVars } from "~/common";
 
 export const DialogRootStyle = style({
-  backgroundColor: themeVars.color.accent,
+  backgroundColor: themeVars.color.backgroundSecondary,
   color: themeVars.color.primary,
   fontFamily: themeVars.font.family,
   fontSize: themeVars.font.size.standard,
@@ -42,7 +42,7 @@ export const DialogCloseButtonStyle = style({
   justifyContent: "center",
   alignItems: "center",
   userSelect: "none",
-  backgroundColor: themeVars.color.backgroundSecondary,
+  backgroundColor: "transparent",
   color: themeVars.color.primary,
   alignSelf: "center",
   borderRadius: "5px",
@@ -58,5 +58,6 @@ export const DialogHeaderStyle = style({
   marginLeft: 0,
   alignItems: "center",
   flex: 1,
-  backgroundColor: themeVars.color.accent,
+  borderBottom: `2px solid ${themeVars.color.accent}`,
+  userSelect: "none",
 });

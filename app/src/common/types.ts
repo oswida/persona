@@ -129,6 +129,8 @@ export type RollMessage = {
 
 export type CharsheetData = {
   id: string;
+  owner: string;
+  name: string;
   playerId: string;
   playerName: string;
   templateId: string;
@@ -137,6 +139,7 @@ export type CharsheetData = {
 
 export type CardData = {
   id: string;
+  owner: string;
   title: string;
   content: string;
   footer: string;

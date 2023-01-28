@@ -2,7 +2,7 @@ import { themeVars } from "~/common";
 import { style } from "@vanilla-extract/css";
 
 export const AccordionRootStyle = style({
-  backgroundColor: themeVars.color.background,
+  backgroundColor: "transparent",
   color: themeVars.color.primary,
   display: "flex",
   flexDirection: "column",

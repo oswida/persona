@@ -6,8 +6,6 @@ import {
   ComponentProps,
   createMemo,
   createUniqueId,
-  JSX,
-  ParentProps,
 } from "solid-js";
 import { ButtonStyle } from "./styles.css";
 
@@ -15,8 +13,7 @@ type Props = {
   onClick?: () => void;
   size?: "standard" | "small" | "big";
   border?: "standard" | "underline" | "none";
-  selected?: boolean;
- 
+  selected?: Accessor<boolean>;
 };
 
 export const Button: Component<Props & ComponentProps<"button">> = ({
@@ -38,14 +35,13 @@ export const Button: Component<Props & ComponentProps<"button">> = ({
 
   const api = createMemo(() => pressable.connect(state, send, normalizeProps));
 
-
   return (
     <button
       title={title}
       class={ButtonStyle({
         border: border,
         size: size,
-        selected: selected,
+        selected: selected ? selected() : undefined,
       })}
       {...api().pressableProps}
     >

@@ -24,6 +24,7 @@ export const CheckboxControlStyle = recipe({
       "&::after": {
         backgroundColor: "transparent",
         content: "☐",
+        fontWeight: "bold",
       },
     },
   },
@@ -34,6 +35,7 @@ export const CheckboxControlStyle = recipe({
           "&::after": {
             backgroundColor: "transparent",
             content: "🗵",
+            fontWeight: "bold",
           },
         },
       },
