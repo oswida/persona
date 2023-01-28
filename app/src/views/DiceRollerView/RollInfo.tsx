@@ -10,11 +10,14 @@ export const RollInfo = ({ rolls }: { rolls: DiceRoll[] }) => {
       <Flex
         center
         style={{
-          "border-bottom": `solid 1px ${themeVars.color.backgroundSecondary}`,
+          "border-bottom": `solid 1px ${themeVars.color.accent}`,
+          "padding-bottom": "10px",
         }}
       >
         <FaSolidDice />
-        <Texte weight={700}>Dice roll</Texte>
+        <Texte weight={700} color={themeVars.color.background}>
+          Dice roll
+        </Texte>
       </Flex>
       <For each={rolls}>
         {(it) => (

@@ -11,13 +11,21 @@ export const DiceSelectorStyle = style({
   margin: "5px",
   width: "3rem",
   height: "3rem",
-  border: `1px solid ${themeVars.color.backgroundSecondary}`,
-  borderRadius: "50%",
+  color: themeVars.color.primary,
   userSelect: "none",
   textDecoration: "none",
+  borderRadius: "50%",
+  border: `solid 1px ${themeVars.color.accent}`,
   selectors: {
     "&:hover": {
-      backgroundColor: themeVars.color.backgroundSecondary,
+      backgroundColor: themeVars.color.accent,
+    },
+    "&::before": {
+      content: "",
+      position: "absolute",
+      top: "0px",
+      left: "0px",
+      background: "url(img/cubes.svg)",
     },
   },
   zIndex: 10,
@@ -25,19 +33,20 @@ export const DiceSelectorStyle = style({
 });
 
 export const DiceSelectorControl = style({
-  width: "1.2rem",
-  height: "1.2rem",
+  width: "1.3rem",
+  height: "1.3rem",
   border: `1px solid ${themeVars.color.accent}`,
   borderRadius: "50%",
   position: "absolute",
   display: "flex",
   alignItems: "center",
-  backgroundColor: themeVars.color.backgroundSecondary,
-  color: themeVars.color.primary,
+  backgroundColor: themeVars.color.secondary,
+  color: themeVars.color.backgroundSecondary,
+  fontWeight: "bold",
   left: "50%",
   transform: "translate(-50%, 50%)",
   bottom: 0,
-  fontSize: themeVars.font.size.small,
+  fontSize: themeVars.font.size.standard,
   justifyContent: "center",
 });
 

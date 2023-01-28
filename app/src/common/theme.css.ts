@@ -56,11 +56,11 @@ const sandPalette = {
     secondary: "#FFDCA9",
   },
   light: {
-    background: "#91CFEE",
-    backgroundSecondary: "#4AB4EB",
-    accent: "#398DB8",
+    background: "#FFDCA9",
+    backgroundSecondary: "#E2B370",
+    accent: "#724C13",
     primary: "#000",
-    secondary: "#fff",
+    secondary: "#3B2300",
   },
 };
 
@@ -73,7 +73,7 @@ export const [darkThemeClass, darkThemeVars] = createTheme({
 });
 
 export const [lightThemeClass, lightThemeVars] = createTheme({
-  color: bluePalette.light,
+  color: sandPalette.light,
   font: {
     family: "Oxanium",
     size: themeFontSizes,

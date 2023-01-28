@@ -105,7 +105,7 @@ export const MainView = () => {
               <SessionView />
             </Dialog>
             <Show when={sessionData().current != "" && sessionData().hosting}>
-              <Texte size="small">
+              <Texte size="middle">
                 Hosting: {sessionData().hosted[sessionData().current].name}
               </Texte>
               <Button onClick={stopSession} title="Stop hosting">
@@ -130,7 +130,7 @@ export const MainView = () => {
               </Button>
             </Show>
           </Flex>
-          <Flex>
+          <Flex vcenter>
             <Dynamic component={Texte} size="small">
               {storageSize() / 1000} KB
             </Dynamic>
@@ -169,13 +169,6 @@ export const MainView = () => {
             </Show>
           </Flex>
         </div>
-        {/* <div class={FooterStyle}>
-          <Flex>
-            <Popover trigger={<FaSolidDice />} open={sd} setOpen={setSd}>
-              <DiceRollerView />
-            </Popover>
-          </Flex>
-        </div> */}
       </Flex>
     </Div100vh>
   );

@@ -11,6 +11,7 @@ import {
 import {
   ChatEntry,
   chatList,
+  DiceType,
   mqttClient,
   prettyNow,
   rollMultiple,
@@ -28,8 +29,8 @@ import { RollInfo } from "./RollInfo";
 import { computedDicePool } from "./util";
 
 export const DiceRollerView: Component = () => {
-  const dicePool = ["d4", "d6", "d8", "d10"];
-  const dicePool2 = ["d12", "d20", "d100", "dF"];
+  const dicePool: DiceType[] = ["d4", "d6", "d8", "d10"];
+  const dicePool2: DiceType[] = ["d12", "d20", "d100", "dF"];
   let refCustom: HTMLInputElement;
   const [customEmpty, setCustomEmpty] = createSignal(true);
 
