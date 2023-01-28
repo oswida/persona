@@ -7,6 +7,8 @@ import { MainView } from "./routes/MainView";
 import toast, { Toaster } from "solid-toast";
 import { ConnectView } from "./routes/ConnectView/ConnectView";
 import { TplView } from "./views/TplView";
+import { ConfirmDialog } from "./components/Dialog/ConfirmDialog";
+import { Dynamic } from "solid-js/web";
 
 const Main: Component<ParentProps> = ({ children }) => {
   createEffect(() => {
@@ -14,11 +16,10 @@ const Main: Component<ParentProps> = ({ children }) => {
   });
 
   return (
-    // <div class={currentThemeClass()}>
     <div>
-      {/* <div class={appStyle} style={assignInlineVars(themeVars, currentTheme())}> */}
       <div class={appStyle}>{children}</div>
       <Toaster />
+      <Dynamic component={ConfirmDialog} />
     </div>
   );
 };

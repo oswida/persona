@@ -11,6 +11,10 @@ import {
 } from "~/common";
 import { mqttPublish, mqttTopic, topicChat } from "~/common/mqtt";
 import { Button, Flex, Input, Texte } from "~/components";
+import {
+  ConfirmState,
+  setConfirmData,
+} from "~/components/Dialog/ConfirmDialog";
 import { ChatListStyle, ChatRootStyle } from "./styles.css";
 
 export const ChatView = () => {
@@ -40,7 +44,14 @@ export const ChatView = () => {
   };
 
   const clearChat = () => {
-    setChatList([]);
+    setConfirmData({
+      open: true,
+      title: "Clear chat",
+      message: "Do you really want to clear all chat messages?",
+      accept: () => {
+        setChatList([]);
+      },
+    } as ConfirmState);
   };
 
   const chatItem = (item: ChatEntry) => {

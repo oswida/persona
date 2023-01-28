@@ -2,7 +2,7 @@ import { style } from "@vanilla-extract/css";
 import { themeVars } from "~/common";
 
 export const ChatRootStyle = style({
-  backgroundColor: themeVars.color.accent,
+  backgroundColor: themeVars.color.backgroundSecondary,
   width: "20vw",
   display: "flex",
   flexDirection: "column",
@@ -16,7 +16,7 @@ export const ChatRootStyle = style({
 export const ChatListStyle = style({
   flex: 1,
   overflowY: "auto",
-  backgroundColor: themeVars.color.backgroundSecondary,
+  backgroundColor: themeVars.color.background,
   borderRadius: "5px",
   padding: "5px",
   fontSize: themeVars.font.size.smaller,
