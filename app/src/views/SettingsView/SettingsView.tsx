@@ -1,38 +1,38 @@
 import { FaSolidFloppyDisk } from "solid-icons/fa";
-import { Setter } from "solid-js";
+import { createSignal, Setter } from "solid-js";
+import toast from "solid-toast";
 import { personaSettingsKey, saveGenericData, settingsData } from "~/common";
-import { Button, Flex, Tabs, TabsDesc, Texte } from "~/components";
+import { Button, Flex, TabDesc, Tabs, Texte } from "~/components";
 import { AppSettings } from "./AppSettings";
 import { CommSettings } from "./CommSettings";
 import { IdentSettings } from "./IdentSettings";
 
-export const SettingsView = ({ setOpen }: { setOpen: Setter<boolean> }) => {
-  const tabs: TabsDesc[] = [
+export const SettingsView = ({ api }: { api: any }) => {
+  const tabs: TabDesc[] = [
     {
       label: "Ident",
-      key: "ident",
-      value: <IdentSettings />,
+      value: "ident",
+      content: <IdentSettings />,
     },
     {
       label: "App",
-      key: "app",
-      value: <AppSettings />,
+      value: "app",
+      content: <AppSettings />,
     },
     {
       label: "Comms",
-      key: "comms",
-      value: <CommSettings />,
+      value: "comms",
+      content: <CommSettings />,
     },
   ];
 
   const save = () => {
-    setOpen(false);
+    api.close();
     const newState = { ...settingsData() };
     const mqttEnv = newState.comms.mqtt;
-    if (mqttEnv.server.trim() !== "" && mqttEnv.hosting) {
-      newState.comms.mqtt.prefix = newState.ident.browserID;
-    }
+    if (mqttEnv.server.trim() == "") return;
     saveGenericData(personaSettingsKey, settingsData());
+    toast("Settings saved");
   };
 
   return (

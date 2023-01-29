@@ -25,7 +25,7 @@ export type IdentSettings = {
 };
 
 export type CommunicationSettings = {
-  type: "mqtt" | "nats";
+  type: "mqtt" | "supabase";
   mqtt: {
     server: string;
     credentials: string;

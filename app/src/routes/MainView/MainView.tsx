@@ -53,6 +53,7 @@ import { MainContentStyle, MainStyle, TopBarStyle } from "./styles.css";
 
 export const MainView = () => {
   const [so, setSo] = createSignal(false);
+  const [settApi, setSettApi] = createSignal<any>();
 
   const switchTheme = () => {
     if (currentTheme() == darkThemeVars) {
@@ -150,8 +151,12 @@ export const MainView = () => {
                 </Match>
               </Switch>
             </Button>
-            <Dialog trigger={<FaSolidGears />} title="Settings">
-              <SettingsView setOpen={setSo} />
+            <Dialog
+              trigger={<FaSolidGears />}
+              title="Settings"
+              passApi={setSettApi}
+            >
+              <SettingsView api={settApi} />
             </Dialog>
           </Flex>
         </div>

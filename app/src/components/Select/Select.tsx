@@ -1,7 +1,13 @@
 import * as select from "@zag-js/select";
 import { Option } from "@zag-js/select/dist/select.types";
 import { normalizeProps, useMachine } from "@zag-js/solid";
-import { Accessor, Component, createMemo, createUniqueId } from "solid-js";
+import {
+  Accessor,
+  Component,
+  createEffect,
+  createMemo,
+  createUniqueId,
+} from "solid-js";
 import { currentStyle } from "~/common";
 import { ButtonStyle } from "../Button/styles.css";
 import {
@@ -32,11 +38,15 @@ export const Select: Component<Props> = ({
   const [state, send] = useMachine(
     select.machine({
       id: createUniqueId(),
-      selectedOption: selected ? options()[selected] : undefined,
       onChange: onChange,
+      selectedOption: selected ? options()[selected] : null,
     })
   );
   const api = createMemo(() => select.connect(state, send, normalizeProps));
+
+  createEffect(() => {
+    api().selectedOption = selected ? options()[selected] : null;
+  });
 
   return (
     <div style={{ ...currentStyle(), width: width }} class={SelectRootStyle}>
@@ -48,7 +58,7 @@ export const Select: Component<Props> = ({
           class={ButtonStyle({ border: "underline" })}
           {...api().triggerProps}
         >
-          <span class={ButtonStyle({})}>
+          <span>
             {api().selectedOption?.label ?? placeholder ?? "Select option"}
           </span>
         </button>

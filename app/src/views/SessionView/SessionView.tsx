@@ -1,5 +1,10 @@
 import { Option } from "@zag-js/select/dist/select.types";
-import { FaSolidNetworkWired, FaSolidPlug, FaSolidTrash } from "solid-icons/fa";
+import {
+  FaSolidNetworkWired,
+  FaSolidPlug,
+  FaSolidPlus,
+  FaSolidTrash,
+} from "solid-icons/fa";
 import { createMemo, createSignal } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { v4 as uuidv4 } from "uuid";
@@ -124,22 +129,24 @@ export const SessionView = () => {
     <Flex dn="column">
       <Texte size="small">Hosted</Texte>
       <Flex style={{ flex: 1, "justify-content": "space-between" }}>
-        <Button onClick={delHosted}>
+        <Button onClick={delHosted} title="Delete selected session">
           <FaSolidTrash />
         </Button>
         <Dynamic
           component={Select}
           options={hostedItems}
           onChange={onHostedChange}
+          label="Session:"
         />
-        <Button onClick={startHosting}>
+        <Button onClick={startHosting} title="Host selected session">
           <FaSolidNetworkWired />
-          <Texte style={{ "margin-left": "5px" }}>Host</Texte>
         </Button>
       </Flex>
-      <Flex>
+      <Flex style={{ flex: 1, "justify-content": "space-between" }}>
         <Input ref={(e) => (refName = e)} style={{ width: "12rem" }} />
-        <Button onClick={create}>Create</Button>
+        <Button onClick={create} title="Create session">
+          <FaSolidPlus />
+        </Button>
       </Flex>
       <div style={{ height: "0.5rem", "border-bottom": `1px solid` }}></div>
       <Texte size="small">Played</Texte>
@@ -151,10 +158,10 @@ export const SessionView = () => {
           component={Select}
           options={clientItems}
           onChange={onPlayedChange}
+          label="Session"
         />
-        <Button onClick={startClient}>
+        <Button onClick={startClient} title="Connect">
           <FaSolidPlug />
-          <Texte style={{ "margin-left": "5px" }}>Connect</Texte>
         </Button>
       </Flex>
     </Flex>
