@@ -1,14 +1,13 @@
 import { Route, Routes } from "@solidjs/router";
-import { assignInlineVars } from "@vanilla-extract/dynamic";
 import { Component, createEffect, ParentProps } from "solid-js";
 import { appStyle } from "./app.css";
-import { currentTheme, currentThemeClass, themeVars } from "./common";
+import { currentThemeClass } from "./common";
 import { MainView } from "./routes/MainView";
-import toast, { Toaster } from "solid-toast";
+import { Toaster } from "solid-toast";
 import { ConnectView } from "./routes/ConnectView/ConnectView";
-import { TplView } from "./views/TplView";
 import { ConfirmDialog } from "./components/Dialog/ConfirmDialog";
 import { Dynamic } from "solid-js/web";
+import { StrInputDialog } from "./components";
 
 const Main: Component<ParentProps> = ({ children }) => {
   createEffect(() => {
@@ -20,6 +19,7 @@ const Main: Component<ParentProps> = ({ children }) => {
       <div class={appStyle}>{children}</div>
       <Toaster />
       <Dynamic component={ConfirmDialog} />
+      <Dynamic component={StrInputDialog} />
     </div>
   );
 };

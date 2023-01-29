@@ -63,7 +63,9 @@ export const TexteStyle = recipe({
       background: {
         color: themeVars.color.background,
       },
-      none: {},
+      none: {
+        color: "inherit",
+      },
     },
     clickable: {
       true: {

@@ -1,5 +1,6 @@
 import { FaSolidDeleteLeft, FaSolidPlus } from "solid-icons/fa";
 import { createMemo, createSignal } from "solid-js";
+import { Dynamic } from "solid-js/web";
 import { v4 as uuidv4 } from "uuid";
 import {
   CardData,
@@ -32,7 +33,7 @@ export const CardList = () => {
       id: id,
       owner: settingsData().ident.browserID,
       title: "New",
-      content: "",
+      content: "Sample **content**",
       footer: "",
       isPublic: false,
     } as CardData;
@@ -47,7 +48,7 @@ export const CardList = () => {
       .sort((a, b) => a.title.localeCompare(b.title))
       .map((it) => {
         return {
-          title: it.title,
+          title: <Texte>{it.title}</Texte>,
           value: it.id,
           content: <CardItem item={it} />,
         } as AccordionDesc;
@@ -65,30 +66,34 @@ export const CardList = () => {
     refFlt.value = "";
   };
 
+  const cardCount = createMemo(() => {
+    return Object.keys(items()).length;
+  });
+
   return (
     <div class={CardListStyle}>
-      <Flex style={{ "align-items": "center" }}>
-        <Texte>Cards</Texte>
-        <Button onClick={create}>
+      <Flex
+        style={{
+          "align-items": "center",
+          "justify-content": "space-between",
+          padding: "5px",
+        }}
+      >
+        <Texte>Cards ({cardCount()})</Texte>
+        <Button onClick={create} title="Add new card">
           <FaSolidPlus />
         </Button>
       </Flex>
-      <Flex>
+      <Flex style={{ "justify-content": "flex-end", padding: "5px" }}>
         <Checkbox label="Only current session" />
         <Checkbox label="Only owned" />
       </Flex>
       <div class={CardZoneStyle}>
         <Accordion items={items} />
       </div>
-      <Flex>
+      <Flex vcenter style={{ "justify-content": "flex-end" }}>
         <Texte>Filter: </Texte>
-        <Input
-          underline
-          transparent
-          fontSize="small"
-          ref={(e) => (refFlt = e)}
-          onInput={flt}
-        />
+        <Input underline transparent ref={(e) => (refFlt = e)} onInput={flt} />
         <Button onClick={clear}>
           <FaSolidDeleteLeft />
         </Button>

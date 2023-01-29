@@ -5,6 +5,7 @@ import { InputAreaStyle } from "./styles.css";
 type Props = {
   small?: boolean;
   border?: "none" | "down" | "full";
+  transparent?: boolean;
 };
 
 export const InputArea: Component<ComponentProps<"div"> & Props> = ({
@@ -16,10 +17,15 @@ export const InputArea: Component<ComponentProps<"div"> & Props> = ({
   children,
   onBlur,
   onInput,
+  transparent,
 }) => {
   return (
     <div
-      class={InputAreaStyle({ small: small, border: border })}
+      class={InputAreaStyle({
+        small: small,
+        border: border,
+        transparent: transparent,
+      })}
       style={style}
       contentEditable={contentEditable}
       ref={ref}

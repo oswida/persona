@@ -2,10 +2,12 @@ import * as accordion from "@zag-js/accordion";
 import { normalizeProps, useMachine } from "@zag-js/solid";
 import { Accessor, Component, createMemo, createUniqueId, For } from "solid-js";
 import { ButtonStyle } from "../Button/styles.css";
+import { Editable } from "../Editable";
+import { Texte } from "../Texte";
 import { AccordionItemStyle, AccordionRootStyle } from "./styles.css";
 
 export type AccordionDesc = {
-  title: string;
+  title: any;
   value: string;
   content: any;
 };
@@ -18,6 +20,7 @@ export const Accordion: Component<Props> = ({ items }) => {
   const [state, send] = useMachine(
     accordion.machine({
       id: createUniqueId(),
+      collapsible: true,
       onChange: (details: any) => {
         console.log(details);
       },

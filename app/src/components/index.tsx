@@ -9,3 +9,5 @@ export * from "./Toast";
 export * from "./Select";
 export * from "./Accordion";
 export * from "./Checkbox";
+export * from "./Editable";
+export * from "./Markdown";

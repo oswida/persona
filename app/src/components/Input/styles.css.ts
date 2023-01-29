@@ -8,7 +8,7 @@ export const InputStyle = recipe({
     border: "none",
     padding: "4px 8px",
     fontFamily: themeVars.font.family,
-    fontSize: themeVars.font.size.bigger,
+    fontSize: themeVars.font.size.standard,
     appearance: "textfield",
     backgroundColor: themeVars.color.background,
     color: themeVars.color.primary,
@@ -22,7 +22,7 @@ export const InputStyle = recipe({
     },
     underline: {
       true: {
-        borderBottom: `solid 1px ${themeVars.color.primary}`,
+        borderBottom: `solid 1px ${themeVars.color.secondary}`,
       },
     },
     isTitle: {
@@ -102,6 +102,7 @@ export const InputAreaStyle = recipe({
     borderRadius: 5,
     textAlign: "left",
     overflow: "auto",
+    whiteSpace: "pre-wrap",
     selectors: {
       "&[disabled]": {
         opacity: 0.3,
@@ -114,6 +115,11 @@ export const InputAreaStyle = recipe({
         fontSize: themeVars.font.size.standard,
       },
     },
+    transparent: {
+      true: {
+        backgroundColor: "transparent",
+      },
+    },
     border: {
       none: {
         border: "none",
@@ -122,7 +128,7 @@ export const InputAreaStyle = recipe({
         borderBottom: `solid 1px ${themeVars.color.backgroundSecondary}`,
       },
       full: {
-        border: `solid 1px ${themeVars.color.backgroundSecondary}`,
+        border: `solid 1px ${themeVars.color.accent}`,
         borderRadius: 5,
       },
     },

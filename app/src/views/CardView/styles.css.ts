@@ -16,7 +16,7 @@ export const CardListStyle = style({
   height: "calc(100vh - 2em - 10px)",
   width: "25vw",
   flex: 1,
-  backgroundColor: themeVars.color.accent,
+  backgroundColor: themeVars.color.backgroundSecondary,
   display: "flex",
   flexDirection: "column",
   padding: "5px",

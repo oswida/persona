@@ -14,6 +14,7 @@ type Props = {
   size?: "standard" | "small" | "big";
   border?: "standard" | "underline" | "none";
   selected?: Accessor<boolean>;
+  minWidth?: string;
 };
 
 export const Button: Component<Props & ComponentProps<"button">> = ({
@@ -23,6 +24,7 @@ export const Button: Component<Props & ComponentProps<"button">> = ({
   selected,
   children,
   title,
+  minWidth,
 }) => {
   const [state, send] = useMachine(
     pressable.machine({
@@ -43,6 +45,9 @@ export const Button: Component<Props & ComponentProps<"button">> = ({
         size: size,
         selected: selected ? selected() : undefined,
       })}
+      style={{
+        "min-width": minWidth,
+      }}
       {...api().pressableProps}
     >
       {children}
