@@ -2,8 +2,6 @@ import * as accordion from "@zag-js/accordion";
 import { normalizeProps, useMachine } from "@zag-js/solid";
 import { Accessor, Component, createMemo, createUniqueId, For } from "solid-js";
 import { ButtonStyle } from "../Button/styles.css";
-import { Editable } from "../Editable";
-import { Texte } from "../Texte";
 import { AccordionItemStyle, AccordionRootStyle } from "./styles.css";
 
 export type AccordionDesc = {

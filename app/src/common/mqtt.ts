@@ -1,10 +1,12 @@
 import { chatText } from "./chat";
-import { saveSettings } from "./storage";
+import { personaSessionsKey, saveGenericData, saveSettings } from "./storage";
 import { Client, Message } from "paho-mqtt";
 import {
   chatList,
   mqttClient,
+  sessionData,
   setChatList,
+  setSessionData,
   setSettingsData,
   settingsData,
 } from "~/common";
@@ -35,7 +37,7 @@ export const mqttUnpack = (payload: any) => {
 };
 
 export const mqttTopic = (name: string) => {
-  let prefix = settingsData().app.sessions.current;
+  let prefix = sessionData().current;
   return `${prefix}/${name}`;
 };
 
@@ -72,11 +74,8 @@ export const mqttProcess = (msg: Message) => {
       setNetConnections(nst);
       chatText(info.username, info.color, `Connected to session.`);
       const cl = mqttClient();
-      if (settingsData().app.sessions.hosting && cl) {
-        const si =
-          settingsData().app.sessions.hosted[
-            settingsData().app.sessions.current
-          ];
+      if (sessionData().hosting && cl) {
+        const si = sessionData().hosted[sessionData().current];
         mqttPublish(
           settingsData().ident.browserID,
           cl,
@@ -95,11 +94,11 @@ export const mqttProcess = (msg: Message) => {
     case mqttTopic(topicSessionInfo):
       const sess = m.data as PlaySession;
       console.log("session info", sess);
-      if (!settingsData().app.sessions.hosted) {
-        const newState = { ...settingsData() };
-        newState.app.sessions.client[sess.id] = sess;
-        setSettingsData(newState);
-        saveSettings(newState);
+      if (!sessionData().hosted) {
+        const newState = { ...sessionData() };
+        newState.client[sess.id] = sess;
+        setSessionData(newState);
+        saveGenericData(personaSessionsKey, newState);
       }
       break;
     default:
@@ -165,11 +164,8 @@ export const mqttConnect = () => {
             } as ConnectionInfo
           );
           setMqttConnectionStatus(true);
-          if (settingsData().app.sessions.hosting) {
-            const si =
-              settingsData().app.sessions.hosted[
-                settingsData().app.sessions.current
-              ];
+          if (sessionData().hosting) {
+            const si = sessionData().hosted[sessionData().current];
             mqttPublish(
               settingsData().ident.browserID,
               client,
@@ -193,13 +189,13 @@ export const mqttConnect = () => {
 };
 
 export const mqttClientLink = () => {
-  const sess = settingsData().app.sessions;
+  const sess = sessionData();
   if (!sess.current || sess.current.trim() == "" || !sess.hosting) return "";
   const obj = {
     server: settingsData().comms.mqtt.server,
     credentials: settingsData().comms.mqtt.credentials,
     sessionId: sess.current,
-    sessionName: settingsData().app.sessions.hosted[sess.current].name,
+    sessionName: sessionData().hosted[sess.current].name,
   };
   return `${window.location}connect?data=${encodeURIComponent(
     compressData64(obj)

@@ -1,4 +1,5 @@
 import { assignInlineVars } from "@vanilla-extract/dynamic";
+import { resolveTxt } from "node:dns";
 import { Client } from "paho-mqtt";
 import { createMemo, createSignal } from "solid-js";
 import { Tpl } from "~/templates/types";
@@ -16,6 +17,7 @@ import {
   emptySessions,
   emptySettings,
   initialWhiteboardState,
+  PlaySession,
   SessionSettings,
   Settings,
   WhiteboardState,
@@ -82,6 +84,16 @@ export const [cardsVisible, setCardsVisible] = createSignal(false);
 export const [sessionData, setSessionData] = createSignal<SessionSettings>(
   emptySessions()
 );
+
+export const sessionCards = createMemo(() => {
+  const retv: Record<string, PlaySession> = {};
+  if (sessionData().current.trim() == "") return retv;
+  if (sessionData().hosting) {
+    return sessionData().hosted[sessionData().current].cards;
+  } else {
+    return sessionData().client[sessionData().current].cards;
+  }
+});
 
 //Charsheets
 export const [charsheetData, setCharsheetData] = createSignal<

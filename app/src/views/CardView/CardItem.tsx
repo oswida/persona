@@ -1,11 +1,23 @@
-import { FaSolidFloppyDisk, FaSolidPencil, FaSolidTrash } from "solid-icons/fa";
-import { createSignal, Show } from "solid-js";
+import { stringify } from "node:querystring";
+import { it } from "node:test";
+import {
+  FaSolidFloppyDisk,
+  FaSolidLeftLong,
+  FaSolidPencil,
+  FaSolidTrash,
+} from "solid-icons/fa";
+import { createEffect, createMemo, createSignal, Show } from "solid-js";
 import {
   CardData,
   cardsData,
   personaCardsKey,
+  personaSessionsKey,
+  PlaySession,
   saveGenericData,
+  sessionCards,
+  sessionData,
   setCardsData,
+  setSessionData,
   themeVars,
 } from "~/common";
 import {
@@ -26,6 +38,7 @@ import { CardStyle } from "./styles.css";
 
 export const CardItem = ({ item }: { item: CardData }) => {
   const [edc, setEdc] = createSignal(false);
+  const [os, setOs] = createSignal(false);
   let refContent: HTMLDivElement;
 
   const deleteCard = () => {
@@ -67,7 +80,6 @@ export const CardItem = ({ item }: { item: CardData }) => {
   const editContentUpdate = () => {
     setEdc(false);
     if (!refContent) return;
-    console.log(refContent.innerText);
 
     const newState = { ...cardsData() };
     newState[item.id].content = refContent.innerText;
@@ -75,7 +87,35 @@ export const CardItem = ({ item }: { item: CardData }) => {
     saveGenericData(personaCardsKey, newState);
   };
 
-  // const editFooter = () => {};
+  const putIntoSession = (v: boolean) => {
+    if (sessionData().current.trim() == "") return false;
+    let list: Record<string, PlaySession>;
+    const newState = { ...sessionData() };
+    if (newState.hosting) {
+      list = newState.hosted;
+      if (!list) return;
+    } else {
+      list = newState.client;
+      if (!list) return false;
+    }
+    if (v) {
+      list[newState.current].cards[item.id] = item;
+    } else {
+      const c: Record<string, CardData> = {};
+      Object.values(list[newState.current].cards).forEach((it) => {
+        if (it.id != item.id) {
+          c[it.id] = it;
+        }
+      });
+      list[newState.current].cards = c;
+    }
+    setSessionData(newState);
+    saveGenericData(personaSessionsKey, newState);
+  };
+
+  createEffect(() => {
+    // console.log(sessionData());
+  });
 
   return (
     <div class={CardStyle}>
@@ -106,7 +146,12 @@ export const CardItem = ({ item }: { item: CardData }) => {
             <FaSolidPencil color={themeVars.color.secondary} />
             <Texte size="small">Footer</Texte>
           </Button> */}
-          <Checkbox label="Current session" color={themeVars.color.secondary} />
+          <Checkbox
+            label="Current session"
+            color={themeVars.color.secondary}
+            onChange={(v) => putIntoSession(v)}
+            value={sessionCards()[item.id] != undefined}
+          />
         </Flex>
       </Flex>
       <Flex style={{ "margin-top": "10px" }}>
