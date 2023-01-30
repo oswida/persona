@@ -1,27 +1,24 @@
 import { chatText } from "./chat";
 import { personaSessionsKey, saveGenericData, saveSettings } from "./storage";
 import { Client, Message } from "paho-mqtt";
+
 import {
   chatList,
   mqttClient,
+  netConnections,
   sessionData,
   setChatList,
-  setSessionData,
-  setSettingsData,
-  settingsData,
-} from "~/common";
-import {
-  netConnections,
   setMqttClient,
   setMqttConnectionStatus,
   setNetConnections,
+  setSessionData,
+  settingsData,
+  topicChat,
+  topicConnect,
+  topicSessionInfo,
 } from ".";
 import { ChatEntry, ConnectionInfo, NetMessage, PlaySession } from "./types";
 import { compressData64, decompressData64, prettyNow } from "./util";
-
-export const topicConnect = "TopicConnect";
-export const topicChat = "TopicChat";
-export const topicSessionInfo = "TopicSessionInfo";
 
 export const mqttPack = (sender: string, payload: any) => {
   const msg: NetMessage = {
@@ -42,8 +39,8 @@ export const mqttTopic = (name: string) => {
 };
 
 export const mqttPublish = (
-  sender: string,
   client: Client,
+  sender: string,
   topic: string,
   payload: any
 ) => {
@@ -55,7 +52,6 @@ export const mqttPublish = (
 export const mqttProcess = (msg: Message) => {
   const m = mqttUnpack(msg.payloadString);
   const ident = settingsData().ident;
-  const mqttEnv = settingsData().comms.mqtt;
 
   if (m.sender == ident.browserID) return; // own message
   switch (msg.destinationName) {
@@ -77,8 +73,8 @@ export const mqttProcess = (msg: Message) => {
       if (sessionData().hosting && cl) {
         const si = sessionData().hosted[sessionData().current];
         mqttPublish(
-          settingsData().ident.browserID,
           cl,
+          settingsData().ident.browserID,
           mqttTopic(topicSessionInfo),
           si
         );
@@ -157,8 +153,8 @@ export const mqttConnect = () => {
           onSuccess: () => {
             setMqttClient(client);
             mqttPublish(
-              settingsData().ident.browserID,
               client,
+              settingsData().ident.browserID,
               mqttTopic(topicConnect),
               {
                 username: settingsData().ident.username,
@@ -169,8 +165,8 @@ export const mqttConnect = () => {
             if (sessionData().hosting) {
               const si = sessionData().hosted[sessionData().current];
               mqttPublish(
-                settingsData().ident.browserID,
                 client,
+                settingsData().ident.browserID,
                 mqttTopic(topicSessionInfo),
                 si
               );

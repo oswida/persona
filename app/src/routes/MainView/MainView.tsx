@@ -27,6 +27,8 @@ import {
   lightThemeClass,
   lightThemeVars,
   mqttConnectionStatus,
+  netDisconnect,
+  netSessionLink,
   personaSessionsKey,
   saveGenericData,
   sessionData,
@@ -38,7 +40,6 @@ import {
   setSessionData,
   storageSize,
 } from "~/common";
-import { mqttClientLink, mqttDisconnect } from "~/common/mqtt";
 import { Button, Dialog, Flex, Popover, Texte } from "~/components";
 import { ButtonStyle } from "~/components/Button/styles.css";
 import { CardList } from "~/views/CardView";
@@ -71,7 +72,7 @@ export const MainView = () => {
     newSettings.hosting = false;
     setSessionData(newSettings);
     saveGenericData(personaSessionsKey, newSettings);
-    mqttDisconnect();
+    netDisconnect();
   };
 
   return (
@@ -113,7 +114,7 @@ export const MainView = () => {
                 <FaSolidStop />
               </Button>
               <CopyToClipboard
-                text={mqttClientLink()}
+                text={netSessionLink()}
                 onCopy={() => toast("Session link copied to clipboard")}
                 eventTrigger="onClick"
               >

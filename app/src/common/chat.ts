@@ -1,4 +1,4 @@
-import { mqttPublish, mqttTopic, topicChat } from "./mqtt";
+import { netPublish, topicChat } from "./net";
 import { chatList, mqttClient, setChatList, settingsData } from "./state";
 import { ChatEntry } from "./types";
 import { prettyNow } from "./util";
@@ -21,11 +21,6 @@ export const chatText = (
   if (withNetwork) {
     const cl = mqttClient();
     if (!cl) return;
-    mqttPublish(
-      settingsData().ident.browserID,
-      cl,
-      mqttTopic(topicChat),
-      entry
-    );
+    netPublish(topicChat, entry);
   }
 };

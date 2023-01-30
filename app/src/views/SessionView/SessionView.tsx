@@ -9,6 +9,7 @@ import { createMemo, createSignal } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { v4 as uuidv4 } from "uuid";
 import {
+  netConnect,
   personaSessionsKey,
   PlaySession,
   saveGenericData,
@@ -18,7 +19,6 @@ import {
   setSettingsData,
   settingsData,
 } from "~/common";
-import { mqttConnect } from "~/common/mqtt";
 import { Button, Flex, Input, Select, Texte } from "~/components";
 
 export const SessionView = () => {
@@ -111,7 +111,7 @@ export const SessionView = () => {
     newSettings.hosting = true;
     saveGenericData(personaSessionsKey, newSettings);
     setSessionData(newSettings);
-    mqttConnect();
+    netConnect();
   };
 
   const startClient = () => {
@@ -122,7 +122,7 @@ export const SessionView = () => {
     newSettings.hosting = false;
     saveGenericData(personaSessionsKey, newSettings);
     setSessionData(newSettings);
-    mqttConnect();
+    netConnect();
   };
 
   return (

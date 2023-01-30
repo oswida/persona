@@ -5,11 +5,12 @@ import {
   chatList,
   currentStyle,
   mqttClient,
+  netPublish,
   prettyNow,
   setChatList,
   settingsData,
+  topicChat,
 } from "~/common";
-import { mqttPublish, mqttTopic, topicChat } from "~/common/mqtt";
 import { Button, Flex, Input, Texte } from "~/components";
 import {
   ConfirmState,
@@ -35,12 +36,7 @@ export const ChatView = () => {
     refInput.value = "";
     const cl = mqttClient();
     if (!cl) return;
-    mqttPublish(
-      settingsData().ident.browserID,
-      cl,
-      mqttTopic(topicChat),
-      entry
-    );
+    netPublish(topicChat, entry);
   };
 
   const clearChat = () => {

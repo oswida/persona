@@ -9,11 +9,11 @@ import {
   loadCharsheets,
   loadSessions,
   loadSettings,
+  netConnect,
   sessionData,
   settingsData,
   updateStoreSize,
 } from "./common";
-import { mqttConnect } from "./common/mqtt";
 import { messages_en } from "./locales/en/en";
 import { messages_pl } from "./locales/pl/pl";
 import { initTemplateList } from "./templates/helper";
@@ -42,7 +42,7 @@ const langContext = createI18nContext(dictionaries, lang);
 initTemplateList();
 
 if (sessionData().current !== "") {
-  mqttConnect();
+  netConnect();
 }
 
 render(

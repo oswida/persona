@@ -2,6 +2,7 @@ import { Navigate, useSearchParams } from "@solidjs/router";
 import { Component } from "solid-js";
 import {
   decompressData64,
+  netConnect,
   personaSessionsKey,
   personaSettingsKey,
   PlaySession,
@@ -11,7 +12,6 @@ import {
   setSettingsData,
   settingsData,
 } from "~/common";
-import { mqttConnect } from "~/common/mqtt";
 
 export const ConnectView: Component = () => {
   const [params] = useSearchParams();
@@ -37,7 +37,7 @@ export const ConnectView: Component = () => {
     setSessionData(newSess);
     saveGenericData(personaSessionsKey, newSess);
 
-    mqttConnect();
+    netConnect();
   }
   return <Navigate href={"/"}></Navigate>;
 };

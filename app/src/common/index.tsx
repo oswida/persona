@@ -5,3 +5,4 @@ export * from "./util";
 export * from "./storage";
 export * from "./text";
 export * from "./chat";
+export * from "./net";

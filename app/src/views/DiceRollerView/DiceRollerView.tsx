@@ -13,6 +13,7 @@ import {
   chatList,
   DiceType,
   mqttClient,
+  netPublish,
   prettyNow,
   rollMultiple,
   rollSingle,
@@ -20,8 +21,8 @@ import {
   setChatList,
   setSelectedDicePool,
   settingsData,
+  topicChat,
 } from "~/common";
-import { mqttPublish, mqttTopic, topicChat } from "~/common/mqtt";
 import { Button, Flex, Input, Texte } from "~/components";
 import { showError, showToast } from "~/components/Toast";
 import { DiceSelector } from "./DiceSelector";
@@ -79,12 +80,7 @@ export const DiceRollerView: Component = () => {
       setChatList(newState);
       const cl = mqttClient();
       if (!cl) return;
-      mqttPublish(
-        settingsData().ident.browserID,
-        cl,
-        mqttTopic(topicChat),
-        entry
-      );
+      netPublish(topicChat, entry);
     } catch (e: any) {
       showError("Bad dice specification");
     }
