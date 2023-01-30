@@ -1,6 +1,5 @@
 import { FaSolidDeleteLeft, FaSolidPlus } from "solid-icons/fa";
 import { createMemo, createSignal } from "solid-js";
-import { Dynamic } from "solid-js/web";
 import { v4 as uuidv4 } from "uuid";
 import {
   CardData,
@@ -49,7 +48,7 @@ export const CardList = () => {
   const items = createMemo(() => {
     return Object.values(cardsData())
       .filter((it) => filter() == "" || it.title.includes(filter()))
-      .filter((it) => !onlySession() || sessionCards()[it.id] != undefined)
+      .filter((it) => !onlySession() || sessionCards().includes(it.id))
       .filter(
         (it) => !onlyOwner() || settingsData().ident.browserID == it.owner
       )

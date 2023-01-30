@@ -1,15 +1,9 @@
-import { stringify } from "node:querystring";
-import { it } from "node:test";
-import {
-  FaSolidFloppyDisk,
-  FaSolidLeftLong,
-  FaSolidPencil,
-  FaSolidTrash,
-} from "solid-icons/fa";
-import { createEffect, createMemo, createSignal, Show } from "solid-js";
+import { FaSolidFloppyDisk, FaSolidPencil, FaSolidTrash } from "solid-icons/fa";
+import { createSignal, Show } from "solid-js";
 import {
   CardData,
   cardsData,
+  netPublish,
   personaCardsKey,
   personaSessionsKey,
   PlaySession,
@@ -18,7 +12,11 @@ import {
   sessionData,
   setCardsData,
   setSessionData,
+  settingsData,
   themeVars,
+  topicCardDelete,
+  topicCardUpdate,
+  topicSessionInfo,
 } from "~/common";
 import {
   Button,
@@ -38,7 +36,6 @@ import { CardStyle } from "./styles.css";
 
 export const CardItem = ({ item }: { item: CardData }) => {
   const [edc, setEdc] = createSignal(false);
-  const [os, setOs] = createSignal(false);
   let refContent: HTMLDivElement;
 
   const deleteCard = () => {
@@ -54,6 +51,7 @@ export const CardItem = ({ item }: { item: CardData }) => {
         Object.assign(newState, vals);
         setCardsData(newState);
         saveGenericData(personaCardsKey, newState);
+        netPublish(topicCardDelete, [item.id]);
       },
     } as ConfirmState);
   };
@@ -69,6 +67,7 @@ export const CardItem = ({ item }: { item: CardData }) => {
         newState[item.id].title = value;
         setCardsData(newState);
         saveGenericData(personaCardsKey, newState);
+        netPublish(topicCardUpdate, [item]);
       },
     } as StrInputState);
   };
@@ -85,10 +84,11 @@ export const CardItem = ({ item }: { item: CardData }) => {
     newState[item.id].content = refContent.innerText;
     setCardsData(newState);
     saveGenericData(personaCardsKey, newState);
+    netPublish(topicCardUpdate, [item]);
   };
 
   const putIntoSession = (v: boolean) => {
-    if (sessionData().current.trim() == "") return false;
+    if (sessionData().current.trim() == "") return;
     let list: Record<string, PlaySession>;
     const newState = { ...sessionData() };
     if (newState.hosting) {
@@ -96,35 +96,35 @@ export const CardItem = ({ item }: { item: CardData }) => {
       if (!list) return;
     } else {
       list = newState.client;
-      if (!list) return false;
+      if (!list) return;
     }
     if (v) {
-      list[newState.current].cards[item.id] = item;
+      if (list[newState.current].cards.includes(item.id)) return;
+      list[newState.current].cards.push(item.id);
+      netPublish(topicCardUpdate, [item]);
     } else {
-      const c: Record<string, CardData> = {};
-      Object.values(list[newState.current].cards).forEach((it) => {
-        if (it.id != item.id) {
-          c[it.id] = it;
-        }
-      });
-      list[newState.current].cards = c;
+      if (!list[newState.current].cards.includes(item.id)) return;
+      list[newState.current].cards = list[newState.current].cards.filter(
+        (it) => it != item.id
+      );
+      netPublish(topicCardDelete, [item.id]);
     }
     setSessionData(newState);
     saveGenericData(personaSessionsKey, newState);
+    netPublish(topicSessionInfo, list[newState.current]);
   };
-
-  createEffect(() => {
-    // console.log(sessionData());
-  });
 
   return (
     <div class={CardStyle}>
       <Flex style={{ "justify-content": "space-between" }}>
         <Flex style={{ gap: "10px" }}>
-          <Button onClick={deleteCard} title="Delete card" size="small">
-            <FaSolidTrash color={themeVars.color.secondary} />
-          </Button>
+          <Show when={item.owner == settingsData().ident.browserID}>
+            <Button onClick={deleteCard} title="Delete card" size="small">
+              <FaSolidTrash color={themeVars.color.secondary} />
+            </Button>
+          </Show>
         </Flex>
+
         <Flex>
           <Show when={!edc()}>
             <Button size="small" onClick={editTitle}>
@@ -146,12 +146,14 @@ export const CardItem = ({ item }: { item: CardData }) => {
             <FaSolidPencil color={themeVars.color.secondary} />
             <Texte size="small">Footer</Texte>
           </Button> */}
-          <Checkbox
-            label="Current session"
-            color={themeVars.color.secondary}
-            onChange={(v) => putIntoSession(v)}
-            value={sessionCards()[item.id] != undefined}
-          />
+          <Show when={item.owner == settingsData().ident.browserID}>
+            <Checkbox
+              label="Current session"
+              color={themeVars.color.secondary}
+              onChange={(v) => putIntoSession(v)}
+              value={sessionCards().includes(item.id)}
+            />
+          </Show>
         </Flex>
       </Flex>
       <Flex style={{ "margin-top": "10px" }}>

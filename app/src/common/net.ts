@@ -5,6 +5,8 @@ import { mqttClient, settingsData } from "~/common";
 export const topicConnect = "TopicConnect";
 export const topicChat = "TopicChat";
 export const topicSessionInfo = "TopicSessionInfo";
+export const topicCardUpdate = "TopicCardUpdate";
+export const topicCardDelete = "TopicCardDelete";
 
 export const netConnect = () => {
   switch (settingsData().comms.type) {

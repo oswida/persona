@@ -86,8 +86,7 @@ export const [sessionData, setSessionData] = createSignal<SessionSettings>(
 );
 
 export const sessionCards = createMemo(() => {
-  const retv: Record<string, PlaySession> = {};
-  if (sessionData().current.trim() == "") return retv;
+  if (sessionData().current.trim() == "") return [];
   if (sessionData().hosting) {
     return sessionData().hosted[sessionData().current].cards;
   } else {

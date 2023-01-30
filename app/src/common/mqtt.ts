@@ -1,6 +1,12 @@
-import { chatText } from "./chat";
-import { personaSessionsKey, saveGenericData, saveSettings } from "./storage";
 import { Client, Message } from "paho-mqtt";
+import { CardData, cardsData, setCardsData } from "~/common";
+import { chatText } from "./chat";
+import { topicCardDelete, topicCardUpdate } from "./net";
+import {
+  personaCardsKey,
+  personaSessionsKey,
+  saveGenericData,
+} from "./storage";
 
 import {
   chatList,
@@ -89,13 +95,31 @@ export const mqttProcess = (msg: Message) => {
       break;
     case mqttTopic(topicSessionInfo):
       const sess = m.data as PlaySession;
-      console.log("session info", sess);
-      if (!sessionData().hosted) {
+      if (!sessionData().hosting) {
         const newState = { ...sessionData() };
         newState.client[sess.id] = sess;
         setSessionData(newState);
         saveGenericData(personaSessionsKey, newState);
       }
+      break;
+    case mqttTopic(topicCardUpdate):
+      const cards = m.data as CardData[];
+      const newCards = { ...cardsData() };
+      cards.forEach((it) => {
+        newCards[it.id] = it;
+      });
+      setCardsData(newCards);
+      saveGenericData(personaCardsKey, newCards);
+      break;
+    case mqttTopic(topicCardDelete):
+      const cards2 = m.data as string[];
+      const ns: Record<string, CardData> = {};
+      Object.values(cardsData()).forEach((c) => {
+        const fnd = cards2.includes(c.id);
+        if (!fnd || c.owner == settingsData().ident.browserID) ns[c.id] = c;
+      });
+      setCardsData(ns);
+      saveGenericData(personaCardsKey, ns);
       break;
     default:
       console.log("Message for unknown topic", m.sender, m.data);
@@ -152,6 +176,7 @@ export const mqttConnect = () => {
           },
           onSuccess: () => {
             setMqttClient(client);
+            // register connection
             mqttPublish(
               client,
               settingsData().ident.browserID,

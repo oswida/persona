@@ -34,7 +34,7 @@ export const SessionView = () => {
       id: newId,
       name: refName.value,
       ownerId: settingsData().ident.browserID,
-      cards: {},
+      cards: [] as string[],
       charsheets: {},
       players: {},
     } as PlaySession;
