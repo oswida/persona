@@ -1,17 +1,17 @@
 import { Route, Routes } from "@solidjs/router";
-import { Component, createEffect, ParentProps } from "solid-js";
+import {Component, createEffect, JSX, ParentProps} from "solid-js";
 import { appStyle } from "./app.css";
 import { currentThemeClass } from "./common";
 import { MainView } from "./routes/MainView";
 import { Toaster } from "solid-toast";
 import { ConnectView } from "./routes/ConnectView/ConnectView";
-import { ConfirmDialog } from "./components/Dialog/ConfirmDialog";
+import { ConfirmDialog } from "~/components";
 import { Dynamic } from "solid-js/web";
 import { StrInputDialog } from "./components";
 
-const Main: Component<ParentProps> = ({ children }) => {
+const Main: ({children}: { children: any }) => JSX.Element = ({ children }) => {
   createEffect(() => {
-    const el = document.documentElement.classList.add(currentThemeClass());
+    document.documentElement.classList.add(currentThemeClass());
   });
 
   return (

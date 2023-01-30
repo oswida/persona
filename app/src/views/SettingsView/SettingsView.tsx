@@ -1,5 +1,5 @@
 import { FaSolidFloppyDisk } from "solid-icons/fa";
-import { createSignal, Setter } from "solid-js";
+import { Accessor, createSignal, Setter } from "solid-js";
 import toast from "solid-toast";
 import { personaSettingsKey, saveGenericData, settingsData } from "~/common";
 import { Button, Flex, TabDesc, Tabs, Texte } from "~/components";
@@ -7,7 +7,7 @@ import { AppSettings } from "./AppSettings";
 import { CommSettings } from "./CommSettings";
 import { IdentSettings } from "./IdentSettings";
 
-export const SettingsView = ({ api }: { api: any }) => {
+export const SettingsView = ({ api }: { api: Accessor<any> }) => {
   const tabs: TabDesc[] = [
     {
       label: "Ident",
@@ -27,7 +27,7 @@ export const SettingsView = ({ api }: { api: any }) => {
   ];
 
   const save = () => {
-    api.close();
+    api().close();
     const newState = { ...settingsData() };
     const mqttEnv = newState.comms.mqtt;
     if (mqttEnv.server.trim() == "") return;

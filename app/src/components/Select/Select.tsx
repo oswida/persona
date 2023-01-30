@@ -18,13 +18,18 @@ import {
   SelectTriggerStyle,
 } from "./styles.css";
 
+export type SelectOption = {
+  label: string;
+  value: string;
+};
+
 type Props = {
   label?: string;
-  options: Accessor<Option[]>;
-  selected?: number;
+  options: Accessor<SelectOption[]>;
+  selected?: Accessor<number>;
   width?: string;
   placeholder?: string;
-  onChange?: (details: Option | null) => void;
+  onChange?: (details: SelectOption | null) => void;
 };
 
 export const Select: Component<Props> = ({
@@ -39,14 +44,14 @@ export const Select: Component<Props> = ({
     select.machine({
       id: createUniqueId(),
       onChange: onChange,
-      selectedOption: selected ? options()[selected] : null,
+      selectedOption: selected ? options()[selected()] : null,
     })
   );
   const api = createMemo(() => select.connect(state, send, normalizeProps));
 
-  createEffect(() => {
-    api().selectedOption = selected ? options()[selected] : null;
-  });
+  // createEffect(() => {
+  //   api().selectedOption = selected ? options()[selected] : null;
+  // });
 
   return (
     <div style={{ ...currentStyle(), width: width }} class={SelectRootStyle}>

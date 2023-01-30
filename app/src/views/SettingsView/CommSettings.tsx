@@ -1,13 +1,13 @@
-import { Option } from "@zag-js/select/dist/select.types";
 import { createMemo, createSignal, Show } from "solid-js";
+import { Dynamic } from "solid-js/web";
 import { setSettingsData, settingsData } from "~/common";
-import { Flex, Input, Select, Texte } from "~/components";
+import { Flex, Input, Select, SelectOption, Texte } from "~/components";
 import { SettingFieldStyle } from "./styles.css";
 
 export const CommSettings = () => {
   let refServer: HTMLInputElement;
   let refCreds: HTMLInputElement;
-  const [ts, setTs] = createSignal("");
+  const [ts, setTs] = createSignal<string>(settingsData().comms.type);
 
   const update = () => {
     const newState = { ...settingsData() };
@@ -24,33 +24,32 @@ export const CommSettings = () => {
 
   const typeOptions = createMemo(() => {
     return [
-      { label: "MQTT", value: "mqtt" } as Option,
-      { label: "Supabase", value: "supabase" } as Option,
+      { label: "MQTT", value: "mqtt" } as SelectOption,
+      { label: "Supabase", value: "supabase" } as SelectOption,
     ];
   });
 
-  const selectedItem = () => {
+  const selectedItem = createMemo(() => {
     const opt = typeOptions();
     for (let i = 0; i < opt.length; i++) {
       if (opt[i].value == settingsData().comms.type) {
-        console.log(i);
-
         return i;
       }
     }
     return -1;
-  };
+  });
 
-  const typeSelect = (details: Option | null) => {
+  const typeSelect = (details: SelectOption | null) => {
     setTs(details ? details.value : "");
   };
 
   return (
     <Flex dn="column" style={{ gap: "10px" }} center>
-      <Select
+      <Dynamic
+        component={Select}
         label="Server type"
         options={typeOptions}
-        selected={selectedItem()}
+        selected={selectedItem}
         onChange={typeSelect}
       />
 

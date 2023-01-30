@@ -131,61 +131,66 @@ export const mqttConnect = () => {
   if (cl) cl.disconnect();
   setMqttClient(undefined);
 
-  const client = new Client(env.server, ident.browserID);
-  let un = undefined;
-  let pw = undefined;
-  const creds = env.credentials;
-  if (creds) {
-    const parts = creds.split(":");
-    un = parts[0];
-    pw = parts[1];
-  }
-  client.connect({
-    userName: un,
-    password: pw,
-    onFailure: (e) => {
-      console.error(e.errorMessage);
-    },
-    onSuccess: (e) => {
-      console.log("Connected to MQTT server", e);
-      client.subscribe(mqttTopic("+"), {
-        onFailure: (e) => {
-          console.log(`subscription to ${mqttTopic("+")} failed`, e);
-        },
-        onSuccess: () => {
-          setMqttClient(client);
-          mqttPublish(
-            settingsData().ident.browserID,
-            client,
-            mqttTopic(topicConnect),
-            {
-              username: settingsData().ident.username,
-              color: settingsData().ident.color,
-            } as ConnectionInfo
-          );
-          setMqttConnectionStatus(true);
-          if (sessionData().hosting) {
-            const si = sessionData().hosted[sessionData().current];
+  try {
+    const client = new Client(env.server, ident.browserID);
+    let un = undefined;
+    let pw = undefined;
+    const creds = env.credentials;
+    if (creds) {
+      const parts = creds.split(":");
+      un = parts[0];
+      pw = parts[1];
+    }
+
+    client.connect({
+      userName: un,
+      password: pw,
+      onFailure: (e) => {
+        console.error(e.errorMessage);
+      },
+      onSuccess: (e) => {
+        console.log("Connected to MQTT server", e);
+        client.subscribe(mqttTopic("+"), {
+          onFailure: (e) => {
+            console.log(`subscription to ${mqttTopic("+")} failed`, e);
+          },
+          onSuccess: () => {
+            setMqttClient(client);
             mqttPublish(
               settingsData().ident.browserID,
               client,
-              mqttTopic(topicSessionInfo),
-              si
+              mqttTopic(topicConnect),
+              {
+                username: settingsData().ident.username,
+                color: settingsData().ident.color,
+              } as ConnectionInfo
             );
-          }
-        },
-      });
-    },
-  });
+            setMqttConnectionStatus(true);
+            if (sessionData().hosting) {
+              const si = sessionData().hosted[sessionData().current];
+              mqttPublish(
+                settingsData().ident.browserID,
+                client,
+                mqttTopic(topicSessionInfo),
+                si
+              );
+            }
+          },
+        });
+      },
+    });
 
-  client.onMessageArrived = (msg) => {
-    mqttProcess(msg);
-  };
+    client.onMessageArrived = (msg) => {
+      mqttProcess(msg);
+    };
 
-  client.onConnectionLost = (msg) => {
-    console.log("Connection lost", msg);
-    setMqttConnectionStatus(false);
-  };
+    client.onConnectionLost = (msg) => {
+      console.log("Connection lost", msg);
+      setMqttConnectionStatus(false);
+    };
+  } catch (e: any) {
+    console.error(e);
+  }
 };
 
 export const mqttClientLink = () => {
