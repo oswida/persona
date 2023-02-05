@@ -1,30 +1,32 @@
-import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 import { themeVars } from "~/common";
+import { sprinkles } from "./../../common/theme.css";
 
-export const EditableFlex = style({
+export const EditableFlex = sprinkles({
   display: "flex",
-  gap: "10px",
+  gap: "medium",
 });
 
 export const EditableStyle = recipe({
-  base: {
-    boxShadow: "none",
-    outline: "none",
-    border: "none",
-    padding: "4px 8px",
-    fontFamily: themeVars.font.family,
-    fontSize: themeVars.font.size.bigger,
-    appearance: "textfield",
-    backgroundColor: themeVars.color.background,
-    color: themeVars.color.primary,
-    borderRadius: 5,
-  },
+  base: [
+    sprinkles({
+      fontSize: "bigger",
+      backgroundColor: "background",
+      color: "primary",
+      borderRadius: "small",
+    }),
+    {
+      boxShadow: "none",
+      outline: "none",
+      border: "none",
+      padding: "4px 8px",
+      fontFamily: themeVars.font.family,
+      appearance: "textfield",
+    },
+  ],
   variants: {
     transparent: {
-      true: {
-        backgroundColor: "transparent",
-      },
+      true: [sprinkles({ backgroundColor: "none" })],
     },
     underline: {
       true: {
@@ -32,10 +34,14 @@ export const EditableStyle = recipe({
       },
     },
     isTitle: {
-      true: {
-        fontWeight: "bold",
-        fontSize: themeVars.font.size.large,
-      },
+      true: [
+        sprinkles({
+          fontSize: "big",
+        }),
+        {
+          fontWeight: "bold",
+        },
+      ],
     },
     center: {
       true: {
@@ -43,15 +49,21 @@ export const EditableStyle = recipe({
       },
     },
     size: {
-      small: {
-        fontSize: themeVars.font.size.small,
-      },
-      smaller: {
-        fontSize: themeVars.font.size.smaller,
-      },
-      standard: {
-        fontSize: themeVars.font.size.standard,
-      },
+      small: [
+        sprinkles({
+          fontSize: "small",
+        }),
+      ],
+      smaller: [
+        sprinkles({
+          fontSize: "smaller",
+        }),
+      ],
+      standard: [
+        sprinkles({
+          fontSize: "standard",
+        }),
+      ],
     },
   },
 });

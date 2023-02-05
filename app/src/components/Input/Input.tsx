@@ -1,6 +1,6 @@
 import { assignInlineVars } from "@vanilla-extract/dynamic";
 import { ComponentProps, JSX, Match, Switch } from "solid-js";
-import { currentTheme, themeVars } from "~/common";
+import { themeVars } from "~/common";
 import { InputStyle } from "./styles.css";
 
 type Props = {
@@ -38,7 +38,7 @@ export const Input = ({
             transparent: transparent,
           })}
           style={{
-            ...assignInlineVars(themeVars, currentTheme()),
+            // ...assignInlineVars(themeVars, currentTheme()),
             ...(style as JSX.CSSProperties),
           }}
           title={title}
@@ -62,7 +62,7 @@ export const Input = ({
             transparent: transparent,
           })}
           style={{
-            ...assignInlineVars(themeVars, currentTheme()),
+            // ...assignInlineVars(themeVars, currentTheme()),
             ...(style as JSX.CSSProperties),
           }}
           title={title}

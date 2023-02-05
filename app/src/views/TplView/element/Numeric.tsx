@@ -51,13 +51,10 @@ export const Numeric: Component<Props> = ({ element }) => {
               title={element.tip}
               type="number"
               class={TplNumericStyle({ decoration: mel.decoration })}
-              value={mel.max}
             />
           </Flex>
           <Show when={el.help}>
-            <div class={TpleHelpStyle} style={{ "align-self": "flex-start" }}>
-              {el.help}
-            </div>
+            <div class={TpleHelpStyle}>{el.help}</div>
           </Show>
         </Flex>
       </Show>

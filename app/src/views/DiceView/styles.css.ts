@@ -1,19 +1,23 @@
+import { sprinkles } from "./../../common/theme.css";
 import { style } from "@vanilla-extract/css";
 import { themeVars } from "~/common";
 
-export const DiceViewRootStyle = style({
-  fontFamily: themeVars.font.family,
-  fontSize: themeVars.font.size.standard,
-  padding: "2px 5px",
-  height: "calc(100vh - 70px)",
-  borderRadius: 5,
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "column",
-  gap: 10,
-  width: 260,
-});
+export const DiceViewRootStyle = style([
+  sprinkles({
+    fontSize: "standard",
+    borderRadius: "small",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+    gap: "medium",
+  }),
+  {
+    padding: "2px 5px",
+    height: "calc(100vh - 70px)",
+    width: 260,
+  },
+]);
 
 export const RollInfoStyle = style({
   border: `solid 1px ${themeVars.color.secondary}`,

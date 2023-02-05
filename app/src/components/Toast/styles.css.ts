@@ -1,14 +1,18 @@
-import { themeVars } from "./../../common/theme.css";
+import { sprinkles, themeVars } from "./../../common/theme.css";
 import { style } from "@vanilla-extract/css";
 
-export const ToastStyle = style({
-  backgroundColor: themeVars.color.backgroundSecondary,
-  border: `1px solid ${themeVars.color.accent}`,
-  fontFamily: themeVars.font.family,
-  fontSize: themeVars.font.size.standard,
-  color: themeVars.color.primary,
-  padding: "10px",
-  borderRadius: "5px",
-  display: "flex",
-  justifyContent: "center",
-});
+export const ToastStyle = style([
+  sprinkles({
+    backgroundColor: "backgroundSecondary",
+    fontSize: "standard",
+    color: "primary",
+    padding: "medium",
+    borderRadius: "small",
+    display: "flex",
+    justifyContent: "center",
+  }),
+  {
+    border: `1px solid ${themeVars.color.accent}`,
+    fontFamily: themeVars.font.family,
+  },
+]);

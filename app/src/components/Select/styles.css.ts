@@ -1,56 +1,74 @@
 import { style } from "@vanilla-extract/css";
 import { themeVars } from "~/common";
+import { baseStyle, sprinkles } from "./../../common/theme.css";
 
-export const SelectRootStyle = style({
-  backgroundColor: "transparent",
-  color: themeVars.color.primary,
-  width: "max-content",
+export const SelectRootStyle = style([
+  baseStyle,
+  sprinkles({
+    backgroundColor: "none",
+    color: "primary",
+  }),
+  {
+    width: "max-content",
+  },
+]);
+
+export const SelectContentStyle = style([
+  sprinkles({
+    backgroundColor: "accent",
+    color: "primary",
+    borderRadius: "small",
+    paddingLeft: "none",
+  }),
+  {
+    border: "none",
+    outline: "none",
+  },
+]);
+
+export const SelectLabelStyle = sprinkles({
+  color: "primary",
+  backgroundColor: "none",
 });
 
-export const SelectContentStyle = style({
-  backgroundColor: themeVars.color.accent,
-  color: themeVars.color.primary,
-  border: "none",
-  outline: "none",
-  borderRadius: "5px",
-  paddingLeft: "0px",
-});
+export const SelectTriggerStyle = style([
+  sprinkles({
+    color: "primary",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    borderRadius: "small",
+    alignItems: "center",
+    gap: "medium",
+    fontSize: "standard",
+  }),
+  {
+    padding: "2px 10px",
+    border: "none",
+    outline: "none",
+    userSelect: "none",
+  },
+]);
 
-export const SelectLabelStyle = style({
-  color: themeVars.color.primary,
-  backgroundColor: "transparent",
-});
-
-export const SelectTriggerStyle = style({
-  color: themeVars.color.primary,
-  display: "flex",
-  flexDirection: "row",
-  padding: "2px 10px",
-  justifyContent: "space-between",
-  border: "none",
-  borderRadius: "5px",
-  alignItems: "center",
-  gap: "10px",
-  outline: "none",
-  userSelect: "none",
-  fontSize: themeVars.font.size.standard,
-  fontFamily: themeVars.font.family,
-});
-
-export const SelectItemStyle = style({
-  border: "none",
-  outline: "none",
-  userSelect: "none",
-  padding: "5px 10px",
-  listStyle: "none",
-  display: "flex",
-  gap: "10px",
-  borderRadius: "5px",
-  justifyContent: "space-between",
-  selectors: {
-    "&:hover": {
-      backgroundColor: themeVars.color.secondary,
-      color: themeVars.color.backgroundSecondary,
+export const SelectItemStyle = style([
+  sprinkles({
+    paddingY: "small",
+    paddingX: "medium",
+    display: "flex",
+    gap: "medium",
+    borderRadius: "small",
+    justifyContent: "space-between",
+  }),
+  {
+    border: "none",
+    outline: "none",
+    userSelect: "none",
+    listStyle: "none",
+    selectors: {
+      "&:hover": {
+        backgroundColor: themeVars.color.secondary,
+        color: themeVars.color.backgroundSecondary,
+      },
     },
   },
-});
+]);

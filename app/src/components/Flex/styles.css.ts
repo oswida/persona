@@ -1,29 +1,23 @@
+import { sprinkles } from "./../../common/theme.css";
 import { recipe } from "@vanilla-extract/recipes";
 
 export const FlexStyle = recipe({
-  base: {
-    display: "flex",
-    gap: "5px",
-  },
+  base: [
+    sprinkles({
+      display: "flex",
+      gap: "small",
+    }),
+  ],
   variants: {
     type: {
-      row: {
-        flexDirection: "row",
-      },
-      column: {
-        flexDirection: "column",
-      },
+      row: sprinkles({ flexDirection: "row" }),
+      column: sprinkles({ flexDirection: "column" }),
     },
     center: {
-      true: {
-        justifyContent: "center",
-        alignItems: "center",
-      },
+      true: sprinkles({ placeItems: "center" }),
     },
     vcenter: {
-      true: {
-        alignItems: "center",
-      },
+      true: sprinkles({ alignItems: "center" }),
     },
     scrolled: {
       true: {

@@ -1,3 +1,4 @@
+import { baseStyle, sprinkles } from "./../../../common/theme.css";
 import { style } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
 import { themeVars } from "~/common";
@@ -10,18 +11,22 @@ const starSVG = (fill?: string) => {
 export const ResourceStyle = style({});
 
 export const TplNumericStyle = recipe({
-  base: {
-    width: "2.5rem",
-    height: "2.5rem",
-    padding: "0.1rem",
-    backgroundColor: themeVars.color.background,
-    fontFamily: themeVars.font.family,
-    fontSize: themeVars.font.size.standard,
-    color: themeVars.color.primary,
-    textAlign: "center",
-    verticalAlign: "middle",
-    outline: "none",
-  },
+  base: [
+    baseStyle,
+    sprinkles({
+      backgroundColor: "none",
+      fontSize: "standard",
+      color: "primary",
+    }),
+    {
+      width: "2.5rem",
+      height: "2.5rem",
+      padding: "0.1rem",
+      textAlign: "center",
+      verticalAlign: "middle",
+      outline: "none",
+    },
+  ],
   variants: {
     decoration: {
       circle: {
@@ -44,33 +49,29 @@ export const TplNumericStyle = recipe({
 });
 
 export const TplSlashStyle = style({
-  height: "2.5rem",
   width: "0.5rem",
-  background: `linear-gradient(to top left,
-      ${themeVars.color.background} 0%,
-      ${themeVars.color.background} calc(50% - 2px),
-               ${themeVars.color.primary} 50%,
-               ${themeVars.color.background} calc(50% + 2px),
-               ${themeVars.color.background} 100%),
-                linear-gradient(to top right,
-                  ${themeVars.color.background} 0%,
-                  ${themeVars.color.background} calc(50% - 2px),
-               ${themeVars.color.primary} 50%,
-               ${themeVars.color.background} calc(50% + 2px),
-               ${themeVars.color.background} 100%)`,
+  height: "2.5rem",
+  transform: "rotate(20deg) translate(-0.3em,-0.1em)",
+  transformOrigin: "bottom left",
+  borderLeft: `2px solid ${themeVars.color.primary}`,
+  boxSizing: "border-box",
 });
 
 export const TplMarkStyle = recipe({
-  base: {
-    backgroundColor: themeVars.color.background,
-    color: themeVars.color.primary,
-    width: "0.9rem",
-    height: "0.9rem",
-    border: `solid 1px ${themeVars.color.primary}`,
-    alignSelf: "center",
-    position: "relative",
-    textAlign: "center",
-  },
+  base: [
+    baseStyle,
+    sprinkles({
+      color: "primary",
+    }),
+    {
+      width: "0.9rem",
+      height: "0.9rem",
+      border: `solid 1px ${themeVars.color.primary}`,
+      alignSelf: "center",
+      position: "relative",
+      textAlign: "center",
+    },
+  ],
   variants: {
     decoration: {
       circle: {
@@ -96,6 +97,9 @@ export const TplMarkStyle = recipe({
     checked: {
       true: {
         backgroundColor: themeVars.color.primary,
+      },
+      false: {
+        backgroundColor: themeVars.color.background,
       },
     },
   },

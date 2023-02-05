@@ -3,7 +3,6 @@ import { createEffect, For } from "solid-js";
 import {
   ChatEntry,
   chatList,
-  currentStyle,
   mqttClient,
   netPublish,
   prettyNow,
@@ -103,7 +102,7 @@ export const ChatView = () => {
   });
 
   return (
-    <div class={ChatRootStyle} style={currentStyle()}>
+    <div class={ChatRootStyle}>
       <Flex style={{ "justify-content": "space-between" }}>
         <Texte>Chat</Texte>
         <Flex>

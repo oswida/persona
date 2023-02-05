@@ -1,6 +1,6 @@
-import { Component, Show, VoidProps } from "solid-js";
+import { Component, Show } from "solid-js";
 import { Flex, Texte } from "~/components";
-import { TplElement, TplText } from "~/templates/types";
+import { TplElement, TplLabel } from "~/templates/types";
 import { Mark } from "./Mark";
 
 type Props = {
@@ -9,8 +9,8 @@ type Props = {
   onClick?: () => void;
 };
 
-export const TextEl: Component<Props> = ({ element, onClick, checked }) => {
-  const el = element.content as TplText;
+export const Label: Component<Props> = ({ element, onClick, checked }) => {
+  const el = element.content as TplLabel;
 
   return (
     <Flex style={{ "justify-content": "space-between", padding: "5px" }}>

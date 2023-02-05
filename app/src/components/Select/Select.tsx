@@ -8,7 +8,6 @@ import {
   createMemo,
   createUniqueId,
 } from "solid-js";
-import { currentStyle } from "~/common";
 import { ButtonStyle } from "../Button/styles.css";
 import {
   SelectContentStyle,
@@ -54,13 +53,13 @@ export const Select: Component<Props> = ({
   // });
 
   return (
-    <div style={{ ...currentStyle(), width: width }} class={SelectRootStyle}>
+    <div style={{ width: width }} class={SelectRootStyle}>
       <div class={SelectTriggerStyle}>
         <label class={SelectLabelStyle} {...api().labelProps}>
           {label}
         </label>
         <button
-          class={ButtonStyle({ border: "underline" })}
+          class={ButtonStyle({ border: "standard" })}
           {...api().triggerProps}
         >
           <span>

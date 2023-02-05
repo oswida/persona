@@ -1,3 +1,4 @@
+import { sprinkles } from "./../../common/theme.css";
 import { style } from "@vanilla-extract/css";
 import { themeVars } from "~/common";
 
@@ -32,23 +33,27 @@ export const DiceSelectorStyle = style({
   fontSize: "0.9rem",
 });
 
-export const DiceSelectorControl = style({
-  width: "1.3rem",
-  height: "1.3rem",
-  border: `1px solid ${themeVars.color.accent}`,
-  borderRadius: "50%",
-  position: "absolute",
-  display: "flex",
-  alignItems: "center",
-  backgroundColor: themeVars.color.secondary,
-  color: themeVars.color.backgroundSecondary,
-  fontWeight: "bold",
-  left: "50%",
-  transform: "translate(-50%, 50%)",
-  bottom: 0,
-  fontSize: themeVars.font.size.standard,
-  justifyContent: "center",
-});
+export const DiceSelectorControl = style([
+  sprinkles({
+    display: "flex",
+    placeItems: "center",
+    backgroundColor: "secondary",
+    color: "backgroundSecondary",
+    fontSize: "standard",
+    justifyContent: "center",
+  }),
+  {
+    borderRadius: "50%",
+    width: "1.3rem",
+    height: "1.3rem",
+    border: `1px solid ${themeVars.color.accent}`,
+    position: "absolute",
+    fontWeight: "bold",
+    left: "50%",
+    transform: "translate(-50%, 50%)",
+    bottom: 0,
+  },
+]);
 
 export const DiceSelectorBackground = style({
   opacity: 0.1,

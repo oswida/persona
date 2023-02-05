@@ -16,7 +16,7 @@ export const CsListStyle = style({
   height: "calc(100vh - 2em - 10px)",
   width: "30vw",
   flex: 1,
-  backgroundColor: themeVars.color.accent,
+  backgroundColor: themeVars.color.backgroundSecondary,
   display: "flex",
   flexDirection: "column",
   padding: "5px",

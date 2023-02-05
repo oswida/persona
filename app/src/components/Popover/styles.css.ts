@@ -1,36 +1,53 @@
 import { style } from "@vanilla-extract/css";
-import { themeVars } from "~/common";
+import { baseStyle, sprinkles, themeVars } from "./../../common/theme.css";
 
-export const PopoverTitleStyle = style({
-  display: "flex",
-  padding: "5px",
-  alignItems: "center",
-  justifyContent: "space-between",
-  width: "100%",
-  fontSize: themeVars.font.size.standard,
-  marginTop: "5px",
-  marginBottom: "5px",
-  color: themeVars.color.primary,
-});
+export const PopoverRootStyle = style([
+  baseStyle,
+  sprinkles({
+    borderRadius: "small",
+  }),
+  {
+    border: `solid 1px ${themeVars.color.accent}`,
+  },
+]);
 
-export const PopoverCloseButtonStyle = style({
-  border: "none",
-  outline: "none",
-  height: 30 * 0.8,
-  width: 30,
-  fontSize: 20,
-  cursor: "pointer",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  userSelect: "none",
-  backgroundColor: "transparent",
-  color: themeVars.color.primary,
-  alignSelf: "flex-end",
-});
+export const PopoverTitleStyle = style([
+  sprinkles({
+    display: "flex",
+    padding: "small",
+    alignItems: "center",
+    justifyContent: "space-between",
+    fontSize: "standard",
+    marginY: "small",
+    color: "primary",
+  }),
+  {
+    width: "100%",
+  },
+]);
 
-export const PopoverContentStyle = style({
-  backgroundColor: themeVars.color.backgroundSecondary,
-  padding: "5px",
-  borderRadius: "5px",
+export const PopoverCloseButtonStyle = style([
+  sprinkles({
+    backgroundColor: "none",
+    color: "primary",
+    display: "flex",
+    justifyContent: "center",
+  }),
+  {
+    border: "none",
+    outline: "none",
+    height: 30 * 0.8,
+    width: 30,
+    fontSize: 20,
+    cursor: "pointer",
+    alignItems: "center",
+    userSelect: "none",
+    alignSelf: "flex-end",
+  },
+]);
+
+export const PopoverContentStyle = sprinkles({
+  backgroundColor: "backgroundSecondary",
+  padding: "small",
+  borderRadius: "small",
 });

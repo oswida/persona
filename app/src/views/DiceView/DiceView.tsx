@@ -5,7 +5,7 @@ import { FaSolidTrashCan } from "solid-icons/fa";
 import { Component, For } from "solid-js";
 import { v4 as uuidv4 } from "uuid";
 import {
-  currentTheme,
+  
   personaRollsKey,
   prettyNow,
   rollSingle,

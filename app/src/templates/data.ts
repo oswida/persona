@@ -1,4 +1,4 @@
-import { TplImg, TplResource, TplTable, TplText } from "~/templates/types";
+import { TplImg, TplLabel, TplResource, TplTable } from "~/templates/types";
 import { genColumn, genElement, genPage, genRow, genSection } from "./gen";
 import { Tpl, TplNumeric, TplNumericWithMax } from "./types";
 
@@ -14,10 +14,10 @@ export const SampleTpl = {
             genElement("text", {
               value: "First text",
               marked: true,
-            } as TplText),
+            } as TplLabel),
           ]),
           genColumn("50%", [
-            genElement("text", { value: "Text in second column" } as TplText),
+            genElement("text", { value: "Text in second column" } as TplLabel),
             genElement(
               "numeric_with_max",
               {
@@ -47,7 +47,7 @@ export const SampleTpl = {
           genColumn("66%", [
             genElement("text", {
               value: "Text in second column for second row",
-            } as TplText),
+            } as TplLabel),
             genElement("help", "Help for this"),
             genElement("resource", {
               label: "Some resource",
@@ -95,7 +95,7 @@ export const SampleTpl = {
           genColumn("33%", [
             genElement("text", {
               value: "Text in second column for second row",
-            } as TplText),
+            } as TplLabel),
             genElement("table", {
               label: "table",
               headers: ["raz", "dwa", "trzy"],

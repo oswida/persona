@@ -11,7 +11,7 @@ import {
   JSX,
   Show,
 } from "solid-js";
-import { currentTheme, themeVars } from "~/common";
+import {  themeVars } from "~/common";
 import { Button } from "../Button";
 import { EditableFlex, EditableStyle } from "./styles.css";
 
@@ -61,7 +61,7 @@ export const Editable: Component<ComponentProps<"input"> & Props> = ({
             transparent: transparent,
           })}
           style={{
-            ...assignInlineVars(themeVars, currentTheme()),
+            // ...assignInlineVars(themeVars, currentTheme()),
             ...(style as JSX.CSSProperties),
           }}
           title={title}

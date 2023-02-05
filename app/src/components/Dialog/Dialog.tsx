@@ -20,6 +20,7 @@ import {
 
 type Props = {
   trigger: any;
+  triggerShape?: "icon" | "standard";
   title?: string;
   passApi?: (api: any) => void;
 };
@@ -28,6 +29,7 @@ export const Dialog: Component<Props & ParentProps> = ({
   children,
   trigger,
   title,
+  triggerShape,
   passApi,
 }) => {
   const [state, send] = useMachine(dialog.machine({ id: createUniqueId() }));
@@ -37,7 +39,10 @@ export const Dialog: Component<Props & ParentProps> = ({
 
   return (
     <>
-      <button class={ButtonStyle({})} {...api().triggerProps}>
+      <button
+        class={ButtonStyle({ shape: triggerShape })}
+        {...api().triggerProps}
+      >
         {trigger}
       </button>
       <Show when={api().isOpen}>

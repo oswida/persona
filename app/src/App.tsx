@@ -1,17 +1,19 @@
 import { Route, Routes } from "@solidjs/router";
-import {Component, createEffect, JSX, ParentProps} from "solid-js";
-import { appStyle } from "./app.css";
-import { currentThemeClass } from "./common";
-import { MainView } from "./routes/MainView";
-import { Toaster } from "solid-toast";
-import { ConnectView } from "./routes/ConnectView/ConnectView";
-import { ConfirmDialog } from "~/components";
+import { Component, createEffect, JSX } from "solid-js";
 import { Dynamic } from "solid-js/web";
+import { Toaster } from "solid-toast";
+import { ConfirmDialog } from "~/components";
+import { appStyle } from "./app.css";
+import { darksandThemeClass } from "./common";
 import { StrInputDialog } from "./components";
+import { ConnectView } from "./routes/ConnectView/ConnectView";
+import { MainView } from "./routes/MainView";
 
-const Main: ({children}: { children: any }) => JSX.Element = ({ children }) => {
+const Main: ({ children }: { children: any }) => JSX.Element = ({
+  children,
+}) => {
   createEffect(() => {
-    document.documentElement.classList.add(currentThemeClass());
+    document.documentElement.classList.add(darksandThemeClass);
   });
 
   return (

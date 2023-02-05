@@ -12,11 +12,13 @@ import { ButtonStyle } from "../Button/styles.css";
 import {
   PopoverCloseButtonStyle,
   PopoverContentStyle,
+  PopoverRootStyle,
   PopoverTitleStyle,
 } from "./styles.css";
 
 type Props = {
   trigger: any;
+  triggerShape?: "icon" | "standard";
   title?: string;
   hasClose?: boolean;
   persistent?: boolean;
@@ -28,6 +30,7 @@ export const Popover: Component<Props & ParentProps> = ({
   title,
   hasClose,
   persistent,
+  triggerShape,
 }) => {
   const [state, send] = useMachine(
     popover.machine({
@@ -43,13 +46,14 @@ export const Popover: Component<Props & ParentProps> = ({
       <button
         class={ButtonStyle({
           selected: api().isOpen,
+          shape: triggerShape,
         })}
         {...api().triggerProps}
       >
         {trigger}
       </button>
 
-      <div id="pop-content" {...api().positionerProps}>
+      <div id="pop-content" {...api().positionerProps} class={PopoverRootStyle}>
         <Show when={api().isOpen}>
           <div {...api().contentProps} class={PopoverContentStyle}>
             <Show when={hasClose !== undefined || title}>

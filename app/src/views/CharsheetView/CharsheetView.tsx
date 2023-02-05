@@ -1,6 +1,6 @@
 import { Option } from "@zag-js/select/dist/select.types";
 import { FaSolidDeleteLeft, FaSolidPlus } from "solid-icons/fa";
-import { createMemo, createSignal } from "solid-js";
+import { createMemo, createSignal, Show } from "solid-js";
 import { v4 as uuidv4 } from "uuid";
 import {
   charsheetData,
@@ -28,11 +28,14 @@ import { CsListStyle, CsZoneStyle } from "./styles.css";
 export const CharsheetView = () => {
   const [filter, setFilter] = createSignal("");
   const [tpl, setTpl] = createSignal("");
+  const [onlySession, setOnlySession] = createSignal(false);
+  const [onlyOwner, setOnlyOwner] = createSignal(false);
 
   let refFlt: HTMLInputElement;
 
   const items = createMemo(() => {
     return Object.values(charsheetData()).map((it) => {
+      const tpl = csTemplateList()[it.templateId];
       return {
         title: it.name,
         value: it.id,
@@ -84,16 +87,28 @@ export const CharsheetView = () => {
 
   return (
     <div class={CsListStyle}>
-      <Flex style={{ "align-items": "center" }}>
+      <Flex
+        style={{ "align-items": "center", "justify-content": "space-between" }}
+      >
         <Texte>Charsheets</Texte>
-        <Select label="Template" options={templates} onChange={selTpl} />
-        <Button onClick={create}>
-          <FaSolidPlus />
-        </Button>
+        <Flex>
+          <Select label="Template" options={templates} onChange={selTpl} />
+          <Button onClick={create}>
+            <FaSolidPlus />
+          </Button>
+        </Flex>
       </Flex>
       <Flex>
-        <Checkbox label="Only current session" />
-        <Checkbox label="Only owned" />
+        <Checkbox
+          label="Only current session"
+          value={onlySession()}
+          onChange={(v) => setOnlySession(v)}
+        />
+        <Checkbox
+          label="Only owned"
+          value={onlyOwner()}
+          onChange={(v) => setOnlyOwner(v)}
+        />
       </Flex>
       <div class={CsZoneStyle}>
         <Accordion items={items} />

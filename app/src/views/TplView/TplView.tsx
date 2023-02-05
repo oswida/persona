@@ -14,5 +14,7 @@ export const TplView: Component<Props> = ({ tpl }) => {
     content: renderPage(it),
   }));
 
-  return <Tabs items={tabs} />;
+  return (
+    <Tabs items={tabs} style={{ "margin-top": "5px" }} value={tabs[0].value} />
+  );
 };

@@ -5,6 +5,7 @@ import {
   createMemo,
   createUniqueId,
   For,
+  JSX,
   ParentProps,
 } from "solid-js";
 import {
@@ -22,15 +23,24 @@ export type TabDesc = {
 
 type Props = {
   items: TabDesc[];
+  style?: string | JSX.CSSProperties | undefined;
+  value?: string;
 };
 
-export const Tabs: Component<Props & ParentProps> = ({ children, items }) => {
-  const [state, send] = useMachine(tabs.machine({ id: createUniqueId() }));
+export const Tabs: Component<Props & ParentProps> = ({
+  children,
+  items,
+  style,
+  value,
+}) => {
+  const [state, send] = useMachine(
+    tabs.machine({ id: createUniqueId(), value: value })
+  );
 
   const api = createMemo(() => tabs.connect(state, send, normalizeProps));
 
   return (
-    <div class={TabsRootStyle} {...api().rootProps}>
+    <div class={TabsRootStyle} {...api().rootProps} style={style}>
       <div class={TabsTriggerGroupStyle} {...api().tablistProps}>
         <For each={items}>
           {(item) => (

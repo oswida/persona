@@ -35,6 +35,7 @@
     "@vanilla-extract/css": "^1.9.1",
     "@vanilla-extract/dynamic": "^2.0.3",
     "@vanilla-extract/recipes": "^0.2.5",
+    "@vanilla-extract/sprinkles": "^1.5.1",
     "@zag-js/accordion": "^0.2.7",
     "@zag-js/checkbox": "^0.2.8",
     "@zag-js/dialog": "^0.2.7",

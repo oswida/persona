@@ -1,24 +1,27 @@
 import { recipe } from "@vanilla-extract/recipes";
-import { themeVars } from "~/common/theme.css";
+import { baseStyle, themeVars } from "~/common/theme.css";
+import { sprinkles } from "./../../common/theme.css";
 
 export const InputStyle = recipe({
-  base: {
-    boxShadow: "none",
-    outline: "none",
-    border: "none",
-    padding: "4px 8px",
-    fontFamily: themeVars.font.family,
-    fontSize: themeVars.font.size.standard,
-    appearance: "textfield",
-    backgroundColor: themeVars.color.background,
-    color: themeVars.color.primary,
-    borderRadius: 5,
-  },
+  base: [
+    baseStyle,
+    sprinkles({
+      fontSize: "standard",
+      backgroundColor: "background",
+      color: "primary",
+      borderRadius: "small",
+    }),
+    {
+      boxShadow: "none",
+      outline: "none",
+      border: "none",
+      padding: "4px 8px",
+      appearance: "textfield",
+    },
+  ],
   variants: {
     transparent: {
-      true: {
-        backgroundColor: "transparent",
-      },
+      true: sprinkles({ backgroundColor: "none" }),
     },
     underline: {
       true: {
@@ -26,10 +29,14 @@ export const InputStyle = recipe({
       },
     },
     isTitle: {
-      true: {
-        fontWeight: "bold",
-        fontSize: themeVars.font.size.large,
-      },
+      true: [
+        sprinkles({
+          fontSize: "big",
+        }),
+        {
+          fontWeight: "bold",
+        },
+      ],
     },
     center: {
       true: {
@@ -37,38 +44,35 @@ export const InputStyle = recipe({
       },
     },
     size: {
-      small: {
-        fontSize: themeVars.font.size.small,
-      },
-      smaller: {
-        fontSize: themeVars.font.size.smaller,
-      },
-      standard: {
-        fontSize: themeVars.font.size.standard,
-      },
+      small: sprinkles({ fontSize: "small" }),
+      smaller: sprinkles({ fontSize: "smaller" }),
+      standard: sprinkles({ fontSize: "standard" }),
     },
   },
 });
 
 export const InputButtonStyle = recipe({
-  base: {
-    appearance: "textfield",
-    fontFamily: themeVars.font.family,
-    fontSize: themeVars.font.size.bigger,
-    color: themeVars.color.primary,
-    outline: "none",
-    border: `solid 1px ${themeVars.color.secondary}`,
-    borderRadius: 5,
-    textAlign: "center",
-    backgroundColor: "transparent",
-    selectors: {
-      "&:hover": {
-        color: themeVars.color.primary,
-        textDecoration: "none",
-        cursor: "pointer",
+  base: [
+    baseStyle,
+    sprinkles({
+      fontSize: "bigger",
+      color: "primary",
+      borderRadius: "small",
+      backgroundColor: "none",
+    }),
+    {
+      appearance: "textfield",
+      outline: "none",
+      border: `solid 1px ${themeVars.color.secondary}`,
+      textAlign: "center",
+      selectors: {
+        "&:hover": {
+          textDecoration: "none",
+          cursor: "pointer",
+        },
       },
     },
-  },
+  ],
   variants: {
     size: {
       standard: {
@@ -76,12 +80,16 @@ export const InputButtonStyle = recipe({
         paddingLeft: 7,
         paddingRight: 7,
       },
-      small: {
-        padding: 2,
-        paddingLeft: 3,
-        paddingRight: 3,
-        fontSize: themeVars.font.size.small,
-      },
+      small: [
+        sprinkles({
+          fontSize: "small",
+        }),
+        {
+          padding: 2,
+          paddingLeft: 3,
+          paddingRight: 3,
+        },
+      ],
     },
   },
   defaultVariants: {
@@ -90,35 +98,35 @@ export const InputButtonStyle = recipe({
 });
 
 export const InputAreaStyle = recipe({
-  base: {
-    userSelect: "contain",
-    fontFamily: themeVars.font.family,
-    background: themeVars.color.background,
-    color: themeVars.color.primary,
-    outline: "none",
-    lineHeight: "1.1em",
-    fontSize: themeVars.font.size.bigger,
-    padding: 5,
-    borderRadius: 5,
-    textAlign: "left",
-    overflow: "auto",
-    whiteSpace: "pre-wrap",
-    selectors: {
-      "&[disabled]": {
-        opacity: 0.3,
+  base: [
+    baseStyle,
+    sprinkles({
+      backgroundColor: "background",
+      color: "primary",
+      fontSize: "bigger",
+      padding: "small",
+      borderRadius: "small",
+    }),
+    {
+      userSelect: "contain",
+      outline: "none",
+      lineHeight: "1.1em",
+      textAlign: "left",
+      overflow: "auto",
+      whiteSpace: "pre-wrap",
+      selectors: {
+        "&[disabled]": {
+          opacity: 0.3,
+        },
       },
     },
-  },
+  ],
   variants: {
     small: {
-      true: {
-        fontSize: themeVars.font.size.standard,
-      },
+      true: sprinkles({ fontSize: "standard" }),
     },
     transparent: {
-      true: {
-        backgroundColor: "transparent",
-      },
+      true: sprinkles({ backgroundColor: "none" }),
     },
     border: {
       none: {
@@ -127,10 +135,14 @@ export const InputAreaStyle = recipe({
       down: {
         borderBottom: `solid 1px ${themeVars.color.backgroundSecondary}`,
       },
-      full: {
-        border: `solid 1px ${themeVars.color.accent}`,
-        borderRadius: 5,
-      },
+      full: [
+        sprinkles({
+          borderRadius: "small",
+        }),
+        {
+          border: `solid 1px ${themeVars.color.accent}`,
+        },
+      ],
     },
   },
   defaultVariants: {

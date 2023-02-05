@@ -116,46 +116,45 @@ export const CardItem = ({ item }: { item: CardData }) => {
 
   return (
     <div class={CardStyle}>
-      <Flex style={{ "justify-content": "space-between" }}>
-        <Flex style={{ gap: "10px" }}>
-          <Show when={item.owner == settingsData().ident.browserID}>
+      <Show when={item.owner == settingsData().ident.browserID}>
+        <Flex style={{ "justify-content": "space-between" }}>
+          <Flex style={{ gap: "10px" }}>
             <Button onClick={deleteCard} title="Delete card" size="small">
               <FaSolidTrash color={themeVars.color.secondary} />
             </Button>
-          </Show>
-        </Flex>
+          </Flex>
 
-        <Flex>
-          <Show when={!edc()}>
-            <Button size="small" onClick={editTitle}>
-              <FaSolidPencil color={themeVars.color.secondary} />
-              <Texte size="small">Title</Texte>
-            </Button>
-            <Button size="small" onClick={editContent}>
-              <FaSolidPencil color={themeVars.color.secondary} />
-              <Texte size="small">Content</Texte>
-            </Button>
-          </Show>
-          <Show when={edc()}>
-            <Button size="small" onClick={editContentUpdate}>
-              <FaSolidFloppyDisk color={themeVars.color.secondary} />
-              <Texte size="small">Update</Texte>
-            </Button>
-          </Show>
-          {/* <Button size="small" onClick={editFooter}>
+          <Flex>
+            <Show when={!edc()}>
+              <Button size="small" onClick={editTitle}>
+                <FaSolidPencil color={themeVars.color.secondary} />
+                <Texte size="small">Title</Texte>
+              </Button>
+              <Button size="small" onClick={editContent}>
+                <FaSolidPencil color={themeVars.color.secondary} />
+                <Texte size="small">Content</Texte>
+              </Button>
+            </Show>
+            <Show when={edc()}>
+              <Button size="small" onClick={editContentUpdate}>
+                <FaSolidFloppyDisk color={themeVars.color.secondary} />
+                <Texte size="small">Update</Texte>
+              </Button>
+            </Show>
+            {/* <Button size="small" onClick={editFooter}>
             <FaSolidPencil color={themeVars.color.secondary} />
             <Texte size="small">Footer</Texte>
           </Button> */}
-          <Show when={item.owner == settingsData().ident.browserID}>
+
             <Checkbox
               label="Current session"
               color={themeVars.color.secondary}
               onChange={(v) => putIntoSession(v)}
               value={sessionCards().includes(item.id)}
             />
-          </Show>
+          </Flex>
         </Flex>
-      </Flex>
+      </Show>
       <Flex style={{ "margin-top": "10px" }}>
         <Show when={edc()}>
           <InputArea

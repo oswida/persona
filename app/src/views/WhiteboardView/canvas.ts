@@ -1,6 +1,6 @@
 import { fabric } from "fabric";
 import { Accessor } from "solid-js";
-import { currentTheme, setWbState, wbState } from "~/common";
+import {  setWbState, wbState } from "~/common";
 import { WhiteboardState } from "./../../common/types";
 
 let mouseDown = false;

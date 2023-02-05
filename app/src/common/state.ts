@@ -4,9 +4,6 @@ import { Client } from "paho-mqtt";
 import { createMemo, createSignal } from "solid-js";
 import { Tpl } from "~/templates/types";
 import {
-  darkThemeClass,
-  darkThemeVars,
-  lightThemeVars,
   themeVars,
 } from "./theme.css";
 import {
@@ -24,15 +21,15 @@ import {
 } from "./types";
 
 // App state
-export const [currentTheme, setCurrentTheme] = createSignal<
-  typeof darkThemeVars | typeof lightThemeVars
->(darkThemeVars);
-export const [currentThemeClass, setCurrentThemeClass] =
-  createSignal<string>(darkThemeClass);
+// export const [currentTheme, setCurrentTheme] = createSignal<
+//   typeof darkThemeVars | typeof lightThemeVars
+// >(darkThemeVars);
+// export const [currentThemeClass, setCurrentThemeClass] =
+//   createSignal<string>(darkThemeClass);
 
-export const currentStyle = createMemo(() => {
-  return assignInlineVars(themeVars, currentTheme());
-});
+// export const currentStyle = createMemo(() => {
+//   return assignInlineVars(themeVars, currentTheme());
+// });
 
 // Main settings data
 export const [settingsData, setSettingsData] = createSignal<Settings>(

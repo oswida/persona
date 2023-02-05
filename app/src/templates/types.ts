@@ -1,12 +1,13 @@
 export type TplElementType =
   | "header"
   | "help"
-  | "text"
+  | "label"
   | "numeric"
   | "numeric_with_max"
   | "resource"
   | "table"
-  | "image";
+  | "image"
+  | "text";
 
 export type TplImg = {
   label?: string;
@@ -38,7 +39,6 @@ export type TplResource = {
 export type TplNumericWithMax = {
   label?: string;
   help?: string;
-  max: number;
   decoration: "circle" | "square" | "underline" | "none";
 };
 
@@ -48,9 +48,16 @@ export type TplNumeric = {
   decoration: "circle" | "square" | "underline" | "none";
 };
 
-export type TplText = {
+export type TplLabel = {
   value: string;
   marked: boolean;
+};
+
+export type TplText = {
+  id: string;
+  label?: string;
+  lines?: number;
+  help?: string;
 };
 
 export type TplElement = {
@@ -58,12 +65,13 @@ export type TplElement = {
   etype: TplElementType;
   content:
     | string
-    | TplText
+    | TplLabel
     | TplNumeric
     | TplNumericWithMax
     | TplResource
     | TplTable
-    | TplImg;
+    | TplImg
+    | TplText;
   tip?: string;
 };
 
@@ -94,5 +102,6 @@ export type Tpl = {
   id: string;
   name: string;
   game: string;
+  logo: string;
   pages: TplPage[];
 };

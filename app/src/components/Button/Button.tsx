@@ -15,6 +15,7 @@ type Props = {
   border?: "standard" | "underline" | "none";
   selected?: Accessor<boolean>;
   minWidth?: string;
+  shape?: "icon" | "standard";
 };
 
 export const Button: Component<Props & ComponentProps<"button">> = ({
@@ -23,6 +24,7 @@ export const Button: Component<Props & ComponentProps<"button">> = ({
   border,
   selected,
   children,
+  shape,
   title,
   minWidth,
 }) => {
@@ -44,6 +46,7 @@ export const Button: Component<Props & ComponentProps<"button">> = ({
         border: border,
         size: size,
         selected: selected ? selected() : undefined,
+        shape: shape,
       })}
       style={{
         "min-width": minWidth,

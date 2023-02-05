@@ -1,3 +1,4 @@
+import { sprinkles } from "./../../common/theme.css";
 import { style } from "@vanilla-extract/css";
 import { themeVars } from "~/common";
 
@@ -13,14 +14,18 @@ export const ChatRootStyle = style({
   alignSelf: "flex-end",
 });
 
-export const ChatListStyle = style({
-  flex: 1,
-  overflowY: "auto",
-  backgroundColor: themeVars.color.background,
-  borderRadius: "5px",
-  padding: "5px",
-  fontSize: themeVars.font.size.smaller,
-  display: "flex",
-  flexDirection: "column",
-  gap: "5px",
-});
+export const ChatListStyle = style([
+  sprinkles({
+    backgroundColor: "background",
+    borderRadius: "small",
+    padding: "small",
+    fontSize: "smaller",
+    display: "flex",
+    flexDirection: "column",
+    gap: "small",
+  }),
+  {
+    flex: 1,
+    overflowY: "auto",
+  },
+]);

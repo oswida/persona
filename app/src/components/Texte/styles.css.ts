@@ -1,10 +1,9 @@
+import { baseStyle, sprinkles } from "./../../common/theme.css";
 import { recipe } from "@vanilla-extract/recipes";
 import { themeVars } from "~/common";
 
 export const TexteStyle = recipe({
-  base: {
-    color: themeVars.color.primary,
-  },
+  base: [baseStyle],
   variants: {
     align: {
       right: {

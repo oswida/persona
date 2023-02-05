@@ -1,51 +1,63 @@
 import { recipe } from "@vanilla-extract/recipes";
 import { themeVars } from "~/common";
+import { baseStyle, sprinkles } from "./../../common/theme.css";
 
 export const ButtonStyle = recipe({
-  base: {
-    fontFamily: themeVars.font.family,
-    fontSize: themeVars.font.size.standard,
-    color: themeVars.color.primary,
-    padding: "5px 10px",
-    outline: "none",
-    border: "none",
-    borderRadius: 5,
-    backgroundColor: "transparent",
-    userSelect: "none",
-    display: "flex",
-    gap: "5px",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    textDecoration: "none",
-    textAlign: "center",
-    selectors: {
-      "&:hover": {
-        backgroundColor: themeVars.color.accent,
-      },
-      "&:disabled": {
-        backgroundColor: themeVars.color.accent,
-        color: themeVars.color.secondary,
-        cursor: "not-allowed",
+  base: [
+    baseStyle,
+    sprinkles({
+      paddingY: "small",
+      borderRadius: "small",
+      display: "flex",
+      gap: "small",
+      placeItems: "center",
+    }),
+    {
+      outline: "none",
+      border: "none",
+      userSelect: "none",
+      cursor: "pointer",
+      textDecoration: "none",
+      textAlign: "center",
+      selectors: {
+        "&:hover": { color: themeVars.color.accent },
       },
     },
-  },
+  ],
   variants: {
     size: {
-      standard: {
-        fontSize: themeVars.font.size.standard,
-      },
-      small: {
-        fontSize: themeVars.font.size.small,
-      },
-      big: {
-        fontSize: themeVars.font.size.large,
-      },
+      standard: [
+        sprinkles({
+          fontSize: "standard",
+        }),
+      ],
+      small: [
+        sprinkles({
+          fontSize: "small",
+        }),
+      ],
+      smaller: [
+        sprinkles({
+          fontSize: "smaller",
+        }),
+      ],
+      big: [
+        sprinkles({
+          fontSize: "big",
+        }),
+      ],
+      bigger: [
+        sprinkles({
+          fontSize: "bigger",
+        }),
+      ],
     },
     border: {
-      standard: {
-        border: `1px solid ${themeVars.color.accent}`,
-      },
+      standard: [
+        {
+          border: `1px solid ${themeVars.color.accent}`,
+        },
+      ],
       underline: {
         borderBottom: `1px solid ${themeVars.color.accent}`,
         borderBottomLeftRadius: "5px",
@@ -56,14 +68,28 @@ export const ButtonStyle = recipe({
       },
     },
     selected: {
-      true: {
-        backgroundColor: themeVars.color.secondary,
-        color: themeVars.color.backgroundSecondary,
-      },
+      true: sprinkles({
+        backgroundColor: "secondary",
+        color: "backgroundSecondary",
+      }),
+      false: sprinkles({
+        backgroundColor: "none",
+        color: "primary",
+      }),
+    },
+    shape: {
+      icon: sprinkles({
+        paddingX: "small",
+      }),
+      standard: sprinkles({
+        paddingX: "medium",
+      }),
     },
   },
   defaultVariants: {
     size: "standard",
     border: "standard",
+    shape: "standard",
+    selected: false,
   },
 });

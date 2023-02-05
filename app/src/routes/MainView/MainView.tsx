@@ -20,12 +20,6 @@ import {
   cardsVisible,
   charsheetVisible,
   chatVisible,
-  currentStyle,
-  currentTheme,
-  darkThemeClass,
-  darkThemeVars,
-  lightThemeClass,
-  lightThemeVars,
   mqttConnectionStatus,
   netDisconnect,
   netSessionLink,
@@ -35,8 +29,6 @@ import {
   setCardsVisible,
   setCharsheetVisible,
   setChatVisible,
-  setCurrentTheme,
-  setCurrentThemeClass,
   setSessionData,
   storageSize,
 } from "~/common";
@@ -57,13 +49,13 @@ export const MainView = () => {
   const [settApi, setSettApi] = createSignal<any>();
 
   const switchTheme = () => {
-    if (currentTheme() == darkThemeVars) {
-      setCurrentTheme(lightThemeVars);
-      setCurrentThemeClass(lightThemeClass);
-    } else {
-      setCurrentTheme(darkThemeVars);
-      setCurrentThemeClass(darkThemeClass);
-    }
+    // if (currentTheme() == darkThemeVars) {
+    //   setCurrentTheme(lightThemeVars);
+    //   setCurrentThemeClass(lightThemeClass);
+    // } else {
+    //   setCurrentTheme(darkThemeVars);
+    //   setCurrentThemeClass(darkThemeClass);
+    // }
   };
 
   const stopSession = () => {
@@ -76,25 +68,27 @@ export const MainView = () => {
   };
 
   return (
-    <Div100vh class={MainStyle} id="main-div" style={currentStyle()}>
+    <Div100vh class={MainStyle} id="main-div">
       <Flex dn="column">
         <div class={TopBarStyle}>
           <Flex>
             <Button
               onClick={() => setCardsVisible(!cardsVisible())}
               selected={cardsVisible}
+              shape="icon"
             >
               <FaSolidIdCard />
             </Button>
             <Button
               onClick={() => setCharsheetVisible(!charsheetVisible())}
               selected={charsheetVisible}
+              shape="icon"
             >
               <FaSolidUser />
             </Button>
           </Flex>
           <Flex>
-            <Popover persistent trigger={<FaSolidDice />}>
+            <Popover persistent trigger={<FaSolidDice />} triggerShape="icon">
               <DiceRollerView />
             </Popover>
           </Flex>
@@ -103,14 +97,18 @@ export const MainView = () => {
             <Show when={mqttConnectionStatus()}>
               <FaSolidNetworkWired />
             </Show>
-            <Dialog title="Session management" trigger={<FaSolidGamepad />}>
+            <Dialog
+              title="Session management"
+              trigger={<FaSolidGamepad />}
+              triggerShape="icon"
+            >
               <SessionView />
             </Dialog>
             <Show when={sessionData().current != "" && sessionData().hosting}>
               <Texte size="middle">
                 Hosting: {sessionData().hosted[sessionData().current].name}
               </Texte>
-              <Button onClick={stopSession} title="Stop hosting">
+              <Button onClick={stopSession} title="Stop hosting" shape="icon">
                 <FaSolidStop />
               </Button>
               <CopyToClipboard
@@ -118,7 +116,10 @@ export const MainView = () => {
                 onCopy={() => toast("Session link copied to clipboard")}
                 eventTrigger="onClick"
               >
-                <div title="Copy session link" class={ButtonStyle({})}>
+                <div
+                  title="Copy session link"
+                  class={ButtonStyle({ shape: "icon" })}
+                >
                   <FaSolidClipboard />
                 </div>
               </CopyToClipboard>
@@ -139,21 +140,23 @@ export const MainView = () => {
             <Button
               onClick={() => setChatVisible(!chatVisible())}
               selected={chatVisible}
+              shape="icon"
             >
               <FaSolidMessage />
             </Button>
-            <Button onClick={switchTheme}>
-              <Switch>
+            <Button onClick={switchTheme} shape="icon">
+              {/* <Switch>
                 <Match when={currentTheme() == darkThemeVars}>
                   <FaSolidSun />
                 </Match>
                 <Match when={currentTheme() == lightThemeVars}>
                   <FaSolidMoon />
                 </Match>
-              </Switch>
+              </Switch> */}
             </Button>
             <Dialog
               trigger={<FaSolidGears />}
+              triggerShape="icon"
               title="Settings"
               passApi={setSettApi}
             >

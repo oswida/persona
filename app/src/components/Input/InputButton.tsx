@@ -1,6 +1,6 @@
 import { assignInlineVars } from "@vanilla-extract/dynamic";
 import { ComponentProps, JSX } from "solid-js";
-import { themeVars, currentTheme } from "~/common";
+import { themeVars } from "~/common";
 import { InputButtonStyle } from "./styles.css";
 
 type Props = {
@@ -21,7 +21,7 @@ export const InputButton = ({
         size: size,
       })}
       style={{
-        ...assignInlineVars(themeVars, currentTheme()),
+        // ...assignInlineVars(themeVars, currentTheme()),
         ...(style as JSX.CSSProperties),
       }}
       title={title}

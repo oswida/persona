@@ -1,33 +1,38 @@
+import { sprinkles } from "./../../common/theme.css";
 import { recipe } from "@vanilla-extract/recipes";
 import { themeVars } from "~/common";
 import { style } from "@vanilla-extract/css";
 
-export const CheckboxRootStyle = style({
-  backgroundColor: "transparent",
-  color: themeVars.color.primary,
-  display: "flex",
-  gap: "5px",
-  alignItems: "center",
-  justifyContent: "center",
-});
+export const CheckboxRootStyle = style([
+  sprinkles({
+    backgroundColor: "none",
+    color: "primary",
+    display: "flex",
+    gap: "small",
+    placeItems: "center",
+  }),
+]);
 
 export const CheckboxControlStyle = recipe({
-  base: {
-    backgroundColor: "transparent",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "1.5rem",
-    height: "1.5rem",
-    fontSize: themeVars.font.size.large,
-    selectors: {
-      "&::after": {
-        backgroundColor: "transparent",
-        content: "☐",
-        fontWeight: "bold",
+  base: [
+    sprinkles({
+      backgroundColor: "none",
+      display: "flex",
+      placeItems: "center",
+      fontSize: "big",
+    }),
+    {
+      width: "1.5rem",
+      height: "1.5rem",
+      selectors: {
+        "&::after": {
+          backgroundColor: "transparent",
+          content: "☐",
+          fontWeight: "bold",
+        },
       },
     },
-  },
+  ],
   variants: {
     checked: {
       true: {
