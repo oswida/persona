@@ -1,5 +1,6 @@
 import { FaSolidExplosion } from "solid-icons/fa";
 import toast, { ToastPosition } from "solid-toast";
+import { currentFont } from "~/common";
 import { Flex } from "../Flex";
 import { Texte } from "../Texte";
 import { ToastStyle } from "./styles.css";
@@ -12,8 +13,7 @@ export const showToast = (
   toast.custom(
     () => (
       <div
-        class={ToastStyle}
-        // style={currentStyle()}
+        class={ToastStyle({ font: currentFont() })}
         onClick={() => toast.dismiss()}
       >
         {children}
@@ -30,8 +30,7 @@ export const showError = (text: string) => {
   toast.custom(
     () => (
       <div
-        class={ToastStyle}
-        // style={currentStyle()}
+        class={ToastStyle({ font: currentFont() })}
         onClick={() => toast.dismiss()}
       >
         <Flex>

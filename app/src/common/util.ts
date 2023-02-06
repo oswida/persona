@@ -5,6 +5,7 @@ import {
   decompress,
   decompressFromBase64,
 } from "@eonasdan/lz-string";
+import { fontfamily, sprinkles } from "./theme.css";
 
 export const extractQueryParam = (name: string) => {
   const re = new RegExp(`.*(${name}=[a-zA-Z]+).*`, "i");
@@ -121,4 +122,12 @@ export const generateSerialKeys = (length: number, separator: string) => {
     .toUpperCase()
     .replace(/(\w{4})/g, "$1" + separator)
     .substring(0, length + Math.round(length / 4) - 1);
+};
+
+export const createFontVariants = () => {
+  const result: Record<string, any> = {};
+  Object.keys(fontfamily).forEach((it) => {
+    result[it] = sprinkles({ fontFamily: fontfamily[it] });
+  });
+  return result;
 };

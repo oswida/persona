@@ -7,6 +7,7 @@ import {
   createMemo,
   createUniqueId,
 } from "solid-js";
+import { currentFont } from "~/common";
 import { ButtonStyle } from "./styles.css";
 
 type Props = {
@@ -47,6 +48,7 @@ export const Button: Component<Props & ComponentProps<"button">> = ({
         size: size,
         selected: selected ? selected() : undefined,
         shape: shape,
+        font: currentFont(),
       })}
       style={{
         "min-width": minWidth,

@@ -1,5 +1,5 @@
 import { recipe } from "@vanilla-extract/recipes";
-import { themeVars } from "~/common";
+import { createFontVariants, themeVars } from "~/common";
 import { sprinkles } from "./../../common/theme.css";
 
 export const EditableFlex = sprinkles({
@@ -20,7 +20,7 @@ export const EditableStyle = recipe({
       outline: "none",
       border: "none",
       padding: "4px 8px",
-      fontFamily: themeVars.font.family,
+
       appearance: "textfield",
     },
   ],
@@ -65,5 +65,6 @@ export const EditableStyle = recipe({
         }),
       ],
     },
+    font: { ...createFontVariants() },
   },
 });

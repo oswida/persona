@@ -21,6 +21,7 @@ import {
   cardsVisible,
   charsheetVisible,
   chatVisible,
+  currentFont,
   currentTheme,
   currentThemeIdx,
   mqttConnectionStatus,
@@ -72,7 +73,12 @@ export const MainView = () => {
   };
 
   return (
-    <Div100vh class={MainStyle} id="main-div">
+    <Div100vh
+      class={MainStyle({
+        font: currentFont(),
+      })}
+      id="main-div"
+    >
       <Flex dn="column">
         <div class={TopBarStyle}>
           <Flex>

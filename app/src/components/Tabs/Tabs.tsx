@@ -14,6 +14,7 @@ import {
   TabsTriggerGroupStyle,
   TabsTriggerStyle,
 } from "./styles.css";
+import { currentFont } from "~/common";
 
 export type TabDesc = {
   value: string;
@@ -45,7 +46,7 @@ export const Tabs: Component<Props & ParentProps> = ({
         <For each={items}>
           {(item) => (
             <button
-              class={TabsTriggerStyle}
+              class={TabsTriggerStyle({ font: currentFont() })}
               {...api().getTriggerProps({ value: item.value })}
             >
               {item.label}

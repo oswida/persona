@@ -2,7 +2,7 @@ import { themeVars } from "~/common";
 import { style } from "@vanilla-extract/css";
 
 export const CardStyle = style({
-  backgroundColor: themeVars.color.backgroundSecondary,
+  backgroundColor: themeVars.color.background,
   color: themeVars.color.primary,
   padding: "10px",
   display: "flex",

@@ -1,4 +1,5 @@
 import { recipe } from "@vanilla-extract/recipes";
+import { createFontVariants } from "~/common";
 import { baseStyle, themeVars } from "~/common/theme.css";
 import { sprinkles } from "./../../common/theme.css";
 
@@ -48,6 +49,7 @@ export const InputStyle = recipe({
       smaller: sprinkles({ fontSize: "smaller" }),
       standard: sprinkles({ fontSize: "standard" }),
     },
+    font: { ...createFontVariants() },
   },
 });
 

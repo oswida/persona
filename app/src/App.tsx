@@ -4,7 +4,12 @@ import { Dynamic } from "solid-js/web";
 import { Toaster } from "solid-toast";
 import { ConfirmDialog } from "~/components";
 import { appStyle } from "./app.css";
-import { currentTheme, darksandThemeClass, themeMap } from "./common";
+import {
+  currentFont,
+  currentTheme,
+  darksandThemeClass,
+  themeMap,
+} from "./common";
 import { StrInputDialog } from "./components";
 import { ConnectView } from "./routes/ConnectView/ConnectView";
 import { MainView } from "./routes/MainView";
@@ -18,7 +23,7 @@ const Main: ({ children }: { children: any }) => JSX.Element = ({
 
   return (
     <div>
-      <div class={appStyle}>{children}</div>
+      <div class={appStyle({ font: currentFont() })}>{children}</div>
       <Toaster />
       <Dynamic component={ConfirmDialog} />
       <Dynamic component={StrInputDialog} />

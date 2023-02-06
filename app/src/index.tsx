@@ -11,6 +11,7 @@ import {
   loadSettings,
   netConnect,
   sessionData,
+  setCurrentFont,
   setCurrentTheme,
   settingsData,
   updateStoreSize,
@@ -27,6 +28,7 @@ const dictionaries = {
 let lang = "en";
 const sdata = loadSettings();
 setCurrentTheme(sdata.app.theme!);
+setCurrentFont(sdata.app.font!);
 loadCards();
 loadSessions();
 loadCharsheets();

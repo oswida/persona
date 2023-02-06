@@ -1,20 +1,25 @@
 import { style } from "@vanilla-extract/css";
-import { themeVars } from "~/common";
+import { recipe } from "@vanilla-extract/recipes";
+import { createFontVariants, themeVars } from "~/common";
 import { baseStyle, sprinkles } from "./../../common/theme.css";
 
-export const MainStyle = style([
-  sprinkles({
-    fontSize: "standard",
-    backgroundColor: "background",
-    color: "primary",
-  }),
-  {
-    width: "100vw",
-    height: "100vh",
-    overflow: "auto",
-    fontFamily: themeVars.font.family,
+export const MainStyle = recipe({
+  base: [
+    sprinkles({
+      fontSize: "standard",
+      backgroundColor: "background",
+      color: "primary",
+    }),
+    {
+      width: "100vw",
+      height: "100vh",
+      overflow: "auto",
+    },
+  ],
+  variants: {
+    font: { ...createFontVariants() },
   },
-]);
+});
 
 export const TopBarStyle = style([
   baseStyle,

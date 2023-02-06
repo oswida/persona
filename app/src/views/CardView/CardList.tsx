@@ -55,7 +55,7 @@ export const CardList = () => {
       .sort((a, b) => a.title.localeCompare(b.title))
       .map((it) => {
         return {
-          title: <Texte>{it.title}</Texte>,
+          title: <Texte weight={700}>{it.title}</Texte>,
           value: it.id,
           content: <CardItem item={it} />,
         } as AccordionDesc;

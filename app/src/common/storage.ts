@@ -32,6 +32,7 @@ export const loadSettings = () => {
     const dd = decompressData(sdata) as Settings;
     if (!dd.app.lang) dd.app.lang = "en";
     if (!dd.app.theme) dd.app.theme = "darksand";
+    if (!dd.app.font) dd.app.font = "Lato";
     if (!dd.ident.color) dd.ident.color = "#ffffff";
     if (dd.ident.browserID.trim() == "") {
       dd.ident.browserID = uuidv4();

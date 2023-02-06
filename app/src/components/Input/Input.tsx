@@ -1,6 +1,6 @@
 import { assignInlineVars } from "@vanilla-extract/dynamic";
 import { ComponentProps, JSX, Match, Switch } from "solid-js";
-import { themeVars } from "~/common";
+import { currentFont, themeVars } from "~/common";
 import { InputStyle } from "./styles.css";
 
 type Props = {
@@ -36,9 +36,9 @@ export const Input = ({
             underline: underline,
             size: fontSize,
             transparent: transparent,
+            font: currentFont(),
           })}
           style={{
-            // ...assignInlineVars(themeVars, currentTheme()),
             ...(style as JSX.CSSProperties),
           }}
           title={title}
@@ -60,9 +60,9 @@ export const Input = ({
             underline: underline,
             size: fontSize,
             transparent: transparent,
+            font: currentFont(),
           })}
           style={{
-            // ...assignInlineVars(themeVars, currentTheme()),
             ...(style as JSX.CSSProperties),
           }}
           title={title}

@@ -1,6 +1,7 @@
 import * as accordion from "@zag-js/accordion";
 import { normalizeProps, useMachine } from "@zag-js/solid";
 import { Accessor, Component, createMemo, createUniqueId, For } from "solid-js";
+import { currentFont } from "~/common";
 import { ButtonStyle } from "../Button/styles.css";
 import { AccordionItemStyle, AccordionRootStyle } from "./styles.css";
 
@@ -41,6 +42,7 @@ export const Accordion: Component<Props> = ({ items }) => {
                 class={ButtonStyle({
                   border: "underline",
                   selected: api().value == item.value,
+                  font: currentFont(),
                 })}
                 {...api().getTriggerProps({ value: item.value })}
               >

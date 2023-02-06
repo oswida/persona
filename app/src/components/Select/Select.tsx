@@ -7,6 +7,7 @@ import {
   createUniqueId,
   Show,
 } from "solid-js";
+import { currentFont } from "~/common";
 import { ButtonStyle } from "../Button/styles.css";
 import {
   SelectContentStyle,
@@ -56,7 +57,7 @@ export const Select: Component<Props> = ({
           </label>
         </Show>
         <button
-          class={ButtonStyle({ border: "standard" })}
+          class={ButtonStyle({ border: "standard", font: currentFont() })}
           {...api().triggerProps}
         >
           <span>

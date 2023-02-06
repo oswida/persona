@@ -1,5 +1,5 @@
 import { recipe } from "@vanilla-extract/recipes";
-import { themeVars } from "~/common";
+import { createFontVariants, themeVars } from "~/common";
 import { baseStyle, sprinkles } from "./../../common/theme.css";
 
 export const ButtonStyle = recipe({
@@ -20,7 +20,7 @@ export const ButtonStyle = recipe({
       textDecoration: "none",
       textAlign: "center",
       selectors: {
-        "&:hover": { color: themeVars.color.accent },
+        "&:hover": { color: themeVars.color.secondary },
       },
     },
   ],
@@ -68,10 +68,17 @@ export const ButtonStyle = recipe({
       },
     },
     selected: {
-      true: sprinkles({
-        backgroundColor: "secondary",
-        color: "backgroundSecondary",
-      }),
+      true: [
+        sprinkles({
+          backgroundColor: "secondary",
+          color: "backgroundSecondary",
+        }),
+        {
+          selectors: {
+            "&:hover": { color: themeVars.color.accent },
+          },
+        },
+      ],
       false: sprinkles({
         backgroundColor: "none",
         color: "primary",
@@ -85,6 +92,7 @@ export const ButtonStyle = recipe({
         paddingX: "medium",
       }),
     },
+    font: { ...createFontVariants() },
   },
   defaultVariants: {
     size: "standard",

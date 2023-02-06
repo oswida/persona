@@ -1,6 +1,7 @@
-import { sprinkles } from "./../../common/theme.css";
-import { themeVars } from "~/common";
 import { style } from "@vanilla-extract/css";
+import { recipe } from "@vanilla-extract/recipes";
+import { createFontVariants } from "~/common";
+import { sprinkles } from "./../../common/theme.css";
 
 export const AccordionRootStyle = style([
   sprinkles({
@@ -17,15 +18,20 @@ export const AccordionRootStyle = style([
   },
 ]);
 
-export const AccordionTitleStyle = style([
-  sprinkles({
-    paddingX: "medium",
-    paddingY: "small",
-  }),
-  {
-    flex: 1,
+export const AccordionTitleStyle = recipe({
+  base: [
+    sprinkles({
+      paddingX: "medium",
+      paddingY: "small",
+    }),
+    {
+      flex: 1,
+    },
+  ],
+  variants: {
+    font: { ...createFontVariants() },
   },
-]);
+});
 
 export const AccordionItemStyle = style({
   flex: 1,

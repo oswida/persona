@@ -1,6 +1,6 @@
-import { SelectOption } from "./../components/Select/Select";
 import { createTheme, createThemeContract, style } from "@vanilla-extract/css";
 import { createSprinkles, defineProperties } from "@vanilla-extract/sprinkles";
+import { SelectOption } from "./../components/Select/Select";
 
 const space = {
   none: 0,
@@ -10,14 +10,13 @@ const space = {
   em2: "2em",
 };
 
-const fontfamily = {
+export const fontfamily: Record<string, string> = {
   Alegreya: "Alegreya",
-  Cantarell: "Cantarell",
   Lato: "Lato",
-  MedievalSharp: "MedievalSharp",
   Merriweather: "Merriweather",
   Oxanium: "Oxanium",
   Quattrocento: "Quattrocento",
+  Roboto: "Roboto",
 };
 
 export const themeVars = createThemeContract({
@@ -30,7 +29,6 @@ export const themeVars = createThemeContract({
     none: "transparent",
   },
   font: {
-    family: "",
     size: {
       small: "10px",
       smaller: "13px",
@@ -57,6 +55,7 @@ export const themeProperties = defineProperties({
     marginRight: space,
     gap: space,
     fontSize: themeVars.font.size,
+    fontFamily: fontfamily,
     borderRadius: space,
   },
   shorthands: {
@@ -85,192 +84,130 @@ export const baseStyle = style([
   sprinkles({
     fontSize: "standard",
   }),
-  {
-    fontFamily: themeVars.font.family,
-  },
 ]);
+
+const baseSize = {
+  small: "11px",
+  smaller: "14px",
+  standard: "16px",
+  bigger: "18px",
+  big: "21px",
+};
 
 export const darksandThemeClass = createTheme(themeVars, {
   color: {
     background: "#3B2300",
-    backgroundSecondary: "#724C13",
-    accent: "#AA7C39",
+    backgroundSecondary: "#634616",
+    accent: "#8B6D29",
     primary: "#fff",
-    secondary: "#FFDCA9",
+    secondary: "#D7C756",
     none: "transparent",
   },
   font: {
-    family: fontfamily.Quattrocento,
-    size: {
-      small: "11px",
-      smaller: "14px",
-      standard: "16px",
-      bigger: "18px",
-      big: "21px",
-    },
+    size: baseSize,
   },
 });
 
 export const darkblueThemeClass = createTheme(themeVars, {
   color: {
-    background: "#21526B",
-    backgroundSecondary: "#398DB8",
-    accent: "#415D6B",
+    background: "#080014",
+    backgroundSecondary: "#21293B",
+    accent: "#335064",
     primary: "#fff",
-    secondary: "#91CFEE",
+    secondary: "#91D3C2",
     none: "transparent",
   },
   font: {
-    family: fontfamily.Cantarell,
-    size: {
-      small: "11px",
-      smaller: "14px",
-      standard: "16px",
-      bigger: "18px",
-      big: "21px",
-    },
+    size: baseSize,
+  },
+});
+
+export const lilacThemeClass = createTheme(themeVars, {
+  color: {
+    background: "#080014",
+    backgroundSecondary: "#45253D",
+    accent: "#8C4555",
+    primary: "#fff",
+    secondary: "#F3AF5B",
+    none: "transparent",
+  },
+  font: {
+    size: baseSize,
+  },
+});
+
+export const fireThemeClass = createTheme(themeVars, {
+  color: {
+    background: "#2E0003",
+    backgroundSecondary: "#60251D",
+    accent: "#93502D",
+    primary: "#fff",
+    secondary: "#E2BA51",
+    none: "transparent",
+  },
+  font: {
+    size: baseSize,
+  },
+});
+
+export const forestThemeClass = createTheme(themeVars, {
+  color: {
+    background: "#071A01",
+    backgroundSecondary: "#29411D",
+    accent: "#516C32",
+    primary: "#fff",
+    secondary: "#BAC95C",
+    none: "transparent",
+  },
+  font: {
+    size: baseSize,
+  },
+});
+
+export const mintThemeClass = createTheme(themeVars, {
+  color: {
+    background: "#F9F2A3",
+    backgroundSecondary: "#AFD599",
+    accent: "#73B495",
+    primary: "#000",
+    secondary: "#2F4858",
+    none: "transparent",
+  },
+  font: {
+    size: baseSize,
+  },
+});
+
+export const satineThemeClass = createTheme(themeVars, {
+  color: {
+    background: "#D6D5D5",
+    backgroundSecondary: "#BCB5B7",
+    accent: "#9E969E",
+    primary: "#000",
+    secondary: "#2F4858",
+    none: "transparent",
+  },
+  font: {
+    size: baseSize,
   },
 });
 
 export const themeList: SelectOption[] = [
   { label: "Dark sand", value: "darksand" },
   { label: "Dark blue", value: "darkblue" },
+  { label: "Lilac", value: "lilac" },
+  { label: "Fire", value: "fire" },
+  { label: "Forest", value: "forest" },
+  { label: "Mint", value: "mint" },
+  { label: "Satine", value: "satine" },
 ];
 
 export const themeMap: Record<string, string> = {
   darksand: darksandThemeClass,
   darkblue: darkblueThemeClass,
+  lilac: lilacThemeClass,
+  fire: fireThemeClass,
+  forest: forestThemeClass,
+  mint: mintThemeClass,
+  satine: satineThemeClass,
 };
-
-// const bluePalette = {
-//   dark: {
-//     background: "#21526B",
-//     backgroundSecondary: "#398DB8",
-//     accent: "#415D6B",
-//     primary: "#fff",
-//     secondary: "#91CFEE",
-//   },
-//   light: {
-//     background: "#91CFEE",
-//     backgroundSecondary: "#4AB4EB",
-//     accent: "#398DB8",
-//     primary: "#000",
-//     secondary: "#fff",
-//   },
-// };
-
-// const sandPalette = {
-//   dark: {
-//     background: "#3B2300",
-//     backgroundSecondary: "#724C13",
-//     accent: "#AA7C39",
-//     primary: "#fff",
-//     secondary: "#FFDCA9",
-//   },
-//   light: {
-//     background: "#FFDCA9",
-//     backgroundSecondary: "#E2B370",
-//     accent: "#724C13",
-//     primary: "#000",
-//     secondary: "#3B2300",
-//   },
-// };
-
-// export const [darkThemeClass, darkThemeVars] = createTheme({
-//   color: sandPalette.dark,
-//   font: {
-//     family: "Cantarell",
-//     size: themeFontSizes,
-//   },
-// });
-
-// export const [lightThemeClass, lightThemeVars] = createTheme({
-//   color: sandPalette.light,
-//   font: {
-//     family: "Oxanium",
-//     size: themeFontSizes,
-//   },
-// });
-
-// export const drawColors = {
-//   yellow: "#f2f230",
-//   pink: "#e949f5",
-//   green: "#0fff50",
-//   blue: "#3f99ff",
-//   red: "#ff1818",
-// };
-
-// // export const runtimeColors = {
-// //   yellow: "#f2f230",
-// //   pink: "#e949f5",
-// //   neonpink: "#ff00ff",
-// //   green: "#0fff50",
-// //   neongreen: "#00ff00",
-// //   darkblue: "#2c84fa",
-// //   blue: "#3f99ff",
-// //   neonblue: "#00ffff",
-// //   red: "#ff1818",
-// //   fontPrimary: "#ffffff",
-// //   background: "#27262b",
-// //   background100: "#080c12",
-// //   background100a70: "#080c1270",
-// //   background100aee: "#080c12ef",
-// //   background200: "#12171d",
-// //   background300: "#567091",
-// // };
-
-// // export const [themeClass, themeVars] = createTheme({
-// //   fontFamily: "Oxanium,Arial, Helvetica, sans-serif",
-// //   fontSizes: {
-// //     small: "13px",
-// //     standard: "15px",
-// //     bigger: "18px",
-// //     large: "20px",
-// //   },
-// //   colors: {
-// //     yellow: "#f2f230",
-// //     pink: "#e949f5",
-// //     neonpink: "#ff00ff",
-// //     green: "#0fff50",
-// //     neongreen: "#00ff00",
-// //     darkblue: "#2c84fa",
-// //     blue: "#3f99ff",
-// //     neonblue: "#00ffff",
-// //     red: "#ff1818",
-// //     fontPrimary: "#ffffff",
-// //     background: "#27262b",
-// //     background100: "#080c12",
-// //     background100a70: "#080c1270",
-// //     background100aee: "#080c12ef",
-// //     background200: "#12171d",
-// //     background300: "#567091",
-// //   },
-// // });
-
-// // export const runtime = {
-// //   fontFamily: "Oxanium,Arial, Helvetica, sans-serif",
-// //   fontSizes: {
-// //     small: "13px",
-// //     standard: "15px",
-// //     bigger: "18px",
-// //     large: "20px",
-// //   },
-// //   colors: {
-// //     yellow: "#f2f230",
-// //     pink: "#e949f5",
-// //     neonpink: "#ff00ff",
-// //     green: "#0fff50",
-// //     neongreen: "#00ff00",
-// //     darkblue: "#2c84fa",
-// //     blue: "#3f99ff",
-// //     neonblue: "#00ffff",
-// //     red: "#ff1818",
-// //     fontPrimary: "#ffffff",
-// //     background: "#27262b",
-// //     background100: "#080c12",
-// //     background100a70: "#080c1270",
-// //     background100aee: "#080c12ef",
-// //     background200: "#12171d",
-// //     background300: "#567091",
-// //   },
-// // };
