@@ -1,12 +1,11 @@
 import * as select from "@zag-js/select";
-import { Option } from "@zag-js/select/dist/select.types";
 import { normalizeProps, useMachine } from "@zag-js/solid";
 import {
   Accessor,
   Component,
-  createEffect,
   createMemo,
   createUniqueId,
+  Show,
 } from "solid-js";
 import { ButtonStyle } from "../Button/styles.css";
 import {
@@ -48,16 +47,14 @@ export const Select: Component<Props> = ({
   );
   const api = createMemo(() => select.connect(state, send, normalizeProps));
 
-  // createEffect(() => {
-  //   api().selectedOption = selected ? options()[selected] : null;
-  // });
-
   return (
     <div style={{ width: width }} class={SelectRootStyle}>
       <div class={SelectTriggerStyle}>
-        <label class={SelectLabelStyle} {...api().labelProps}>
-          {label}
-        </label>
+        <Show when={label && label.trim() != ""}>
+          <label class={SelectLabelStyle} {...api().labelProps}>
+            {label}
+          </label>
+        </Show>
         <button
           class={ButtonStyle({ border: "standard" })}
           {...api().triggerProps}

@@ -8,6 +8,7 @@ import {
   FaSolidMessage,
   FaSolidMoon,
   FaSolidNetworkWired,
+  FaSolidPalette,
   FaSolidStop,
   FaSolidSun,
   FaSolidUser,
@@ -20,6 +21,8 @@ import {
   cardsVisible,
   charsheetVisible,
   chatVisible,
+  currentTheme,
+  currentThemeIdx,
   mqttConnectionStatus,
   netDisconnect,
   netSessionLink,
@@ -29,10 +32,21 @@ import {
   setCardsVisible,
   setCharsheetVisible,
   setChatVisible,
+  setCurrentTheme,
   setSessionData,
   storageSize,
+  themeList,
+  themeMap,
 } from "~/common";
-import { Button, Dialog, Flex, Popover, Texte } from "~/components";
+import {
+  Button,
+  Dialog,
+  Flex,
+  Popover,
+  Select,
+  SelectOption,
+  Texte,
+} from "~/components";
 import { ButtonStyle } from "~/components/Button/styles.css";
 import { CardList } from "~/views/CardView";
 import { CharsheetView } from "~/views/CharsheetView";
@@ -47,16 +61,6 @@ import { MainContentStyle, MainStyle, TopBarStyle } from "./styles.css";
 export const MainView = () => {
   const [so, setSo] = createSignal(false);
   const [settApi, setSettApi] = createSignal<any>();
-
-  const switchTheme = () => {
-    // if (currentTheme() == darkThemeVars) {
-    //   setCurrentTheme(lightThemeVars);
-    //   setCurrentThemeClass(lightThemeClass);
-    // } else {
-    //   setCurrentTheme(darkThemeVars);
-    //   setCurrentThemeClass(darkThemeClass);
-    // }
-  };
 
   const stopSession = () => {
     const newSettings = { ...sessionData() };
@@ -144,16 +148,7 @@ export const MainView = () => {
             >
               <FaSolidMessage />
             </Button>
-            <Button onClick={switchTheme} shape="icon">
-              {/* <Switch>
-                <Match when={currentTheme() == darkThemeVars}>
-                  <FaSolidSun />
-                </Match>
-                <Match when={currentTheme() == lightThemeVars}>
-                  <FaSolidMoon />
-                </Match>
-              </Switch> */}
-            </Button>
+
             <Dialog
               trigger={<FaSolidGears />}
               triggerShape="icon"

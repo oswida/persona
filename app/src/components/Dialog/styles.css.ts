@@ -48,7 +48,7 @@ export const DialogCloseButtonStyle = style([
   sprinkles({
     placeItems: "center",
     backgroundColor: "none",
-    color: "primary",
+    color: "backgroundSecondary",
     borderRadius: "small",
   }),
   {
@@ -69,15 +69,17 @@ export const DialogHeaderStyle = style([
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: "small",
+    marginBottom: "medium",
     padding: "small",
     borderRadius: "small",
     marginLeft: "none",
     alignItems: "center",
+    backgroundColor: "secondary",
+    color: "backgroundSecondary",
   }),
   {
     flex: 1,
-    borderBottom: `2px solid ${themeVars.color.accent}`,
+    // borderBottom: `2px solid ${themeVars.color.accent}`,
     userSelect: "none",
   },
 ]);

@@ -34,6 +34,7 @@ export type CommunicationSettings = {
 
 export type AppSettings = {
   lang: string;
+  theme?: string;
 };
 
 export type Settings = {

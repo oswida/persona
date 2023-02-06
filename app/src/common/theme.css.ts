@@ -1,3 +1,4 @@
+import { SelectOption } from "./../components/Select/Select";
 import { createTheme, createThemeContract, style } from "@vanilla-extract/css";
 import { createSprinkles, defineProperties } from "@vanilla-extract/sprinkles";
 
@@ -110,13 +111,44 @@ export const darksandThemeClass = createTheme(themeVars, {
   },
 });
 
+export const darkblueThemeClass = createTheme(themeVars, {
+  color: {
+    background: "#21526B",
+    backgroundSecondary: "#398DB8",
+    accent: "#415D6B",
+    primary: "#fff",
+    secondary: "#91CFEE",
+    none: "transparent",
+  },
+  font: {
+    family: fontfamily.Cantarell,
+    size: {
+      small: "11px",
+      smaller: "14px",
+      standard: "16px",
+      bigger: "18px",
+      big: "21px",
+    },
+  },
+});
+
+export const themeList: SelectOption[] = [
+  { label: "Dark sand", value: "darksand" },
+  { label: "Dark blue", value: "darkblue" },
+];
+
+export const themeMap: Record<string, string> = {
+  darksand: darksandThemeClass,
+  darkblue: darkblueThemeClass,
+};
+
 // const bluePalette = {
 //   dark: {
 //     background: "#21526B",
 //     backgroundSecondary: "#398DB8",
 //     accent: "#415D6B",
 //     primary: "#fff",
-//     secondary: "#000",
+//     secondary: "#91CFEE",
 //   },
 //   light: {
 //     background: "#91CFEE",

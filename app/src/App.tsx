@@ -4,7 +4,7 @@ import { Dynamic } from "solid-js/web";
 import { Toaster } from "solid-toast";
 import { ConfirmDialog } from "~/components";
 import { appStyle } from "./app.css";
-import { darksandThemeClass } from "./common";
+import { currentTheme, darksandThemeClass, themeMap } from "./common";
 import { StrInputDialog } from "./components";
 import { ConnectView } from "./routes/ConnectView/ConnectView";
 import { MainView } from "./routes/MainView";
@@ -13,7 +13,7 @@ const Main: ({ children }: { children: any }) => JSX.Element = ({
   children,
 }) => {
   createEffect(() => {
-    document.documentElement.classList.add(darksandThemeClass);
+    document.documentElement.classList.add(themeMap[currentTheme()]);
   });
 
   return (

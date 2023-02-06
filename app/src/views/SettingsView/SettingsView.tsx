@@ -40,7 +40,7 @@ export const SettingsView = ({ api }: { api: Accessor<any> }) => {
       style={{ "min-width": "400px", "min-height": "200px", gap: "10px" }}
       dn="column"
     >
-      <Tabs items={tabs}></Tabs>
+      <Tabs items={tabs} value={tabs[0].value}></Tabs>
       <Flex center>
         <Button onClick={save}>
           <FaSolidFloppyDisk style={{ "margin-right": "10px" }} />

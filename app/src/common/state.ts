@@ -3,9 +3,7 @@ import { resolveTxt } from "node:dns";
 import { Client } from "paho-mqtt";
 import { createMemo, createSignal } from "solid-js";
 import { Tpl } from "~/templates/types";
-import {
-  themeVars,
-} from "./theme.css";
+import { darksandThemeClass, themeList, themeVars } from "./theme.css";
 import {
   CardData,
   CharsheetData,
@@ -21,15 +19,13 @@ import {
 } from "./types";
 
 // App state
-// export const [currentTheme, setCurrentTheme] = createSignal<
-//   typeof darkThemeVars | typeof lightThemeVars
-// >(darkThemeVars);
-// export const [currentThemeClass, setCurrentThemeClass] =
-//   createSignal<string>(darkThemeClass);
-
-// export const currentStyle = createMemo(() => {
-//   return assignInlineVars(themeVars, currentTheme());
-// });
+export const [currentTheme, setCurrentTheme] = createSignal<string>("darksand");
+export const currentThemeIdx = createMemo(() => {
+  for (let i = 0; i < themeList.length; i++) {
+    if (themeList[i].value == currentTheme()) return i;
+  }
+  return 0;
+});
 
 // Main settings data
 export const [settingsData, setSettingsData] = createSignal<Settings>(
