@@ -1,8 +1,8 @@
 Arguments: 
-  /home/oskar/.nvm/versions/node/v16.2.0/bin/node /opt/share/node/bin/yarn add @types/esbuild-plugin-babel --dev
+  /home/oskar/.nvm/versions/node/v16.2.0/bin/node /opt/share/node/bin/yarn add @types/marked-forms --dev
 
 PATH: 
-  /home/oskar/bin:/home/oskar/go/bin:/home/oskar/.local/bin:/home/oskar/.nvm/versions/node/v16.2.0/bin:/home/oskar/bin:/home/oskar/go/bin:/home/oskar/.local/bin:/usr/lib64/qt-3.3/bin:/home/oskar/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/home/oskar/.composer/vendor/bin:/opt/share/bin:/opt/share/go/bin:/opt/share/node/bin:/opt/share/bin:/opt/share/go/bin:/opt/share/node/bin
+  /home/oskar/bin:/home/oskar/go/bin:/home/oskar/.local/bin:/home/oskar/.nvm/versions/node/v16.2.0/bin:/home/oskar/bin:/home/oskar/go/bin:/home/oskar/.local/bin:/usr/lib64/qt-3.3/bin:/home/oskar/.cargo/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/home/oskar/.local/bin:/home/oskar/go/bin:/opt/share/gradle/bin:/home/oskar/.local/share/JetBrains/Toolbox/scripts:/home/oskar/.composer/vendor/bin:/opt/share/bin:/opt/share/go/bin:/opt/share/node/bin:/opt/share/bin:/opt/share/go/bin:/opt/share/node/bin
 
 Yarn version: 
   1.22.19
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@types%2fesbuild-plugin-babel: Not found
+  Error: https://registry.yarnpkg.com/@types%2fmarked-forms: Not found
       at Request.params.callback [as _callback] (/opt/share/node/lib/node_modules/yarn/lib/cli.js:66145:18)
       at Request.self.callback (/opt/share/node/lib/node_modules/yarn/lib/cli.js:140890:22)
       at Request.emit (node:events:365:28)
@@ -41,6 +41,7 @@ npm manifest:
     "devDependencies": {
       "@types/base-64": "^1.0.0",
       "@types/fabric": "^4.5.15",
+      "@types/marked": "^4.0.8",
       "@types/node": "^18.11.9",
       "@types/paho-mqtt": "^1.0.6",
       "@types/uuid": "^8.3.4",
@@ -64,9 +65,11 @@ npm manifest:
       "@vanilla-extract/css": "^1.9.1",
       "@vanilla-extract/dynamic": "^2.0.3",
       "@vanilla-extract/recipes": "^0.2.5",
+      "@vanilla-extract/sprinkles": "^1.5.1",
       "@zag-js/accordion": "^0.2.7",
       "@zag-js/checkbox": "^0.2.8",
       "@zag-js/dialog": "^0.2.7",
+      "@zag-js/editable": "^0.2.8",
       "@zag-js/popover": "^0.2.7",
       "@zag-js/pressable": "^0.3.7",
       "@zag-js/react": "^0.3.4",
@@ -75,13 +78,15 @@ npm manifest:
       "@zag-js/tabs": "^0.2.7",
       "base-64": "^1.0.0",
       "fabric": "^5.3.0",
+      "marked": "^4.2.12",
+      "marked-emoji": "^1.0.1",
+      "marked-forms": "^5.0.2",
       "paho-mqtt": "^1.1.0",
       "solid-copy-to-clipboard": "^0.1.0",
       "solid-icons": "^1.0.4",
       "solid-js": "^1.6.2",
       "solid-toast": "^0.4.0",
       "solidjs-div-100vh": "^1.0.1",
-      "swiper": "^8.4.6",
       "uuid": "^9.0.0"
     }
   }
@@ -519,6 +524,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@types/fabric/-/fabric-4.5.15.tgz#2b7a32717376e7c8768d144397e45a16693d9159"
     integrity sha512-cjrHhi6R62rFtfqSopPoUEvnidhMngXBaDs6adrVIkY92o3bjWIIQ2InV0vaD262N/GurDrzJS2ih4TgY9gGAQ==
   
+  "@types/marked@^4.0.8":
+    version "4.0.8"
+    resolved "https://registry.yarnpkg.com/@types/marked/-/marked-4.0.8.tgz#b316887ab3499d0a8f4c70b7bd8508f92d477955"
+    integrity sha512-HVNzMT5QlWCOdeuBsgXP8EZzKUf0+AXzN+sLmjvaB3ZlLqO+e4u0uXrdw9ub69wBKFs+c6/pA4r9sy6cCDvImw==
+  
   "@types/node@^18.11.9":
     version "18.11.16"
     resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.16.tgz#966cae211e970199559cfbd295888fca189e49af"
@@ -591,6 +601,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/@vanilla-extract/recipes/-/recipes-0.2.5.tgz#40314b6db7319707303cccfb2c7200d919c313a8"
     integrity sha512-OWXUUiFJdswD3+Xg8f8avuw/vAHZRFS4oHqFeoV1TcO8cfbDQ0zmkreBHvyspoJU+qsyWK48yPHKSptqNRPy9Q==
   
+  "@vanilla-extract/sprinkles@^1.5.1":
+    version "1.5.1"
+    resolved "https://registry.yarnpkg.com/@vanilla-extract/sprinkles/-/sprinkles-1.5.1.tgz#3e226e99c597af8bfeafc8f76a7a720b210a29cf"
+    integrity sha512-xPYpeEZEC1mhiPqWCBPGdIHkpFaaQIbaAfG9W2JyIW0byqTP7CoaxdYNMPjhZuoV5lkTI14SJg8Bt+fZqmV5yQ==
+  
   "@vanilla-extract/vite-plugin@^3.7.0":
     version "3.7.0"
     resolved "https://registry.yarnpkg.com/@vanilla-extract/vite-plugin/-/vite-plugin-3.7.0.tgz#e483c9eca92c4169e29f62db1c63772791092acd"
@@ -656,6 +671,16 @@ Lockfile:
     integrity sha512-TrwxZKrux369iVJm/Gmsa8RG7GLSdJI+8qJxrFTStQu5MvBKRj6JZ5uQez1wieCnSgXwZHx9izqdcN2yYBBB8w==
     dependencies:
       "@zag-js/interact-outside" "0.2.1"
+  
+  "@zag-js/editable@^0.2.8":
+    version "0.2.8"
+    resolved "https://registry.yarnpkg.com/@zag-js/editable/-/editable-0.2.8.tgz#d19a4a45822e3ac0ab12e8f490ef459975c6546b"
+    integrity sha512-MkosITklXOfNoLXxOXyasjM4K4OOoAQ5wvplJqYqbXoqQ55HOh+RvCvucEELF/V4ZKjYUsFuBcepqYlKfrGGqQ==
+    dependencies:
+      "@zag-js/anatomy" "0.1.3"
+      "@zag-js/core" "0.2.5"
+      "@zag-js/interact-outside" "0.2.1"
+      "@zag-js/types" "0.3.3"
   
   "@zag-js/interact-outside@0.2.1":
     version "0.2.1"
@@ -1133,13 +1158,6 @@ Lockfile:
       domelementtype "^2.0.1"
       domhandler "^4.2.0"
       entities "^2.0.0"
-  
-  dom7@^4.0.4:
-    version "4.0.4"
-    resolved "https://registry.yarnpkg.com/dom7/-/dom7-4.0.4.tgz#8b68c5d8e5e2ed0fddb1cb93e433bc9060c8f3fb"
-    integrity sha512-DSSgBzQ4rJWQp1u6o+3FVwMNnT5bzQbMb+o31TjYYeRi05uAcpF8koxdfzeoe5ElzPmua7W7N28YJhF7iEKqIw==
-    dependencies:
-      ssr-window "^4.0.0"
   
   domelementtype@^2.0.1, domelementtype@^2.2.0:
     version "2.3.0"
@@ -1683,6 +1701,21 @@ Lockfile:
     dependencies:
       semver "^6.0.0"
   
+  marked-emoji@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/marked-emoji/-/marked-emoji-1.0.1.tgz#1124f16cec50ea096728a47e1769bbcbb2d3861f"
+    integrity sha512-1qSdZ078ySSIYSupZZ37YT4iV8mc1Na6oay6vx610lW6ZgU00kVjLcwGqS0NMBh5Rn8CmGHAwFtgUj1Vp+lnTg==
+  
+  marked-forms@^5.0.2:
+    version "5.0.2"
+    resolved "https://registry.yarnpkg.com/marked-forms/-/marked-forms-5.0.2.tgz#0a5f875ae734d0a906edf0a83997691dd07ed8ed"
+    integrity sha512-brCZlg2Efg8r/SobF2jLjMAa5QnwvnYF68beNOcVS06Qa6FTP/FgYjnvI0+6SVBYt/gfe5VrvCmYCmb2ike9UQ==
+  
+  marked@^4.2.12:
+    version "4.2.12"
+    resolved "https://registry.yarnpkg.com/marked/-/marked-4.2.12.tgz#d69a64e21d71b06250da995dcd065c11083bebb5"
+    integrity sha512-yr8hSKa3Fv4D3jdZmtMMPghgVt6TWbk86WQaWhDloQjRSQhMMYCAro7jP7VDJrjjdV8pxVxMssXS8B8Y5DZ5aw==
+  
   mathjs@^11.2.1:
     version "11.5.0"
     resolved "https://registry.yarnpkg.com/mathjs/-/mathjs-11.5.0.tgz#5cacad7affa2c804ad3f09efa5d53f0ffcb79493"
@@ -2111,11 +2144,6 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
     integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
   
-  ssr-window@^4.0.0, ssr-window@^4.0.2:
-    version "4.0.2"
-    resolved "https://registry.yarnpkg.com/ssr-window/-/ssr-window-4.0.2.tgz#dc6b3ee37be86ac0e3ddc60030f7b3bc9b8553be"
-    integrity sha512-ISv/Ch+ig7SOtw7G2+qkwfVASzazUnvlDTwypdLoPoySv+6MqlOV10VwPSE6EWkGjhW50lUmghPmpYZXMu/+AQ==
-  
   stable@^0.1.8:
     version "0.1.8"
     resolved "https://registry.yarnpkg.com/stable/-/stable-0.1.8.tgz#836eb3c8382fe2936feaf544631017ce7d47a3cf"
@@ -2175,14 +2203,6 @@ Lockfile:
       csso "^4.2.0"
       picocolors "^1.0.0"
       stable "^0.1.8"
-  
-  swiper@^8.4.6:
-    version "8.4.6"
-    resolved "https://registry.yarnpkg.com/swiper/-/swiper-8.4.6.tgz#5b52c83cb4aa9ce6f1640e44d3f93ff4ea6f7682"
-    integrity sha512-HACW035vBz2T6Kfut23EAzXhcDpgR8doX+wjq0ZUvJgS5SQApGrV885DAPLBFnmPUISsAhNSVxPKDxqroFvXvQ==
-    dependencies:
-      dom7 "^4.0.4"
-      ssr-window "^4.0.2"
   
   symbol-tree@^3.2.4:
     version "3.2.4"

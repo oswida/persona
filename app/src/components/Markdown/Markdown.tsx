@@ -1,7 +1,16 @@
-import { Accessor, createEffect, JSX } from "solid-js";
-import { micromark } from "micromark";
-import { gfm, gfmHtml } from "micromark-extension-gfm";
-import { gfmTable } from "micromark-extension-gfm-table";
+import { createEffect, JSX } from "solid-js";
+
+import { marked } from "marked";
+import { markedEmoji } from "marked-emoji";
+import { markedForms } from "marked-forms";
+import { allEmojis } from "./emoji";
+
+const options = {
+  emojis: allEmojis,
+  unicode: true,
+};
+
+marked.use(markedEmoji(options));
 
 export const Markdown = ({
   content,
@@ -14,10 +23,7 @@ export const Markdown = ({
 
   createEffect(() => {
     if (!refContent) return;
-    refContent.innerHTML = micromark(content, {
-      extensions: [gfm(), gfmTable],
-      htmlExtensions: [gfmHtml(), gfmTable],
-    });
+    refContent.innerHTML = marked.parse(content);
   });
 
   return <div ref={(e) => (refContent = e)} style={style}></div>;

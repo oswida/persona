@@ -172,7 +172,7 @@ export const MainView = () => {
                 <Show when={sco()}>
                   <CardSlider />
                 </Show>
-                <Button onClick={() => setSco(!sco())}>
+                <Button onClick={() => setSco(!sco())} selected={sco}>
                   <FaSolidIdCard />
                   <Texte size="small">Session cards</Texte>
                 </Button>
