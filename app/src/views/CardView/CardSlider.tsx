@@ -1,32 +1,21 @@
-import {
-  VirtualContainer,
-  VirtualItemProps,
-} from "@minht11/solid-virtual-container";
-import { FaSolidDeleteLeft } from "solid-icons/fa";
-import { createMemo, createSignal } from "solid-js";
+import { FaSolidDeleteLeft, FaSolidEye } from "solid-icons/fa";
+import { createMemo, createSignal, For } from "solid-js";
 import { CardData, cardsData, sessionCards } from "~/common";
-import { Button, Flex, Input, Texte } from "~/components";
-import { CardSliderItem, CardSliderStyle } from "./styles.css";
-
-const ListItem = (props: VirtualItemProps<CardData>) => {
-  return (
-    <div
-      // Required for items to switch places.
-      style={props.style}
-      // Use CSS to set width to 100% or any other value.
-      class={CardSliderItem}
-      // Used for keyboard navigation and accessibility.
-      tabIndex={props.tabIndex}
-      role="listitem"
-    >
-      <span>{props.item.title}</span>
-    </div>
-  );
-};
+import {
+  Accordion,
+  AccordionDesc,
+  Button,
+  Flex,
+  Input,
+  Markdown,
+  Texte,
+} from "~/components";
+import { InfoState, setInfoData } from "~/components/Dialog/InfoDialog";
+import { CardItem } from "./CardItem";
+import { CardSliderStyle, CardStyle } from "./styles.css";
 
 export const CardSlider = () => {
   const [filter, setFilter] = createSignal("");
-  let scrollTargetElement!: HTMLDivElement;
   let refFlt: HTMLInputElement;
 
   const items = createMemo(() => {
@@ -54,8 +43,17 @@ export const CardSlider = () => {
     refFlt.value = "";
   };
 
+  const showInfo = (item: CardData) => {
+    setInfoData({
+      isOpen: true,
+      title: item.title,
+      content: item.content,
+      width: "25em",
+    } as InfoState);
+  };
+
   return (
-    <div class={CardSliderStyle} ref={(e) => (scrollTargetElement = e)}>
+    <div class={CardSliderStyle}>
       <div
         style={{
           height: "250px",
@@ -64,14 +62,19 @@ export const CardSlider = () => {
           "margin-bottom": "5px",
         }}
       >
-        <VirtualContainer
-          items={items()}
-          scrollTarget={scrollTargetElement}
-          itemSize={{ height: 50, width: 330 }}
-          direction="vertical"
-        >
-          {ListItem}
-        </VirtualContainer>
+        <For each={items()}>
+          {(it) => (
+            <Button
+              size="small"
+              border="none"
+              shape="icon"
+              style={{}}
+              onClick={() => showInfo(it)}
+            >
+              <Texte weight={700}>{it.title}</Texte>
+            </Button>
+          )}
+        </For>
       </div>
       <Flex
         vcenter

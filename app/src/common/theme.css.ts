@@ -56,7 +56,10 @@ export const themeProperties = defineProperties({
     gap: space,
     fontSize: themeVars.font.size,
     fontFamily: fontfamily,
-    borderRadius: space,
+    borderTopLeftRadius: space,
+    borderBottomLeftRadius: space,
+    borderTopRightRadius: space,
+    borderBottomRightRadius: space,
   },
   shorthands: {
     padding: ["paddingTop", "paddingBottom", "paddingLeft", "paddingRight"],
@@ -66,6 +69,12 @@ export const themeProperties = defineProperties({
     marginX: ["marginLeft", "marginRight"],
     marginY: ["marginTop", "marginBottom"],
     placeItems: ["justifyContent", "alignItems"],
+    borderRadius: [
+      "borderBottomLeftRadius",
+      "borderTopLeftRadius",
+      "borderTopRightRadius",
+      "borderBottomRightRadius",
+    ],
   },
 });
 

@@ -11,6 +11,7 @@ import {
   themeMap,
 } from "./common";
 import { StrInputDialog } from "./components";
+import { InfoDialog } from "./components/Dialog/InfoDialog";
 import { ConnectView } from "./routes/ConnectView/ConnectView";
 import { MainView } from "./routes/MainView";
 
@@ -27,6 +28,7 @@ const Main: ({ children }: { children: any }) => JSX.Element = ({
       <Toaster />
       <Dynamic component={ConfirmDialog} />
       <Dynamic component={StrInputDialog} />
+      <Dynamic component={InfoDialog} />
     </div>
   );
 };

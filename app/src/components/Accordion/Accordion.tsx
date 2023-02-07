@@ -40,7 +40,7 @@ export const Accordion: Component<Props> = ({ items }) => {
               <button
                 style={{ padding: "5px 10px", width: "100%" }}
                 class={ButtonStyle({
-                  border: "underline",
+                  border: "standard",
                   selected: api().value == item.value,
                   font: currentFont(),
                 })}

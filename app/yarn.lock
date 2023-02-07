@@ -387,11 +387,6 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@minht11/solid-virtual-container@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@minht11/solid-virtual-container/-/solid-virtual-container-0.2.1.tgz#ee3ebd9619917cc53e8da40f30ec81c747aa18d2"
-  integrity sha512-HvQWx1uE5NWwx9WsN4waFtmyOjhZKMA/3vBf+j3zGsRfi556LCUk4oOmqZcOvIB5nEpHezvuZ8oUlwxigdO3Xg==
-
 "@solid-primitives/context@^0.1.2":
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/@solid-primitives/context/-/context-0.1.2.tgz#777c91abdbd562c0e6680b36094314af40e7c5cb"

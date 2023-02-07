@@ -1,11 +1,13 @@
 import { debounce } from "@solid-primitives/scheduled";
 import { Component, ComponentProps } from "solid-js";
+import { currentFont } from "~/common";
 import { InputAreaStyle } from "./styles.css";
 
 type Props = {
   small?: boolean;
   border?: "none" | "down" | "full";
   transparent?: boolean;
+  fontSize?: "small" | "standard";
 };
 
 export const InputArea: Component<ComponentProps<"div"> & Props> = ({
@@ -18,13 +20,15 @@ export const InputArea: Component<ComponentProps<"div"> & Props> = ({
   onBlur,
   onInput,
   transparent,
+  fontSize,
 }) => {
   return (
     <div
       class={InputAreaStyle({
-        small: small,
+        fontSize: fontSize,
         border: border,
         transparent: transparent,
+        font: currentFont(),
       })}
       style={style}
       contentEditable={contentEditable}

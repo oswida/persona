@@ -14,6 +14,7 @@ import { ButtonStyle } from "../Button/styles.css";
 import {
   DialogCloseButtonStyle,
   DialogContentStyle,
+  DialogDescStyle,
   DialogHeaderStyle,
   DialogOverlayStyle,
 } from "./styles.css";
@@ -59,7 +60,9 @@ export const Dialog: Component<Props & ParentProps> = ({
                   ×
                 </button>
               </div>
-              <div {...api().descriptionProps}>{children}</div>
+              <div class={DialogDescStyle} {...api().descriptionProps}>
+                {children}
+              </div>
             </div>
           </div>
         </Portal>

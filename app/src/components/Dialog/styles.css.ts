@@ -32,7 +32,6 @@ export const DialogContentStyle = style([
     backgroundColor: "backgroundSecondary",
     color: "primary",
     borderRadius: "small",
-    padding: "small",
   }),
   {
     position: "fixed",
@@ -41,6 +40,16 @@ export const DialogContentStyle = style([
     transform: "translate(-50%, -50%)",
     border: `1px solid ${themeVars.color.accent}`,
     zIndex: 50,
+  },
+]);
+
+export const DialogDescStyle = style([
+  sprinkles({
+    padding: "small",
+  }),
+  {
+    maxHeight: "75vh",
+    overflow: "auto",
   },
 ]);
 
@@ -71,7 +80,8 @@ export const DialogHeaderStyle = style([
     justifyContent: "space-between",
     marginBottom: "medium",
     padding: "small",
-    borderRadius: "small",
+    borderTopLeftRadius: "small",
+    borderTopRightRadius: "small",
     marginLeft: "none",
     alignItems: "center",
     backgroundColor: "secondary",
@@ -79,7 +89,6 @@ export const DialogHeaderStyle = style([
   }),
   {
     flex: 1,
-    // borderBottom: `2px solid ${themeVars.color.accent}`,
     userSelect: "none",
   },
 ]);

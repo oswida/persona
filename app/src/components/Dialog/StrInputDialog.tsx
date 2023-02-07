@@ -10,6 +10,7 @@ import { Portal } from "solid-js/web";
 import {
   DialogCloseButtonStyle,
   DialogContentStyle,
+  DialogDescStyle,
   DialogHeaderStyle,
   DialogOverlayStyle,
 } from "./styles.css";
@@ -74,7 +75,7 @@ export const StrInputDialog = () => {
                 ×
               </button>
             </div>
-            <div {...api().descriptionProps}>
+            <div {...api().descriptionProps} class={DialogDescStyle}>
               <Texte>{strInputData().message}</Texte>
               <Input ref={(e) => (refInput = e)} value={strInputData().value} />
               <Flex

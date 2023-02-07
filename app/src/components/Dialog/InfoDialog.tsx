@@ -1,5 +1,6 @@
 import { normalizeProps, useMachine } from "@zag-js/solid";
 import {
+  Accessor,
   createEffect,
   createMemo,
   createSignal,
@@ -15,37 +16,34 @@ import {
   DialogOverlayStyle,
 } from "./styles.css";
 import * as dialog from "@zag-js/dialog";
-import { Flex } from "../Flex";
-import { Button } from "../Button";
-import { Texte } from "../Texte";
+import { Markdown } from "../Markdown";
 
-export type ConfirmState = {
+export type InfoState = {
   title: string;
-  message: string;
-  accept: () => void;
-  open: boolean;
+  content: string;
+  isOpen: boolean;
+  width?: string;
 };
 
-export const [confirmData, setConfirmData] = createSignal<ConfirmState>({
+export const [infoData, setInfoData] = createSignal<InfoState>({
   title: "",
-  message: "",
-  accept: () => {},
-  open: false,
+  content: "",
+  isOpen: false,
 });
 
-export const ConfirmDialog = () => {
+export const InfoDialog = () => {
   const [state, send] = useMachine(
     dialog.machine({
       id: createUniqueId(),
       onClose: () => {
-        setConfirmData((prev) => ({ ...prev, open: false }));
+        setInfoData((prev) => ({ ...prev, isOpen: false }));
       },
     })
   );
   const api = createMemo(() => dialog.connect(state, send, normalizeProps));
 
   createEffect(() => {
-    if (confirmData().open) api().open();
+    if (infoData().isOpen) api().open();
     else api().close();
   });
 
@@ -56,7 +54,7 @@ export const ConfirmDialog = () => {
         <div class={DialogContentStyle} {...api().containerProps}>
           <div {...api().contentProps}>
             <div class={DialogHeaderStyle}>
-              <div {...api().titleProps}>{confirmData().title}</div>
+              <div {...api().titleProps}>{infoData().title}</div>
               <button
                 class={DialogCloseButtonStyle}
                 {...api().closeTriggerProps}
@@ -64,22 +62,12 @@ export const ConfirmDialog = () => {
                 ×
               </button>
             </div>
-            <div {...api().descriptionProps} class={DialogDescStyle}>
-              <Texte>{confirmData().message}</Texte>
-              <Flex
-                center
-                style={{ padding: "5px", gap: "15px", "margin-top": "15px" }}
-              >
-                <Button onClick={() => api().close()}>No</Button>
-                <Button
-                  onClick={() => {
-                    api().close();
-                    confirmData().accept();
-                  }}
-                >
-                  Yes
-                </Button>
-              </Flex>
+            <div
+              {...api().descriptionProps}
+              class={DialogDescStyle}
+              style={{ width: infoData().width }}
+            >
+              <Markdown content={infoData().content} />
             </div>
           </div>
         </div>

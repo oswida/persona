@@ -6,6 +6,7 @@ import {
   ComponentProps,
   createMemo,
   createUniqueId,
+  JSX,
 } from "solid-js";
 import { currentFont } from "~/common";
 import { ButtonStyle } from "./styles.css";
@@ -28,6 +29,7 @@ export const Button: Component<Props & ComponentProps<"button">> = ({
   shape,
   title,
   minWidth,
+  style,
 }) => {
   const [state, send] = useMachine(
     pressable.machine({
@@ -51,6 +53,7 @@ export const Button: Component<Props & ComponentProps<"button">> = ({
         font: currentFont(),
       })}
       style={{
+        ...(style as JSX.CSSProperties),
         "min-width": minWidth,
       }}
       {...api().pressableProps}

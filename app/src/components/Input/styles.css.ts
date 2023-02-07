@@ -106,7 +106,6 @@ export const InputAreaStyle = recipe({
     sprinkles({
       backgroundColor: "background",
       color: "primary",
-      fontSize: "bigger",
       padding: "small",
       borderRadius: "small",
     }),
@@ -125,8 +124,9 @@ export const InputAreaStyle = recipe({
     },
   ],
   variants: {
-    small: {
-      true: sprinkles({ fontSize: "standard" }),
+    fontSize: {
+      small: sprinkles({ fontSize: "small" }),
+      standard: sprinkles({ fontSize: "standard" }),
     },
     transparent: {
       true: sprinkles({ backgroundColor: "none" }),
@@ -147,8 +147,10 @@ export const InputAreaStyle = recipe({
         },
       ],
     },
+    font: { ...createFontVariants() },
   },
   defaultVariants: {
     border: "none",
+    fontSize: "standard",
   },
 });
