@@ -13,6 +13,7 @@ type Props = {
   label?: string;
   color?: string;
   value?: boolean;
+  title?: string;
   onChange: (checked: boolean) => void;
 };
 
@@ -20,6 +21,7 @@ export const Checkbox: Component<Props> = ({
   label,
   color,
   onChange,
+  title,
   value,
 }) => {
   const [state, send] = useMachine(
@@ -36,6 +38,7 @@ export const Checkbox: Component<Props> = ({
 
   return (
     <label
+      title={title}
       class={CheckboxRootStyle}
       style={color ? { color: color } : undefined}
       {...api().rootProps}

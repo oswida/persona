@@ -28,6 +28,7 @@
     "@dice-roller/rpg-dice-roller": "^5.2.1",
     "@eonasdan/lz-string": "^1.0.3",
     "@json-editor/json-editor": "^2.9.0-beta.0",
+    "@minht11/solid-virtual-container": "^0.2.1",
     "@solid-primitives/context": "^0.1.2",
     "@solid-primitives/i18n": "^1.1.2",
     "@solid-primitives/scheduled": "^1.2.0",
@@ -57,7 +58,6 @@
     "solid-js": "^1.6.2",
     "solid-toast": "^0.4.0",
     "solidjs-div-100vh": "^1.0.1",
-    "swiper": "^8.4.6",
     "uuid": "^9.0.0"
   }
 }

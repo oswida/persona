@@ -1,3 +1,4 @@
+import { sprinkles } from "./../../common/theme.css";
 import { themeVars } from "~/common";
 import { style } from "@vanilla-extract/css";
 
@@ -14,8 +15,7 @@ export const CardStyle = style({
 
 export const CardListStyle = style({
   height: "calc(100vh - 2em - 10px)",
-  width: "25vw",
-  flex: 1,
+  width: "30vw",
   backgroundColor: themeVars.color.backgroundSecondary,
   display: "flex",
   flexDirection: "column",
@@ -31,3 +31,32 @@ export const CardZoneStyle = style({
   borderRadius: "5px",
   overflowY: "auto",
 });
+
+export const CardSliderStyle = style([
+  sprinkles({
+    backgroundColor: "backgroundSecondary",
+    color: "primary",
+    padding: "medium",
+    display: "flex",
+    flexDirection: "column",
+    borderRadius: "small",
+    justifyContent: "space-between",
+  }),
+  {
+    minWidth: "350px",
+  },
+]);
+
+export const CardSliderItem = style([
+  sprinkles({
+    backgroundColor: "background",
+    color: "secondary",
+    padding: "small",
+    display: "flex",
+    placeItems: "center",
+  }),
+  {
+    borderBottom: `2px solid ${themeVars.color.backgroundSecondary}`,
+    userSelect: "none",
+  },
+]);

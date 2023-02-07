@@ -28,7 +28,6 @@ export const CsListStyle = style([
   {
     height: "calc(100vh - 2em - 10px)",
     width: "30vw",
-    flex: 1,
   },
 ]);
 

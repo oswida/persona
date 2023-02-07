@@ -19,8 +19,9 @@ import {
 } from "./types";
 
 // App state
-export const [currentTheme, setCurrentTheme] = createSignal<string>("darksand");
-export const [currentFont, setCurrentFont] = createSignal<string>("Lato");
+export const [currentTheme, setCurrentTheme] = createSignal<string>("fire");
+export const [currentFont, setCurrentFont] =
+  createSignal<string>("Merriweather");
 export const currentThemeIdx = createMemo(() => {
   for (let i = 0; i < themeList.length; i++) {
     if (themeList[i].value == currentTheme()) return i;

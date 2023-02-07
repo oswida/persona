@@ -5,9 +5,7 @@ import { sprinkles } from "./../../common/theme.css";
 
 export const InputStyle = recipe({
   base: [
-    baseStyle,
     sprinkles({
-      fontSize: "standard",
       backgroundColor: "background",
       color: "primary",
       borderRadius: "small",
@@ -50,6 +48,9 @@ export const InputStyle = recipe({
       standard: sprinkles({ fontSize: "standard" }),
     },
     font: { ...createFontVariants() },
+  },
+  defaultVariants: {
+    size: "standard",
   },
 });
 

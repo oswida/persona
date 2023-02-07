@@ -6,14 +6,11 @@ import {
   FaSolidGears,
   FaSolidIdCard,
   FaSolidMessage,
-  FaSolidMoon,
   FaSolidNetworkWired,
-  FaSolidPalette,
   FaSolidStop,
-  FaSolidSun,
   FaSolidUser,
 } from "solid-icons/fa";
-import { createSignal, Match, Show, Switch } from "solid-js";
+import { createSignal, Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import toast from "solid-toast";
 import Div100vh from "solidjs-div-100vh";
@@ -22,8 +19,6 @@ import {
   charsheetVisible,
   chatVisible,
   currentFont,
-  currentTheme,
-  currentThemeIdx,
   mqttConnectionStatus,
   netDisconnect,
   netSessionLink,
@@ -33,21 +28,10 @@ import {
   setCardsVisible,
   setCharsheetVisible,
   setChatVisible,
-  setCurrentTheme,
   setSessionData,
   storageSize,
-  themeList,
-  themeMap,
 } from "~/common";
-import {
-  Button,
-  Dialog,
-  Flex,
-  Popover,
-  Select,
-  SelectOption,
-  Texte,
-} from "~/components";
+import { Button, Dialog, Flex, Popover, Texte } from "~/components";
 import { ButtonStyle } from "~/components/Button/styles.css";
 import { CardList } from "~/views/CardView";
 import { CharsheetView } from "~/views/CharsheetView";
@@ -58,9 +42,10 @@ import { SessionView } from "~/views/SessionView";
 import { SettingsView } from "~/views/SettingsView";
 import { TableView } from "~/views/TableView";
 import { MainContentStyle, MainStyle, TopBarStyle } from "./styles.css";
+import { CardSlider } from "~/views/CardView/CardSlider";
 
 export const MainView = () => {
-  const [so, setSo] = createSignal(false);
+  const [sco, setSco] = createSignal(false);
   const [settApi, setSettApi] = createSignal<any>();
 
   const stopSession = () => {
@@ -173,7 +158,26 @@ export const MainView = () => {
             <Show when={charsheetVisible()}>
               <CharsheetView />
             </Show>
-            <TableView />
+            <Flex dn="column" style={{ flex: 1 }}>
+              <TableView />
+              <Flex
+                dn="column"
+                center
+                style={{
+                  position: "absolute",
+                  bottom: "0.5em",
+                  "align-self": "center",
+                }}
+              >
+                <Show when={sco()}>
+                  <CardSlider />
+                </Show>
+                <Button onClick={() => setSco(!sco())}>
+                  <FaSolidIdCard />
+                  <Texte size="small">Session cards</Texte>
+                </Button>
+              </Flex>
+            </Flex>
             <Show when={chatVisible()}>
               <ChatView />
             </Show>
