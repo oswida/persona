@@ -1,4 +1,5 @@
-import { Component } from "solid-js";
+import { Template, Viewer } from "@pdfme/ui";
+import { Component, createEffect } from "solid-js";
 import { TabDesc, Tabs } from "~/components";
 import { Tpl } from "~/templates/types";
 import { renderPage } from "./render";
@@ -8,13 +9,16 @@ type Props = {
 };
 
 export const TplView: Component<Props> = ({ tpl }) => {
-  const tabs: TabDesc[] = tpl.pages.map((it) => ({
-    value: it.id,
-    label: it.title,
-    content: renderPage(it),
-  }));
+  createEffect(() => {
+    const domContainer = document.getElementById("pdf-container")!;
+    if (!domContainer) return;
+    const template: Template = {
+      basePdf: "cs/wfrp-pl.pdf",
+      schemas: [],
+    };
+    const inputs = [{}];
+    const viewer = new Viewer({ options: {}, domContainer, template, inputs });
+  });
 
-  return (
-    <Tabs items={tabs} style={{ "margin-top": "5px" }} value={tabs[0].value} />
-  );
+  return <div id="pdf-container"></div>;
 };

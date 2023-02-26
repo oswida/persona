@@ -1,5 +1,5 @@
-import { setCharsheetData } from "~/common";
 import { v4 as uuidv4 } from "uuid";
+import { setCharsheetData } from "~/common";
 import {
   setCardsData,
   setSessionData,
@@ -30,6 +30,7 @@ export const loadSettings = () => {
     return sd;
   } else {
     const dd = decompressData(sdata) as Settings;
+    console.log(dd.app);
     if (!dd.app.lang) dd.app.lang = "en";
     if (!dd.app.theme) dd.app.theme = "darksand";
     if (!dd.app.font) dd.app.font = "Lato";

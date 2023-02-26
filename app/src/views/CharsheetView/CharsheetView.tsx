@@ -1,6 +1,11 @@
 import { Option } from "@zag-js/select/dist/select.types";
-import { FaSolidDeleteLeft, FaSolidPlus } from "solid-icons/fa";
-import { createMemo, createSignal, Show } from "solid-js";
+import {
+  FaSolidDeleteLeft,
+  FaSolidEye,
+  FaSolidEyeSlash,
+  FaSolidPlus,
+} from "solid-icons/fa";
+import { createMemo, createSignal, Match, Show, Switch } from "solid-js";
 import { v4 as uuidv4 } from "uuid";
 import {
   charsheetData,
@@ -9,7 +14,6 @@ import {
   personaCharsheetKey,
   saveGenericData,
   setCharsheetData,
-  setCsTemplateList,
   settingsData,
 } from "~/common";
 import {
@@ -22,14 +26,17 @@ import {
   Select,
   Texte,
 } from "~/components";
-import { TplView } from "../TplView";
-import { CsListStyle, CsZoneStyle } from "./styles.css";
+import { CharsheetEditor } from "./CharsheetEditor";
+import { CharsheetItem } from "./CharsheetItem";
+import { CsEditStyle, CsListStyle, CsZoneStyle } from "./styles.css";
 
 export const CharsheetView = () => {
   const [filter, setFilter] = createSignal("");
   const [tpl, setTpl] = createSignal("");
   const [onlySession, setOnlySession] = createSignal(false);
   const [onlyOwner, setOnlyOwner] = createSignal(false);
+  const [editorVisible, setEditorVisible] = createSignal(false);
+  const [cs, setCs] = createSignal<CharsheetData | null>();
 
   let refFlt: HTMLInputElement;
 
@@ -39,7 +46,7 @@ export const CharsheetView = () => {
       return {
         title: it.name,
         value: it.id,
-        content: <TplView tpl={csTemplateList()[it.templateId]} />,
+        content: <CharsheetItem item={it} />,
       } as AccordionDesc;
     });
   });
@@ -62,9 +69,9 @@ export const CharsheetView = () => {
       id: uuidv4(),
       owner: settingsData().ident.browserID,
       name: "Character",
-      playerId: "",
+      playerId: settingsData().ident.browserID,
       templateId: t,
-      playerName: "",
+      playerName: settingsData().ident.username,
       values: {},
     };
     const newState = { ...charsheetData() };
@@ -85,47 +92,79 @@ export const CharsheetView = () => {
     setTpl(o.value);
   };
 
+  const selCharsheet = (details: { value: string | string[] | null }) => {
+    if (!details) return;
+    const v = details.value as string;
+    if (!v) return;
+    const c = charsheetData()[v];
+    if (!c) return;
+    setCs(c);
+  };
+
   return (
-    <div class={CsListStyle}>
-      <Flex
-        style={{ "align-items": "center", "justify-content": "space-between" }}
-      >
-        <Texte>Charsheets</Texte>
+    <Flex>
+      <div class={CsListStyle}>
+        <Flex
+          style={{
+            "align-items": "center",
+            "justify-content": "space-between",
+          }}
+        >
+          <Texte>Charsheets</Texte>
+          <Flex>
+            <Select label="Template" options={templates} onChange={selTpl} />
+            <Button onClick={create}>
+              <FaSolidPlus />
+            </Button>
+          </Flex>
+        </Flex>
         <Flex>
-          <Select label="Template" options={templates} onChange={selTpl} />
-          <Button onClick={create}>
-            <FaSolidPlus />
+          <Checkbox
+            label="Only current session"
+            value={onlySession()}
+            onChange={(v) => setOnlySession(v)}
+          />
+          <Checkbox
+            label="Only owned"
+            value={onlyOwner()}
+            onChange={(v) => setOnlyOwner(v)}
+          />
+          <Button
+            style={{ "margin-left": "20px" }}
+            onClick={() => setEditorVisible(!editorVisible())}
+          >
+            <Switch>
+              <Match when={!editorVisible()}>
+                <FaSolidEye />
+              </Match>
+              <Match when={editorVisible()}>
+                <FaSolidEyeSlash />
+              </Match>
+            </Switch>
           </Button>
         </Flex>
-      </Flex>
-      <Flex>
-        <Checkbox
-          label="Only current session"
-          value={onlySession()}
-          onChange={(v) => setOnlySession(v)}
-        />
-        <Checkbox
-          label="Only owned"
-          value={onlyOwner()}
-          onChange={(v) => setOnlyOwner(v)}
-        />
-      </Flex>
-      <div class={CsZoneStyle}>
-        <Accordion items={items} />
+        <div class={CsZoneStyle}>
+          <Accordion items={items} onChange={selCharsheet} />
+        </div>
+        <Flex>
+          <Texte>Filter: </Texte>
+          <Input
+            underline
+            transparent
+            fontSize="small"
+            ref={(e) => (refFlt = e)}
+            onInput={flt}
+          />
+          <Button onClick={clear}>
+            <FaSolidDeleteLeft />
+          </Button>
+        </Flex>
       </div>
-      <Flex>
-        <Texte>Filter: </Texte>
-        <Input
-          underline
-          transparent
-          fontSize="small"
-          ref={(e) => (refFlt = e)}
-          onInput={flt}
-        />
-        <Button onClick={clear}>
-          <FaSolidDeleteLeft />
-        </Button>
-      </Flex>
-    </div>
+
+      {/* Editor */}
+      <Show when={editorVisible()}>
+        <CharsheetEditor cs={cs} />
+      </Show>
+    </Flex>
   );
 };

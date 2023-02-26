@@ -13,16 +13,16 @@ export type AccordionDesc = {
 
 type Props = {
   items: Accessor<AccordionDesc[]>;
+  onChange?: (details: { value: string | string[] | null }) => void;
 };
 
-export const Accordion: Component<Props> = ({ items }) => {
+export const Accordion: Component<Props> = ({ items, onChange }) => {
   const [state, send] = useMachine(
     accordion.machine({
       id: createUniqueId(),
       collapsible: true,
-      onChange: (details: any) => {
-        console.log(details);
-      },
+      multiple: false,
+      onChange: onChange,
     })
   );
 

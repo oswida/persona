@@ -48,7 +48,7 @@ export const CardSlider = () => {
       isOpen: true,
       title: item.title,
       content: item.content,
-      width: "25em",
+      width: "33em",
     } as InfoState);
   };
 

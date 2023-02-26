@@ -102,6 +102,6 @@ export type Tpl = {
   id: string;
   name: string;
   game: string;
-  logo: string;
-  pages: TplPage[];
+  file: string;
+  schemas: any;
 };

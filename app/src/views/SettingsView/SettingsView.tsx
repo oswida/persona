@@ -1,5 +1,5 @@
 import { FaSolidFloppyDisk } from "solid-icons/fa";
-import { Accessor, createSignal, Setter } from "solid-js";
+import { Accessor } from "solid-js";
 import toast from "solid-toast";
 import { personaSettingsKey, saveGenericData, settingsData } from "~/common";
 import { Button, Flex, TabDesc, Tabs, Texte } from "~/components";
@@ -29,8 +29,6 @@ export const SettingsView = ({ api }: { api: Accessor<any> }) => {
   const save = () => {
     api().close();
     const newState = { ...settingsData() };
-    const mqttEnv = newState.comms.mqtt;
-    if (mqttEnv.server.trim() == "") return;
     saveGenericData(personaSettingsKey, settingsData());
     toast("Settings saved");
   };

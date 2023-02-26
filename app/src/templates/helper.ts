@@ -1,14 +1,10 @@
-import { TemplateCairn } from "./defs/cairn";
 import { setCsTemplateList } from "~/common";
-import { TemplateOne } from "./defs/one";
-import { TemplateTwo } from "./defs/two";
+import { TplWfrpPl } from "./defs/wfrp-pl";
+
 import { Tpl } from "./types";
 
 export const initTemplateList = () => {
   const newState: Record<string, Tpl> = {};
-  newState[TemplateCairn.id] = TemplateCairn;
-  console.log(TemplateCairn);
-
-  newState[TemplateTwo.id] = TemplateTwo;
+  newState[TplWfrpPl.id] = TplWfrpPl;
   setCsTemplateList(newState);
 };
