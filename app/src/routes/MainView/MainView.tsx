@@ -30,19 +30,20 @@ import {
   setChatVisible,
   setSessionData,
   storageSize,
+  themeVars,
 } from "~/common";
 import { Button, Dialog, Flex, Popover, Texte } from "~/components";
 import { ButtonStyle } from "~/components/Button/styles.css";
 import { CardList } from "~/views/CardView";
 import { CharsheetView } from "~/views/CharsheetView";
 
+import { CardSlider } from "~/views/CardView/CardSlider";
 import { ChatView } from "~/views/ChatView";
 import { DiceRollerView } from "~/views/DiceRollerView";
 import { SessionView } from "~/views/SessionView";
 import { SettingsView } from "~/views/SettingsView";
 import { TableView } from "~/views/TableView";
 import { MainContentStyle, MainStyle, TopBarStyle } from "./styles.css";
-import { CardSlider } from "~/views/CardView/CardSlider";
 
 export const MainView = () => {
   const [sco, setSco] = createSignal(false);
@@ -85,49 +86,52 @@ export const MainView = () => {
               <FaSolidUser />
             </Button>
           </Flex>
-          <Flex></Flex>
 
           <Flex vcenter>
-            <Show when={mqttConnectionStatus()}>
-              <FaSolidNetworkWired />
-            </Show>
-            <Dialog
-              title="Session management"
-              trigger={<FaSolidGamepad />}
-              triggerShape="icon"
-            >
-              <SessionView />
-            </Dialog>
-            <Show when={sessionData().current != "" && sessionData().hosting}>
-              <Texte size="middle">
-                Hosting: {sessionData().hosted[sessionData().current].name}
-              </Texte>
-              <Button onClick={stopSession} title="Stop hosting" shape="icon">
-                <FaSolidStop />
-              </Button>
-              <CopyToClipboard
-                text={netSessionLink()}
-                onCopy={() => toast("Session link copied to clipboard")}
-                eventTrigger="onClick"
+            <Flex vcenter>
+              <Show when={mqttConnectionStatus()}>
+                <FaSolidNetworkWired />
+              </Show>
+              <Dialog
+                title="Session management"
+                trigger={<FaSolidGamepad />}
+                triggerShape="icon"
               >
-                <div
-                  title="Copy session link"
-                  class={ButtonStyle({ shape: "icon" })}
+                <SessionView />
+              </Dialog>
+              <Show when={sessionData().current != "" && sessionData().hosting}>
+                <Texte size="middle">
+                  Hosting: {sessionData().hosted[sessionData().current].name}
+                </Texte>
+                <Button onClick={stopSession} title="Stop hosting" shape="icon">
+                  <FaSolidStop />
+                </Button>
+                <CopyToClipboard
+                  text={netSessionLink()}
+                  onCopy={() => toast("Session link copied to clipboard")}
+                  eventTrigger="onClick"
                 >
-                  <FaSolidClipboard />
-                </div>
-              </CopyToClipboard>
-            </Show>
-            <Show when={sessionData().current != "" && !sessionData().hosting}>
-              <Texte size="small">
-                Connected to: {sessionData().client[sessionData().current].name}
-              </Texte>
-              <Button onClick={stopSession} title="Stop Disconnect">
-                <FaSolidStop />
-              </Button>
-            </Show>
-          </Flex>
-          <Flex vcenter>
+                  <div
+                    title="Copy session link"
+                    class={ButtonStyle({ shape: "icon" })}
+                  >
+                    <FaSolidClipboard />
+                  </div>
+                </CopyToClipboard>
+              </Show>
+              <Show
+                when={sessionData().current != "" && !sessionData().hosting}
+              >
+                <Texte size="small">
+                  Connected to:{" "}
+                  {sessionData().client[sessionData().current].name}
+                </Texte>
+                <Button onClick={stopSession} title="Stop Disconnect">
+                  <FaSolidStop />
+                </Button>
+              </Show>
+            </Flex>
+
             <Dynamic component={Texte} size="small">
               {storageSize() / 1000} KB
             </Dynamic>
@@ -171,7 +175,15 @@ export const MainView = () => {
                 <Show when={sco()}>
                   <CardSlider />
                 </Show>
-                <Button onClick={() => setSco(!sco())} selected={sco}>
+                <Button
+                  onClick={() => setSco(!sco())}
+                  selected={sco}
+                  style={{
+                    "background-color": !sco()
+                      ? themeVars.color.background
+                      : undefined,
+                  }}
+                >
                   <FaSolidIdCard />
                   <Texte size="small">Session cards</Texte>
                 </Button>

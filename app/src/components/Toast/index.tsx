@@ -7,7 +7,7 @@ import { ToastStyle } from "./styles.css";
 
 export const showToast = (
   children: any,
-  position: ToastPosition = "bottom-center"
+  position: ToastPosition = "top-center"
 ) => {
   toast.dismiss();
   toast.custom(

@@ -1,9 +1,15 @@
 import { FaSolidFloppyDisk } from "solid-icons/fa";
 import { Accessor } from "solid-js";
 import toast from "solid-toast";
-import { personaSettingsKey, saveGenericData, settingsData } from "~/common";
+import {
+  currentSession,
+  personaSettingsKey,
+  saveGenericData,
+  settingsData,
+} from "~/common";
 import { Button, Flex, TabDesc, Tabs, Texte } from "~/components";
 import { AppSettings } from "./AppSettings";
+import { CurrentSessionSettings } from "./AppSettings copy";
 import { CommSettings } from "./CommSettings";
 import { IdentSettings } from "./IdentSettings";
 
@@ -25,6 +31,14 @@ export const SettingsView = ({ api }: { api: Accessor<any> }) => {
       content: <CommSettings />,
     },
   ];
+
+  if (currentSession()) {
+    tabs.push({
+      label: "Current session",
+      value: "session",
+      content: <CurrentSessionSettings />,
+    });
+  }
 
   const save = () => {
     api().close();

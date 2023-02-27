@@ -52,6 +52,12 @@ export const AppSettings = () => {
     return -1;
   });
 
+  const bkg = (e: any) => {
+    const newState = { ...settingsData() };
+    newState.app.bkgimage = e.target.value;
+    setSettingsData(newState);
+  };
+
   return (
     <Flex dn="column" style={{ gap: "10px" }}>
       <Flex class={SettingFieldStyle} vcenter>
@@ -73,6 +79,10 @@ export const AppSettings = () => {
           onChange={switchFont}
           selected={currentFontIdx}
         />
+      </Flex>
+      <Flex class={SettingFieldStyle} vcenter>
+        <Texte>Background image URI</Texte>
+        <Input value={settingsData().app.bkgimage} onChange={bkg} />
       </Flex>
     </Flex>
   );

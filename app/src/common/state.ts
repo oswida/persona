@@ -89,6 +89,15 @@ export const sessionCards = createMemo(() => {
   }
 });
 
+export const currentSession = createMemo(() => {
+  if (sessionData().current.trim() == "") return undefined;
+  if (sessionData().hosting) {
+    return sessionData().hosted[sessionData().current];
+  } else {
+    return sessionData().client[sessionData().current];
+  }
+});
+
 //Charsheets
 export const [charsheetData, setCharsheetData] = createSignal<
   Record<string, CharsheetData>
