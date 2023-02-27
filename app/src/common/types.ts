@@ -136,7 +136,8 @@ export type CharsheetData = {
   playerId: string;
   playerName: string;
   templateId: string;
-  values: Record<string, any>;
+  values: { [key: string]: string }[];
+  lastUpdate: string;
 };
 
 export type CardData = {

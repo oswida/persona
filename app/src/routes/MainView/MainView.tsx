@@ -67,6 +67,9 @@ export const MainView = () => {
       <Flex dn="column">
         <div class={TopBarStyle}>
           <Flex>
+            <Popover persistent trigger={<FaSolidDice />} triggerShape="icon">
+              <DiceRollerView />
+            </Popover>
             <Button
               onClick={() => setCardsVisible(!cardsVisible())}
               selected={cardsVisible}
@@ -82,11 +85,7 @@ export const MainView = () => {
               <FaSolidUser />
             </Button>
           </Flex>
-          <Flex>
-            <Popover persistent trigger={<FaSolidDice />} triggerShape="icon">
-              <DiceRollerView />
-            </Popover>
-          </Flex>
+          <Flex></Flex>
 
           <Flex vcenter>
             <Show when={mqttConnectionStatus()}>

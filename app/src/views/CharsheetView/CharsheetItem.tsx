@@ -1,20 +1,14 @@
-import { FaSolidPencil, FaSolidTrash } from "solid-icons/fa";
-import { Component, createMemo, Show } from "solid-js";
+import { Component, createMemo } from "solid-js";
 import {
   charsheetData,
   CharsheetData,
   csTemplateList,
-  netPublish,
   personaCharsheetKey,
   saveGenericData,
   setCharsheetData,
-  themeVars,
 } from "~/common";
 import {
-  Button,
-  Checkbox,
   ConfirmState,
-  Flex,
   setConfirmData,
   setStrInputData,
   StrInputState,
@@ -61,8 +55,6 @@ export const CharsheetItem: Component<Props> = ({ item }) => {
     } as ConfirmState);
   };
 
-  const editContent = () => {};
-
   const putIntoSession = (mode: boolean) => {};
 
   const tpl = createMemo(() => {
@@ -71,7 +63,7 @@ export const CharsheetItem: Component<Props> = ({ item }) => {
 
   return (
     <div class={CsItemStyle}>
-      <Flex style={{ "justify-content": "space-between" }}>
+      {/* <Flex style={{ "justify-content": "space-between" }}>
         <Flex style={{ gap: "10px" }}>
           <Button
             onClick={deleteCharsheet}
@@ -87,10 +79,7 @@ export const CharsheetItem: Component<Props> = ({ item }) => {
             <FaSolidPencil color={themeVars.color.secondary} />
             <Texte size="small">Name</Texte>
           </Button>
-          <Button size="small" onClick={editContent}>
-            <FaSolidPencil color={themeVars.color.secondary} />
-            <Texte size="small">Content</Texte>
-          </Button>
+
           <Checkbox
             label="Session"
             title="Card in current session"
@@ -99,9 +88,10 @@ export const CharsheetItem: Component<Props> = ({ item }) => {
             //TODO:   value={sessionCards().includes(item.id)}
           />
         </Flex>
-      </Flex>
+      </Flex> */}
       <Texte>Player: {item.playerName}</Texte>
       <Texte>Template: {tpl().name}</Texte>
+      <Texte>Updated: {item.lastUpdate}</Texte>
     </div>
   );
 };

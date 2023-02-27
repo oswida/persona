@@ -29,7 +29,7 @@ export const DiceSelectorStyle = style({
       background: "url(img/cubes.svg)",
     },
   },
-  zIndex: 10,
+  zIndex: 10000,
   fontSize: "0.9rem",
 });
 

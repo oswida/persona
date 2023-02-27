@@ -12,6 +12,7 @@ import {
   CharsheetData,
   csTemplateList,
   personaCharsheetKey,
+  prettyToday,
   saveGenericData,
   setCharsheetData,
   settingsData,
@@ -28,14 +29,14 @@ import {
 } from "~/components";
 import { CharsheetEditor } from "./CharsheetEditor";
 import { CharsheetItem } from "./CharsheetItem";
-import { CsEditStyle, CsListStyle, CsZoneStyle } from "./styles.css";
+import { CsListStyle, CsZoneStyle } from "./styles.css";
 
 export const CharsheetView = () => {
   const [filter, setFilter] = createSignal("");
   const [tpl, setTpl] = createSignal("");
   const [onlySession, setOnlySession] = createSignal(false);
   const [onlyOwner, setOnlyOwner] = createSignal(false);
-  const [editorVisible, setEditorVisible] = createSignal(false);
+  const [editorVisible, setEditorVisible] = createSignal(true);
   const [cs, setCs] = createSignal<CharsheetData | null>();
 
   let refFlt: HTMLInputElement;
@@ -72,7 +73,8 @@ export const CharsheetView = () => {
       playerId: settingsData().ident.browserID,
       templateId: t,
       playerName: settingsData().ident.username,
-      values: {},
+      values: [{}],
+      lastUpdate: prettyToday(),
     };
     const newState = { ...charsheetData() };
     newState[value.id] = value;
@@ -111,25 +113,25 @@ export const CharsheetView = () => {
           }}
         >
           <Texte>Charsheets</Texte>
-          <Flex>
-            <Select label="Template" options={templates} onChange={selTpl} />
-            <Button onClick={create}>
-              <FaSolidPlus />
-            </Button>
-          </Flex>
+        </Flex>
+        <Flex>
+          <Select label="Template" options={templates} onChange={selTpl} />
+          <Button onClick={create}>
+            <FaSolidPlus />
+          </Button>
         </Flex>
         <Flex>
           <Checkbox
-            label="Only current session"
+            label="Session"
             value={onlySession()}
             onChange={(v) => setOnlySession(v)}
           />
           <Checkbox
-            label="Only owned"
+            label="Owned"
             value={onlyOwner()}
             onChange={(v) => setOnlyOwner(v)}
           />
-          <Button
+          {/* <Button
             style={{ "margin-left": "20px" }}
             onClick={() => setEditorVisible(!editorVisible())}
           >
@@ -141,7 +143,7 @@ export const CharsheetView = () => {
                 <FaSolidEyeSlash />
               </Match>
             </Switch>
-          </Button>
+          </Button> */}
         </Flex>
         <div class={CsZoneStyle}>
           <Accordion items={items} onChange={selCharsheet} />
