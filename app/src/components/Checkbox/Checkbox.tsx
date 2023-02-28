@@ -1,28 +1,23 @@
 import * as checkbox from "@zag-js/checkbox";
 import { normalizeProps, useMachine } from "@zag-js/solid";
-import {
-  Component,
-  createEffect,
-  createMemo,
-  createUniqueId,
-  Show,
-} from "solid-js";
+import { Component, createMemo, createUniqueId, JSX, Show } from "solid-js";
 import { CheckboxControlStyle, CheckboxRootStyle } from "./styles.css";
 
 type Props = {
   label?: string;
-  color?: string;
   value?: boolean;
   title?: string;
+  rotate?: string;
+  style?: string | JSX.CSSProperties | undefined;
   onChange: (checked: boolean) => void;
 };
 
 export const Checkbox: Component<Props> = ({
   label,
-  color,
   onChange,
   title,
   value,
+  style,
 }) => {
   const [state, send] = useMachine(
     checkbox.machine({
@@ -40,7 +35,7 @@ export const Checkbox: Component<Props> = ({
     <label
       title={title}
       class={CheckboxRootStyle}
-      style={color ? { color: color } : undefined}
+      style={style}
       {...api().rootProps}
     >
       <input {...api().inputProps} />

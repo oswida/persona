@@ -158,3 +158,8 @@ export type DiceType =
   | "d20"
   | "dF"
   | "d100";
+
+export type CharsheetEditorState = {
+  visible: boolean;
+  size: "narrow" | "standard" | "wide";
+};

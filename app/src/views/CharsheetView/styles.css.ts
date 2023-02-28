@@ -1,4 +1,5 @@
 import { style } from "@vanilla-extract/css";
+import { recipe } from "@vanilla-extract/recipes";
 import { themeVars } from "~/common";
 import { sprinkles } from "./../../common/theme.css";
 
@@ -28,7 +29,7 @@ export const CsListStyle = style([
   }),
   {
     height: "calc(100vh - 2em - 10px)",
-    width: "20vw",
+    width: "22vw",
   },
 ]);
 
@@ -45,16 +46,33 @@ export const CsZoneStyle = style([
   },
 ]);
 
-export const CsEditStyle = style([
-  sprinkles({
-    backgroundColor: "backgroundSecondary",
-    display: "flex",
-    flexDirection: "column",
-    padding: "small",
-    gap: "medium",
-  }),
-  {
-    height: "calc(100vh - 2em - 10px)",
-    width: "50vw",
+export const CsEditStyle = recipe({
+  base: [
+    sprinkles({
+      backgroundColor: "backgroundSecondary",
+      display: "flex",
+      flexDirection: "row",
+      padding: "small",
+      gap: "medium",
+    }),
+    {
+      height: "calc(100vh - 2em - 10px)",
+    },
+  ],
+  variants: {
+    size: {
+      wide: {
+        width: "70vw",
+      },
+      standard: {
+        width: "50vw",
+      },
+      narrow: {
+        width: "30vw",
+      },
+    },
   },
-]);
+  defaultVariants: {
+    size: "standard",
+  },
+});

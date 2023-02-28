@@ -9,7 +9,7 @@ import {
 } from "~/common";
 import { Button, Flex, TabDesc, Tabs, Texte } from "~/components";
 import { AppSettings } from "./AppSettings";
-import { CurrentSessionSettings } from "./AppSettings copy";
+import { CurrentSessionSettings } from "./CurrSessionSettings";
 import { CommSettings } from "./CommSettings";
 import { IdentSettings } from "./IdentSettings";
 

@@ -1,32 +1,38 @@
 import { Form, Template, Viewer } from "@pdfme/ui";
-import { FaSolidFloppyDisk, FaSolidPencil, FaSolidTrash } from "solid-icons/fa";
+import {
+  FaSolidArrowLeft,
+  FaSolidArrowRight,
+  FaSolidFilePen,
+  FaSolidFloppyDisk,
+  FaSolidTrash,
+  FaSolidUserPen,
+} from "solid-icons/fa";
 import {
   Accessor,
   Component,
   createEffect,
   createSignal,
-  Setter,
   Show,
 } from "solid-js";
 import {
   charsheetData,
   CharsheetData,
   csTemplateList,
+  editorState,
   personaCharsheetKey,
   prettyToday,
   saveGenericData,
   setCharsheetData,
+  setEditorState,
   themeVars,
 } from "~/common";
 import {
   Button,
-  Checkbox,
   ConfirmState,
   Flex,
   setConfirmData,
   setStrInputData,
   StrInputState,
-  Texte,
 } from "~/components";
 import { CsEditStyle } from "./styles.css";
 
@@ -50,11 +56,6 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
       schemas: tpl.schemas,
     };
 
-    const zoomInBtn = document.querySelector(
-      "#pdf-container > div > div > div:nth-child(1) > div > div > button:nth-child(3)"
-    ) as HTMLButtonElement;
-    console.log("zoomBtn", zoomInBtn);
-
     const inputs = c.values ? c.values : [{}];
     if (editing()) {
       if (viewer) viewer.destroy();
@@ -63,11 +64,21 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
       if (form) form.destroy();
       viewer = new Viewer({ options: {}, domContainer, template, inputs });
     }
-    if (zoomInBtn) {
-      zoomInBtn.click();
-      zoomInBtn.click();
-      zoomInBtn.click();
-    }
+
+    // const zoomInBtn = document.querySelector(
+    //   "#pdf-container > div > div > div:nth-child(1) > div > div > button:nth-child(3)"
+    // ) as HTMLButtonElement;
+    // const zoomInfo = document.querySelector(
+    //   "#pdf-container > div > div > div:nth-child(1) > div > div > strong"
+    // );
+    // const currentZoom = zoomInfo?.innerHTML.toString().replaceAll("%", "");
+    // if (!currentZoom) return;
+    // const cz = Number.parseInt(currentZoom);
+    // if (Number.isNaN(cz) || cz >= 175) return;
+    // const t = (175 - cz) / 25;
+    // for (let i = 0; i < t; i++) {
+    //   zoomInBtn.click();
+    // }
   });
 
   const editName = () => {
@@ -127,45 +138,100 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
     } as ConfirmState);
   };
 
+  const toggleWidth = (inc: boolean) => {
+    setEditorState((prev) => ({ ...prev, visible: false }));
+    switch (editorState().size) {
+      case "narrow":
+        inc
+          ? setEditorState((prev) => ({ size: "standard", visible: true }))
+          : setEditorState((prev) => ({ size: "narrow", visible: true }));
+        break;
+      case "standard":
+        inc
+          ? setEditorState((prev) => ({ size: "wide", visible: true }))
+          : setEditorState((prev) => ({ size: "narrow", visible: true }));
+        break;
+      case "wide":
+        inc
+          ? setEditorState((prev) => ({ size: "wide", visible: true }))
+          : setEditorState((prev) => ({ size: "standard", visible: true }));
+        break;
+    }
+  };
+
   return (
-    <div class={CsEditStyle}>
-      <div id="pdf-container" style={{ width: "100%", height: "100%" }}></div>
-      <Flex style={{ "justify-content": "space-between" }}>
-        <Flex>
+    <div
+      class={CsEditStyle({
+        size: editorState().size,
+      })}
+    >
+      <div id="pdf-container" style={{ height: "100%", width: "100%" }}></div>
+      <Flex
+        style={{ "justify-content": "space-between", width: "max-content" }}
+        dn="column"
+      >
+        <Flex dn="column">
           <Show when={!editing()}>
             <Button
               shape="icon"
-              title="Edit charsheet"
+              title="Edit charsheet content"
               onClick={() => setEditing(true)}
             >
-              <FaSolidPencil />
-              <Texte size="small">Content</Texte>
+              <FaSolidFilePen />
             </Button>
           </Show>
           <Show when={editing()}>
             <Button shape="icon" title="Save charsheet" onClick={save}>
               <FaSolidFloppyDisk />
-              <Texte size="small">Save</Texte>
             </Button>
           </Show>
-          <Button size="small" onClick={editName}>
-            <FaSolidPencil />
-            <Texte size="small">Name</Texte>
+          <Button
+            size="small"
+            onClick={editName}
+            title="Edit character name"
+            shape="icon"
+          >
+            <FaSolidUserPen />
           </Button>
-          <Checkbox
-            label="Session"
-            title="Card in current session"
-            color={themeVars.color.secondary}
-            onChange={(v) => putIntoSession(v)}
-            //TODO:   value={sessionCards().includes(item.id)}
-          />
+          {/* <Show when={!inSession()}>
+            <Button
+              shape="icon"
+              title="Edit charsheet content"
+              onClick={() => putIntoSession()}
+            >
+              <FaSolidFilePen />
+            </Button>
+          </Show>
+          <Show when={editing()}>
+            <Button shape="icon" title="Save charsheet" onClick={save}>
+              <FaSolidFloppyDisk />
+            </Button>
+          </Show> */}
+        </Flex>
+        <Flex vcenter dn="column">
+          <Button
+            onClick={() => toggleWidth(true)}
+            title="Increase viewer width"
+            size="small"
+            shape="icon"
+          >
+            <FaSolidArrowRight />
+          </Button>
+          <Button
+            onClick={() => toggleWidth(false)}
+            title="Decrease viewer width"
+            size="small"
+            shape="icon"
+          >
+            <FaSolidArrowLeft />
+          </Button>
         </Flex>
         <Flex vcenter>
-          <Texte size="bigger">{cs()?.name}</Texte>
           <Button
             onClick={deleteCharsheet}
             title="Delete charsheet"
             size="small"
+            shape="icon"
           >
             <FaSolidTrash color={themeVars.color.secondary} />
           </Button>

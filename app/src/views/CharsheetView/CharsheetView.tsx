@@ -11,6 +11,7 @@ import {
   charsheetData,
   CharsheetData,
   csTemplateList,
+  editorState,
   personaCharsheetKey,
   prettyToday,
   saveGenericData,
@@ -36,7 +37,7 @@ export const CharsheetView = () => {
   const [tpl, setTpl] = createSignal("");
   const [onlySession, setOnlySession] = createSignal(false);
   const [onlyOwner, setOnlyOwner] = createSignal(false);
-  const [editorVisible, setEditorVisible] = createSignal(true);
+
   const [cs, setCs] = createSignal<CharsheetData | null>();
 
   let refFlt: HTMLInputElement;
@@ -164,7 +165,7 @@ export const CharsheetView = () => {
       </div>
 
       {/* Editor */}
-      <Show when={editorVisible()}>
+      <Show when={editorState().visible}>
         <CharsheetEditor cs={cs} />
       </Show>
     </Flex>

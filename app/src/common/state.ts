@@ -1,18 +1,16 @@
-import { assignInlineVars } from "@vanilla-extract/dynamic";
-import { resolveTxt } from "node:dns";
 import { Client } from "paho-mqtt";
 import { createMemo, createSignal } from "solid-js";
 import { Tpl } from "~/templates/types";
-import { darksandThemeClass, themeList, themeVars } from "./theme.css";
+import { themeList } from "./theme.css";
 import {
   CardData,
   CharsheetData,
+  CharsheetEditorState,
   ChatEntry,
   ConnectionInfo,
   emptySessions,
   emptySettings,
   initialWhiteboardState,
-  PlaySession,
   SessionSettings,
   Settings,
   WhiteboardState,
@@ -103,3 +101,9 @@ export const [charsheetData, setCharsheetData] = createSignal<
   Record<string, CharsheetData>
 >({});
 export const [charsheetVisible, setCharsheetVisible] = createSignal(false);
+export const [editorState, setEditorState] = createSignal<CharsheetEditorState>(
+  {
+    size: "standard",
+    visible: true,
+  }
+);
