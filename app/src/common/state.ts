@@ -107,3 +107,12 @@ export const [editorState, setEditorState] = createSignal<CharsheetEditorState>(
     visible: true,
   }
 );
+
+export const sessionCharsheets = createMemo(() => {
+  if (sessionData().current.trim() == "") return [];
+  if (sessionData().hosting) {
+    return sessionData().hosted[sessionData().current].charsheets;
+  } else {
+    return sessionData().client[sessionData().current].charsheets;
+  }
+});

@@ -1,9 +1,21 @@
 import { Client, Message } from "paho-mqtt";
-import { CardData, cardsData, setCardsData } from "~/common";
+import {
+  CardData,
+  cardsData,
+  charsheetData,
+  setCardsData,
+  setCharsheetData,
+} from "~/common";
 import { chatText } from "./chat";
-import { topicCardDelete, topicCardUpdate } from "./net";
+import {
+  topicCardDelete,
+  topicCardUpdate,
+  topicCSDelete,
+  topicCSUpdate,
+} from "./net";
 import {
   personaCardsKey,
+  personaCharsheetKey,
   personaSessionsKey,
   saveGenericData,
 } from "./storage";
@@ -23,7 +35,13 @@ import {
   topicConnect,
   topicSessionInfo,
 } from ".";
-import { ChatEntry, ConnectionInfo, NetMessage, PlaySession } from "./types";
+import {
+  CharsheetData,
+  ChatEntry,
+  ConnectionInfo,
+  NetMessage,
+  PlaySession,
+} from "./types";
 import { compressData64, decompressData64, prettyNow } from "./util";
 
 export const mqttPack = (sender: string, payload: any) => {
@@ -120,6 +138,25 @@ export const mqttProcess = (msg: Message) => {
       });
       setCardsData(ns);
       saveGenericData(personaCardsKey, ns);
+      break;
+    case mqttTopic(topicCSUpdate):
+      const sheets = m.data as CharsheetData[];
+      const newSheets = { ...charsheetData() };
+      sheets.forEach((it) => {
+        newSheets[it.id] = it;
+      });
+      setCharsheetData(newSheets);
+      saveGenericData(personaCharsheetKey, newSheets);
+      break;
+    case mqttTopic(topicCSDelete):
+      const sheets2 = m.data as string[];
+      const nsh: Record<string, CharsheetData> = {};
+      Object.values(charsheetData()).forEach((c) => {
+        const fnd = sheets2.includes(c.id);
+        if (!fnd || c.owner == settingsData().ident.browserID) nsh[c.id] = c;
+      });
+      setCharsheetData(nsh);
+      saveGenericData(personaCharsheetKey, nsh);
       break;
     default:
       console.log("Message for unknown topic", m.sender, m.data);

@@ -4,6 +4,8 @@ import {
   FaSolidArrowRight,
   FaSolidFilePen,
   FaSolidFloppyDisk,
+  FaSolidPeopleArrows,
+  FaSolidPeopleGroup,
   FaSolidTrash,
   FaSolidUserPen,
 } from "solid-icons/fa";
@@ -11,6 +13,7 @@ import {
   Accessor,
   Component,
   createEffect,
+  createMemo,
   createSignal,
   Show,
 } from "solid-js";
@@ -18,13 +21,22 @@ import {
   charsheetData,
   CharsheetData,
   csTemplateList,
+  currentSession,
   editorState,
+  netPublish,
   personaCharsheetKey,
+  personaSessionsKey,
+  PlaySession,
   prettyToday,
   saveGenericData,
+  sessionData,
   setCharsheetData,
   setEditorState,
+  setSessionData,
   themeVars,
+  topicCSDelete,
+  topicCSUpdate,
+  topicSessionInfo,
 } from "~/common";
 import {
   Button,
@@ -114,7 +126,34 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
     setEditing(false);
   };
 
-  const putIntoSession = (mode: boolean) => {};
+  const putIntoSession = (v: boolean) => {
+    const c = cs();
+    if (!c) return;
+    if (sessionData().current.trim() == "") return;
+    let list: Record<string, PlaySession>;
+    const newState = { ...sessionData() };
+    if (newState.hosting) {
+      list = newState.hosted;
+      if (!list) return;
+    } else {
+      list = newState.client;
+      if (!list) return;
+    }
+    if (v) {
+      if (list[newState.current].charsheets.includes(c.id)) return;
+      list[newState.current].charsheets.push(c.id);
+      netPublish(topicCSUpdate, [c]);
+    } else {
+      if (!list[newState.current].charsheets.includes(c.id)) return;
+      list[newState.current].charsheets = list[newState.current].cards.filter(
+        (it) => it != c.id
+      );
+      netPublish(topicCSDelete, [c.id]);
+    }
+    setSessionData(newState);
+    saveGenericData(personaSessionsKey, newState);
+    netPublish(topicSessionInfo, list[newState.current]);
+  };
 
   const deleteCharsheet = () => {
     const c = cs();
@@ -131,7 +170,7 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
         Object.assign(newState, vals);
         setCharsheetData(newState);
         saveGenericData(personaCharsheetKey, newState);
-        //TODO: netPublish(topicCardDelete, [item.id]);
+        netPublish(topicCSDelete, [c.id]);
         if (form) form.destroy();
         if (viewer) viewer.destroy();
       },
@@ -158,6 +197,13 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
         break;
     }
   };
+
+  const inSession = createMemo(() => {
+    const c = cs();
+    if (!c) return false;
+    const sess = currentSession();
+    return sess?.charsheets.includes(c.id);
+  });
 
   return (
     <div
@@ -193,20 +239,24 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
           >
             <FaSolidUserPen />
           </Button>
-          {/* <Show when={!inSession()}>
+          <Show when={!inSession()}>
             <Button
               shape="icon"
-              title="Edit charsheet content"
-              onClick={() => putIntoSession()}
+              title="Put charsheet into session"
+              onClick={() => putIntoSession(true)}
             >
-              <FaSolidFilePen />
+              <FaSolidPeopleGroup />
             </Button>
           </Show>
-          <Show when={editing()}>
-            <Button shape="icon" title="Save charsheet" onClick={save}>
-              <FaSolidFloppyDisk />
+          <Show when={inSession()}>
+            <Button
+              shape="icon"
+              title="Remove charsheet from session"
+              onClick={() => putIntoSession(false)}
+            >
+              <FaSolidPeopleArrows />
             </Button>
-          </Show> */}
+          </Show>
         </Flex>
         <Flex vcenter dn="column">
           <Button

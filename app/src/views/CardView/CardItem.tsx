@@ -149,7 +149,7 @@ export const CardItem = ({ item }: { item: CardData }) => {
             <Checkbox
               label="Session"
               title="Card in current session"
-              color={themeVars.color.secondary}
+              style={{ color: themeVars.color.secondary }}
               onChange={(v) => putIntoSession(v)}
               value={sessionCards().includes(item.id)}
             />

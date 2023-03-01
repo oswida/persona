@@ -35,8 +35,8 @@ export const SessionView = () => {
       name: refName.value,
       ownerId: settingsData().ident.browserID,
       cards: [] as string[],
-      charsheets: {},
-      players: {},
+      charsheets: [] as string[],
+      players: [] as string[],
     } as PlaySession;
     saveGenericData(personaSessionsKey, newSettings);
     setSessionData(newSettings);

@@ -1,8 +1,9 @@
-import { Component, createMemo } from "solid-js";
+import { Component, createMemo, Show } from "solid-js";
 import {
   charsheetData,
   CharsheetData,
   csTemplateList,
+  currentSession,
   personaCharsheetKey,
   saveGenericData,
   setCharsheetData,
@@ -21,41 +22,10 @@ type Props = {
 };
 
 export const CharsheetItem: Component<Props> = ({ item }) => {
-  const editName = () => {
-    setStrInputData({
-      open: true,
-      title: "Edit name",
-      message: "",
-      value: item.name,
-      accept: (value: string) => {
-        const newState = { ...charsheetData() };
-        newState[item.id].name = value;
-        setCharsheetData(newState);
-        saveGenericData(personaCharsheetKey, newState);
-        //TODO:  netPublish(topicC, [item]);
-      },
-    } as StrInputState);
-  };
-
-  const deleteCharsheet = () => {
-    setConfirmData({
-      open: true,
-      title: "Delete charsheet",
-      message: `Do you really want to delete ${item.name}?`,
-      accept: () => {
-        const data = charsheetData();
-        if (!data) return;
-        const vals = Object.values(data).filter((v) => v.id != item.id);
-        const newState = {};
-        Object.assign(newState, vals);
-        setCharsheetData(newState);
-        saveGenericData(personaCharsheetKey, newState);
-        //TODO: netPublish(topicCardDelete, [item.id]);
-      },
-    } as ConfirmState);
-  };
-
-  const putIntoSession = (mode: boolean) => {};
+  const inSession = createMemo(() => {
+    const sess = currentSession();
+    return sess?.charsheets.includes(item.id);
+  });
 
   const tpl = createMemo(() => {
     return csTemplateList()[item.templateId];
@@ -63,35 +33,13 @@ export const CharsheetItem: Component<Props> = ({ item }) => {
 
   return (
     <div class={CsItemStyle}>
-      {/* <Flex style={{ "justify-content": "space-between" }}>
-        <Flex style={{ gap: "10px" }}>
-          <Button
-            onClick={deleteCharsheet}
-            title="Delete charsheet"
-            size="small"
-          >
-            <FaSolidTrash color={themeVars.color.secondary} />
-          </Button>
-        </Flex>
-
-        <Flex>
-          <Button size="small" onClick={editName}>
-            <FaSolidPencil color={themeVars.color.secondary} />
-            <Texte size="small">Name</Texte>
-          </Button>
-
-          <Checkbox
-            label="Session"
-            title="Card in current session"
-            color={themeVars.color.secondary}
-            onChange={(v) => putIntoSession(v)}
-            //TODO:   value={sessionCards().includes(item.id)}
-          />
-        </Flex>
-      </Flex> */}
       <Texte>Player: {item.playerName}</Texte>
-      <Texte>Template: {tpl().name}</Texte>
       <Texte>Updated: {item.lastUpdate}</Texte>
+      <Show when={inSession()}>
+        <Texte size="small" themeColor="secondary">
+          Current session
+        </Texte>
+      </Show>
     </div>
   );
 };
