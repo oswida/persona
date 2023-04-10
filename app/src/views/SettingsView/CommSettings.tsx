@@ -2,7 +2,7 @@ import { createMemo, createSignal, Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { setSettingsData, settingsData } from "~/common";
 import { Flex, Input, Select, SelectOption, Texte } from "~/components";
-import { SettingFieldStyle } from "./styles.css";
+import { settingFieldStyle, SettingFieldStyle } from "./styles.css";
 
 export const CommSettings = () => {
   let refServer: HTMLInputElement;
@@ -44,20 +44,23 @@ export const CommSettings = () => {
   };
 
   return (
-    <Flex dn="column" style={{ gap: "10px" }} center>
-      <Dynamic
-        component={Select}
-        label="Server type"
-        options={typeOptions}
-        selected={selectedItem}
-        onChange={typeSelect}
-      />
+    <Flex dn="column" style={{ gap: "10px" }} >
+      <div class={settingFieldStyle}>
+        <Texte size="small" themeColor="secondary">Server type</Texte>
+        <Dynamic
+          component={Select}
+          label=""
+          options={typeOptions}
+          selected={selectedItem}
+          onChange={typeSelect}
+        />
+      </div>
 
       <Show when={ts() == "mqtt"}>
-        <Texte>MQTT server configuration</Texte>
+        <Texte size="small" themeColor="secondary">MQTT server configuration</Texte>
 
-        <div class={SettingFieldStyle}>
-          <Texte>Server address</Texte>
+        <div class={settingFieldStyle}>
+          <Texte size="small" themeColor="secondary">Server address</Texte>
           <Input
             style={{ flex: 1 }}
             value={settingsData().comms.mqtt.server}
@@ -65,8 +68,8 @@ export const CommSettings = () => {
             onChange={update}
           />
         </div>
-        <div class={SettingFieldStyle}>
-          <Texte>Server credentials</Texte>
+        <div class={settingFieldStyle}>
+          <Texte size="small" themeColor="secondary">Server credentials</Texte>
           <Input
             style={{ flex: 1 }}
             value={settingsData().comms.mqtt.credentials}

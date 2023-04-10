@@ -42,7 +42,7 @@ export const TopBarStyle = style([
 
 export const MainContentStyle = style([
   sprinkles({
-    marginTop: "em2",
+    // marginTop: "em2",
     display: "flex",
     flexDirection: "column",
     padding: "small",

@@ -12,8 +12,9 @@ import { AppSettings } from "./AppSettings";
 import { CurrentSessionSettings } from "./CurrSessionSettings";
 import { CommSettings } from "./CommSettings";
 import { IdentSettings } from "./IdentSettings";
+import { settingRootStyle } from "./styles.css";
 
-export const SettingsView = ({ api }: { api: Accessor<any> }) => {
+export const SettingsView = () => {
   const tabs: TabDesc[] = [
     {
       label: "Ident",
@@ -34,24 +35,22 @@ export const SettingsView = ({ api }: { api: Accessor<any> }) => {
 
   if (currentSession()) {
     tabs.push({
-      label: "Current session",
+      label: "Session",
       value: "session",
       content: <CurrentSessionSettings />,
     });
   }
 
   const save = () => {
-    api().close();
+    // api().close();
     const newState = { ...settingsData() };
     saveGenericData(personaSettingsKey, settingsData());
     toast("Settings saved");
   };
 
   return (
-    <Flex
-      style={{ "min-width": "400px", "min-height": "200px", gap: "10px" }}
-      dn="column"
-    >
+    <div class={settingRootStyle}>
+      <Texte size="bigger" >Settings</Texte>
       <Tabs items={tabs} value={tabs[0].value}></Tabs>
       <Flex center>
         <Button onClick={save}>
@@ -59,6 +58,6 @@ export const SettingsView = ({ api }: { api: Accessor<any> }) => {
           <Texte>Save</Texte>
         </Button>
       </Flex>
-    </Flex>
+    </div>
   );
 };

@@ -24,6 +24,7 @@ export type TabDesc = {
 
 type Props = {
   items: TabDesc[];
+  vertical?: boolean;
   style?: string | JSX.CSSProperties | undefined;
   value?: string;
 };
@@ -33,9 +34,10 @@ export const Tabs: Component<Props & ParentProps> = ({
   items,
   style,
   value,
+  vertical
 }) => {
   const [state, send] = useMachine(
-    tabs.machine({ id: createUniqueId(), value: value })
+    tabs.machine({ id: createUniqueId(), value: value, orientation: vertical ? "vertical" : undefined })
   );
 
   const api = createMemo(() => tabs.connect(state, send, normalizeProps));

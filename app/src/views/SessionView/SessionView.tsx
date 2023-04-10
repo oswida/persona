@@ -1,15 +1,20 @@
 import { Option } from "@zag-js/select/dist/select.types";
 import {
+  FaSolidClipboard,
   FaSolidNetworkWired,
   FaSolidPlug,
   FaSolidPlus,
+  FaSolidStop,
   FaSolidTrash,
 } from "solid-icons/fa";
-import { createMemo, createSignal } from "solid-js";
+import { Show, createMemo, createSignal } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { v4 as uuidv4 } from "uuid";
 import {
+  mqttConnectionStatus,
   netConnect,
+  netDisconnect,
+  netSessionLink,
   personaSessionsKey,
   PlaySession,
   saveGenericData,
@@ -18,8 +23,13 @@ import {
   setSessionData,
   setSettingsData,
   settingsData,
+  themeVars,
 } from "~/common";
 import { Button, Flex, Input, Select, Texte } from "~/components";
+import { sessionSettingRootStyle, sessionSettingRowStyle } from "./styles.css";
+import { CopyToClipboard } from "solid-copy-to-clipboard";
+import { ButtonStyle } from "~/components/Button/styles.css";
+import toast from "solid-toast";
 
 export const SessionView = () => {
   let refName: HTMLInputElement;
@@ -125,10 +135,20 @@ export const SessionView = () => {
     netConnect();
   };
 
+  const stopSession = () => {
+    const newSettings = { ...sessionData() };
+    newSettings.current = "";
+    newSettings.hosting = false;
+    setSessionData(newSettings);
+    saveGenericData(personaSessionsKey, newSettings);
+    netDisconnect();
+  };
+
   return (
-    <Flex dn="column">
-      <Texte size="small">Hosted</Texte>
-      <Flex style={{ flex: 1, "justify-content": "space-between" }}>
+    <div class={sessionSettingRootStyle}>
+      <Texte size="bigger" >Sessions</Texte>
+      <Texte size="small" themeColor="secondary">Hosted</Texte>
+      <div class={sessionSettingRowStyle}>
         <Button onClick={delHosted} title="Delete selected session">
           <FaSolidTrash />
         </Button>
@@ -141,16 +161,16 @@ export const SessionView = () => {
         <Button onClick={startHosting} title="Host selected session">
           <FaSolidNetworkWired />
         </Button>
-      </Flex>
-      <Flex style={{ flex: 1, "justify-content": "space-between" }}>
+      </div>
+      <div class={sessionSettingRowStyle}>
         <Input ref={(e) => (refName = e)} style={{ width: "12rem" }} />
         <Button onClick={create} title="Create session">
           <FaSolidPlus />
         </Button>
-      </Flex>
-      <div style={{ height: "0.5rem", "border-bottom": `1px solid` }}></div>
-      <Texte size="small">Played</Texte>
-      <Flex style={{ flex: 1, "justify-content": "space-between" }}>
+      </div>
+      <div style={{ height: "0.5rem", "border-bottom": `1px solid ${themeVars.color.secondary}` }}></div>
+      <Texte size="small" themeColor="secondary" >Played</Texte>
+      <div class={sessionSettingRowStyle}>
         <Button onClick={delPlayed}>
           <FaSolidTrash />
         </Button>
@@ -163,7 +183,51 @@ export const SessionView = () => {
         <Button onClick={startClient} title="Connect">
           <FaSolidPlug />
         </Button>
-      </Flex>
-    </Flex>
+      </div>
+      <div style={{ height: "0.5rem", "border-bottom": `1px solid` }}></div>
+      <div class={sessionSettingRowStyle}>
+        <Texte size="small" themeColor="secondary" >Current</Texte>
+        <Show when={mqttConnectionStatus()}>
+          <FaSolidNetworkWired title="Connected to server" />
+        </Show>
+      </div>
+
+      <div class={sessionSettingRowStyle}>
+
+        <Show when={sessionData().current != "" && sessionData().hosting}>
+          <Texte size="middle">
+            Hosting: {sessionData().hosted[sessionData().current].name}
+          </Texte>
+          <Flex>
+            <Button onClick={stopSession} title="Stop hosting" shape="icon">
+              <FaSolidStop />
+            </Button>
+            <CopyToClipboard
+              text={netSessionLink()}
+              onCopy={() => toast("Session link copied to clipboard")}
+              eventTrigger="onClick"
+            >
+              <div
+                title="Copy session link"
+                class={ButtonStyle({ shape: "icon" })}
+              >
+                <FaSolidClipboard />
+              </div>
+            </CopyToClipboard>
+          </Flex>
+        </Show>
+        <Show
+          when={sessionData().current != "" && !sessionData().hosting}
+        >
+          <Texte size="small">
+            Connected to:{" "}
+            {sessionData().client[sessionData().current].name}
+          </Texte>
+          <Button onClick={stopSession} title="Stop Disconnect">
+            <FaSolidStop />
+          </Button>
+        </Show>
+      </div>
+    </div>
   );
 };

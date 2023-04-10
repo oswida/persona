@@ -1,4 +1,20 @@
 import { style } from "@vanilla-extract/css";
+import { sprinkles } from "~/common";
+
+export const settingRootStyle = style([sprinkles({
+  display: "flex",
+  flexDirection: "column",
+  gap: "medium",
+  padding: "medium",
+  backgroundColor: "backgroundSecondary"
+}), { width: "320px" }]);
+
+export const settingFieldStyle = style([sprinkles({
+  display: "flex",
+  flexDirection: "column",
+  padding: "small",
+  gap: "medium"
+})]);
 
 export const SettingFieldStyle = style({
   display: "flex",

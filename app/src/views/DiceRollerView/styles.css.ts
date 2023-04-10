@@ -2,6 +2,31 @@ import { sprinkles } from "./../../common/theme.css";
 import { style } from "@vanilla-extract/css";
 import { themeVars } from "~/common";
 
+export const diceSelectorRootStyle = style([sprinkles({
+  backgroundColor: "backgroundSecondary",
+  display: "flex",
+  flexDirection: "column",
+  gap: "medium",
+  padding: "medium",
+  alignItems: "center"
+}), {
+  width: "320px"
+}])
+
+export const diceSelectorCtrlRowStyle = style([sprinkles({
+  display: "flex",
+  flexDirection: "row",
+  gap: "medium",
+  marginTop: "medium"
+})]);
+
+export const diceSelectorResultStyle = style([sprinkles({
+  display: "flex",
+  flexDirection: "row",
+  gap: "medium",
+  marginTop: "large"
+})]);
+
 export const DiceSelectorStyle = style({
   position: "relative",
   cursor: "pointer",

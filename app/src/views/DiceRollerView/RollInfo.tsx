@@ -1,10 +1,14 @@
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 import { FaSolidDice } from "solid-icons/fa";
-import { For } from "solid-js";
+import { Accessor, Component, For, Setter } from "solid-js";
 import { themeVars } from "~/common";
 import { Flex, Texte } from "~/components";
 
-export const RollInfo = ({ rolls }: { rolls: DiceRoll[] }) => {
+type Props = {
+  rolls: Accessor<DiceRoll[]>;
+}
+
+export const RollInfo: Component<Props> = ({ rolls }) => {
   return (
     <Flex dn="column">
       <Flex
@@ -19,7 +23,7 @@ export const RollInfo = ({ rolls }: { rolls: DiceRoll[] }) => {
           Dice roll
         </Texte>
       </Flex>
-      <For each={rolls}>
+      <For each={rolls()}>
         {(it) => (
           <Flex>
             <Texte themeColor="secondary">{it.notation}:</Texte>

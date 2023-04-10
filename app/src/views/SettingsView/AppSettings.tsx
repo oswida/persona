@@ -12,7 +12,7 @@ import {
   themeMap,
 } from "~/common";
 import { Flex, Input, Select, SelectOption, Texte } from "~/components";
-import { SettingFieldStyle } from "./styles.css";
+import { SettingFieldStyle, settingFieldStyle } from "./styles.css";
 
 export const AppSettings = () => {
   const switchTheme = (item: SelectOption | null) => {
@@ -54,26 +54,28 @@ export const AppSettings = () => {
 
   return (
     <Flex dn="column" style={{ gap: "10px" }}>
-      <Flex class={SettingFieldStyle} vcenter>
-        <Texte>Language</Texte>
+      <div class={settingFieldStyle}>
+        <Texte size="small" themeColor="secondary">Language</Texte>
         <Input value={settingsData().app.lang} />
-      </Flex>
-      <Flex class={SettingFieldStyle}>
+      </div>
+      <div class={settingFieldStyle}>
+        <Texte size="small" themeColor="secondary">Theme</Texte>
         <Select
-          label="Theme"
+          label=""
           options={() => themeList}
           onChange={switchTheme}
           selected={currentThemeIdx}
         />
-      </Flex>
-      <Flex class={SettingFieldStyle}>
+      </div>
+      <div class={settingFieldStyle}>
+        <Texte size="small" themeColor="secondary">Font</Texte>
         <Select
-          label="Font"
+          label=""
           options={fonts}
           onChange={switchFont}
           selected={currentFontIdx}
         />
-      </Flex>
+      </div>
     </Flex>
   );
 };

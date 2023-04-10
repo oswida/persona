@@ -8,7 +8,7 @@ import {
   themeList,
 } from "~/common";
 import { Flex, Input, Select, Texte } from "~/components";
-import { SettingFieldStyle } from "./styles.css";
+import { SettingFieldStyle, settingFieldStyle } from "./styles.css";
 
 export const CurrentSessionSettings = () => {
   const bkg = (e: any) => {
@@ -21,10 +21,10 @@ export const CurrentSessionSettings = () => {
 
   return (
     <Flex dn="column" style={{ gap: "10px" }}>
-      <Flex class={SettingFieldStyle} vcenter>
-        <Texte>Background image URI</Texte>
+      <div class={settingFieldStyle}>
+        <Texte size="small" themeColor="secondary">Background image URI</Texte>
         <Input value={currentSession()?.backgroundImg} onChange={bkg} />
-      </Flex>
+      </div>
     </Flex>
   );
 };

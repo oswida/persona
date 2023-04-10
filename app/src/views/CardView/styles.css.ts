@@ -19,7 +19,7 @@ export const CardStyle = style([
 ]);
 
 export const CardListStyle = style({
-  height: "calc(100vh - 2em - 10px)",
+  height: "calc(100vh - 10px)",
   width: "30vw",
   backgroundColor: themeVars.color.backgroundSecondary,
   display: "flex",

@@ -1,5 +1,7 @@
-import { setSettingsData, settingsData } from "~/common";
+import { setSettingsData, settingsData, storageSize } from "~/common";
 import { Flex, Input, Texte } from "~/components";
+import { settingFieldStyle } from "./styles.css";
+import { Dynamic } from "solid-js/web";
 
 export const IdentSettings = () => {
   let refName: HTMLInputElement;
@@ -14,29 +16,32 @@ export const IdentSettings = () => {
 
   return (
     <Flex dn="column" style={{ gap: "10px" }}>
-      <Flex
-        style={{ padding: "5px", gap: "10px", "margin-top": "5px" }}
-        vcenter
-      >
-        <Texte>ID</Texte>
+      <div class={settingFieldStyle}>
+        <Texte size="small" themeColor="secondary">ID</Texte>
         <Texte size="small">{settingsData().ident.browserID}</Texte>
-      </Flex>
-      <Flex style={{ padding: "5px", gap: "10px" }} vcenter>
-        <Texte>Username</Texte>
+      </div>
+      <div class={settingFieldStyle}>
+        <Texte size="small" themeColor="secondary">Storage</Texte>
+        <Dynamic component={Texte} size="small">
+          {storageSize() / 1000} KB
+        </Dynamic>
+      </div>
+      <div class={settingFieldStyle}>
+        <Texte size="small" themeColor="secondary">Username</Texte>
         <Input
           value={settingsData().ident.username}
           onChange={update}
           ref={(e) => (refName = e)}
         />
-      </Flex>
-      <Flex style={{ padding: "5px", gap: "10px" }} vcenter>
-        <Texte>Color</Texte>
+      </div>
+      <div class={settingFieldStyle}>
+        <Texte size="small" themeColor="secondary">Color</Texte>
         <Input
           value={settingsData().ident.color}
           onChange={update}
           ref={(e) => (refColor = e)}
         />
-      </Flex>
+      </div>
     </Flex>
   );
 };

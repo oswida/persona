@@ -7,6 +7,7 @@ import {
   FaSolidIdCard,
   FaSolidMessage,
   FaSolidNetworkWired,
+  FaSolidRightLong,
   FaSolidStop,
   FaSolidUser,
 } from "solid-icons/fa";
@@ -44,19 +45,21 @@ import { SessionView } from "~/views/SessionView";
 import { SettingsView } from "~/views/SettingsView";
 import { TableView } from "~/views/TableView";
 import { MainContentStyle, MainStyle, TopBarStyle } from "./styles.css";
+import { RightView } from "~/views/RightView";
+import { LeftView } from "~/views/LeftView";
 
 export const MainView = () => {
   const [sco, setSco] = createSignal(false);
   const [settApi, setSettApi] = createSignal<any>();
 
-  const stopSession = () => {
-    const newSettings = { ...sessionData() };
-    newSettings.current = "";
-    newSettings.hosting = false;
-    setSessionData(newSettings);
-    saveGenericData(personaSessionsKey, newSettings);
-    netDisconnect();
-  };
+  // const stopSession = () => {
+  //   const newSettings = { ...sessionData() };
+  //   newSettings.current = "";
+  //   newSettings.hosting = false;
+  //   setSessionData(newSettings);
+  //   saveGenericData(personaSessionsKey, newSettings);
+  //   netDisconnect();
+  // };
 
   return (
     <Div100vh
@@ -66,12 +69,12 @@ export const MainView = () => {
       id="main-div"
     >
       <Flex dn="column">
-        <div class={TopBarStyle}>
-          <Flex>
-            <Popover persistent trigger={<FaSolidDice />} triggerShape="icon">
+        {/* <div class={TopBarStyle}> */}
+        {/* <Flex> */}
+        {/* <Popover persistent trigger={<FaSolidDice />} triggerShape="icon">
               <DiceRollerView />
-            </Popover>
-            <Button
+            </Popover> */}
+        {/* <Button
               onClick={() => setCardsVisible(!cardsVisible())}
               selected={cardsVisible}
               shape="icon"
@@ -84,12 +87,12 @@ export const MainView = () => {
               shape="icon"
             >
               <FaSolidUser />
-            </Button>
-          </Flex>
+            </Button> */}
+        {/* </Flex> */}
 
-          <Flex vcenter>
-            <Flex vcenter>
-              <Show when={mqttConnectionStatus()}>
+        {/* <Flex vcenter> */}
+        {/* <Flex vcenter> */}
+        {/* <Show when={mqttConnectionStatus()}>
                 <FaSolidNetworkWired />
               </Show>
               <Dialog
@@ -98,8 +101,8 @@ export const MainView = () => {
                 triggerShape="icon"
               >
                 <SessionView />
-              </Dialog>
-              <Show when={sessionData().current != "" && sessionData().hosting}>
+              </Dialog> */}
+        {/* <Show when={sessionData().current != "" && sessionData().hosting}>
                 <Texte size="middle">
                   Hosting: {sessionData().hosted[sessionData().current].name}
                 </Texte>
@@ -118,8 +121,8 @@ export const MainView = () => {
                     <FaSolidClipboard />
                   </div>
                 </CopyToClipboard>
-              </Show>
-              <Show
+              </Show> */}
+        {/* <Show
                 when={sessionData().current != "" && !sessionData().hosting}
               >
                 <Texte size="small">
@@ -129,38 +132,40 @@ export const MainView = () => {
                 <Button onClick={stopSession} title="Stop Disconnect">
                   <FaSolidStop />
                 </Button>
-              </Show>
-            </Flex>
+              </Show> */}
+        {/* </Flex> */}
 
-            <Dynamic component={Texte} size="small">
+        {/* <Dynamic component={Texte} size="small">
               {storageSize() / 1000} KB
-            </Dynamic>
-            <Button
-              onClick={() => setChatVisible(!chatVisible())}
-              selected={chatVisible}
+            </Dynamic> */}
+        {/* <Button
+              onClick={() => setRightViewVisible(!rightViewVisible())}
+              selected={rightViewVisible}
               shape="icon"
             >
-              <FaSolidMessage />
-            </Button>
+              <FaSolidRightLong />
+            </Button> */}
 
-            <Dialog
+        {/* <Dialog
               trigger={<FaSolidGears />}
               triggerShape="icon"
               title="Settings"
               passApi={setSettApi}
             >
               <SettingsView api={settApi} />
-            </Dialog>
-          </Flex>
-        </div>
+            </Dialog> */}
+        {/* </Flex> */}
+        {/* </div> */}
         <div class={MainContentStyle} id="main-content">
+
           <Flex>
-            <Show when={cardsVisible()}>
+            <LeftView />
+            {/* <Show when={cardsVisible()}>
               <CardList />
-            </Show>
-            <Show when={charsheetVisible()}>
+            </Show> */}
+            {/* <Show when={charsheetVisible()}>
               <CharsheetView />
-            </Show>
+            </Show> */}
             <Flex dn="column" style={{ flex: 1 }}>
               <TableView />
               <Flex
@@ -189,9 +194,7 @@ export const MainView = () => {
                 </Button>
               </Flex>
             </Flex>
-            <Show when={chatVisible()}>
-              <ChatView />
-            </Show>
+            <RightView />
           </Flex>
         </div>
       </Flex>

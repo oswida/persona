@@ -12,6 +12,7 @@ import {
   ChatEntry,
   chatList,
   DiceType,
+  lastRoll,
   mqttClient,
   netPublish,
   prettyNow,
@@ -19,6 +20,7 @@ import {
   rollSingle,
   SerializedRoll,
   setChatList,
+  setLastRoll,
   setSelectedDicePool,
   settingsData,
   topicChat,
@@ -28,6 +30,8 @@ import { showError, showToast } from "~/components/Toast";
 import { DiceSelector } from "./DiceSelector";
 import { RollInfo } from "./RollInfo";
 import { computedDicePool } from "./util";
+import { diceSelectorCtrlRowStyle, diceSelectorResultStyle, diceSelectorRootStyle } from "./styles.css";
+import { Dynamic } from "solid-js/web";
 
 export const DiceRollerView: Component = () => {
   const dicePool: DiceType[] = ["d4", "d6", "d8", "d10"];
@@ -58,7 +62,8 @@ export const DiceRollerView: Component = () => {
       } else {
         result = rollMultiple([...pl, ...custom]);
       }
-      showToast(<RollInfo rolls={result} />);
+      showToast(<RollInfo rolls={() => result} />);
+      setLastRoll(result);
       const entry = {
         etype: "roll",
         author: settingsData().ident.username,
@@ -66,14 +71,14 @@ export const DiceRollerView: Component = () => {
         tstamp: prettyNow(),
         rolls: result.map(
           (it) =>
-            ({
-              maxTotal: it.maxTotal,
-              minTotal: it.minTotal,
-              notation: it.notation,
-              output: it.output,
-              total: it.total,
-              rolls: it.rolls.map((r) => r.toString()),
-            } as SerializedRoll)
+          ({
+            maxTotal: it.maxTotal,
+            minTotal: it.minTotal,
+            notation: it.notation,
+            output: it.output,
+            total: it.total,
+            rolls: it.rolls.map((r) => r.toString()),
+          } as SerializedRoll)
         ),
       } as ChatEntry;
       const newState = [...chatList(), entry];
@@ -97,17 +102,15 @@ export const DiceRollerView: Component = () => {
   };
 
   return (
-    <Flex dn="column">
+    <div class={diceSelectorRootStyle}>
+      <Texte size="bigger">Dice</Texte>
       <Flex style={{ gap: "10px" }}>
         <For each={dicePool}>{(it) => <DiceSelector dice={it} />}</For>
       </Flex>
       <Flex style={{ gap: "10px" }}>
         <For each={dicePool2}>{(it) => <DiceSelector dice={it} />}</For>
       </Flex>
-      <Flex
-        center
-        style={{ gap: "20px", "margin-top": "15px", "margin-bottom": "5px" }}
-      >
+      <div class={diceSelectorCtrlRowStyle}>
         <Input
           fontSize="smaller"
           style={{ width: "6rem" }}
@@ -132,7 +135,10 @@ export const DiceRollerView: Component = () => {
         <Button onClick={reset}>
           <Texte>Reset</Texte>
         </Button>
-      </Flex>
-    </Flex>
+      </div>
+      <div class={diceSelectorResultStyle}>
+        <Dynamic component={RollInfo} rolls={lastRoll} />
+      </div>
+    </div>
   );
 };

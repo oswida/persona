@@ -104,7 +104,7 @@ export const ChatView = () => {
   return (
     <div class={ChatRootStyle}>
       <Flex style={{ "justify-content": "space-between" }}>
-        <Texte>Chat</Texte>
+        <Texte size="bigger">Chat</Texte>
         <Flex>
           <Button onClick={clearChat}>
             <FaSolidTrash />
