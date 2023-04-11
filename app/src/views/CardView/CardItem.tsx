@@ -1,18 +1,16 @@
 import { FaSolidFloppyDisk, FaSolidPencil, FaSolidTrash } from "solid-icons/fa";
 import { createSignal, Show } from "solid-js";
 import {
+  appCards,
+  appSessions,
+  appSettings,
   CardData,
-  cardsData,
   netPublish,
   personaCardsKey,
   personaSessionsKey,
   PlaySession,
-  saveGenericData,
+  saveToStorage,
   sessionCards,
-  sessionData,
-  setCardsData,
-  setSessionData,
-  settingsData,
   themeVars,
   topicCardDelete,
   topicCardUpdate,
@@ -44,13 +42,12 @@ export const CardItem = ({ item }: { item: CardData }) => {
       title: "Delete card",
       message: `Do you really want to delete ${item.title}?`,
       accept: () => {
-        const data = cardsData();
+        const data = appCards();
         if (!data) return;
         const vals = Object.values(data).filter((v) => v.id != item.id);
         const newState = {};
         Object.assign(newState, vals);
-        setCardsData(newState);
-        saveGenericData(personaCardsKey, newState);
+        saveToStorage(personaCardsKey, newState);
         netPublish(topicCardDelete, [item.id]);
       },
     } as ConfirmState);
@@ -63,10 +60,9 @@ export const CardItem = ({ item }: { item: CardData }) => {
       message: "",
       value: item.title,
       accept: (value: string) => {
-        const newState = { ...cardsData() };
+        const newState = { ...appCards() };
         newState[item.id].title = value;
-        setCardsData(newState);
-        saveGenericData(personaCardsKey, newState);
+        saveToStorage(personaCardsKey, newState);
         netPublish(topicCardUpdate, [item]);
       },
     } as StrInputState);
@@ -80,17 +76,16 @@ export const CardItem = ({ item }: { item: CardData }) => {
     setEdc(false);
     if (!refContent) return;
 
-    const newState = { ...cardsData() };
+    const newState = { ...appCards() };
     newState[item.id].content = refContent.innerText;
-    setCardsData(newState);
-    saveGenericData(personaCardsKey, newState);
+    saveToStorage(personaCardsKey, newState);
     netPublish(topicCardUpdate, [item]);
   };
 
   const putIntoSession = (v: boolean) => {
-    if (sessionData().current.trim() == "") return;
+    if (appSessions().current.trim() == "") return;
     let list: Record<string, PlaySession>;
-    const newState = { ...sessionData() };
+    const newState = { ...appSessions() };
     if (newState.hosting) {
       list = newState.hosted;
       if (!list) return;
@@ -109,14 +104,13 @@ export const CardItem = ({ item }: { item: CardData }) => {
       );
       netPublish(topicCardDelete, [item.id]);
     }
-    setSessionData(newState);
-    saveGenericData(personaSessionsKey, newState);
+    saveToStorage(personaSessionsKey, newState);
     netPublish(topicSessionInfo, list[newState.current]);
   };
 
   return (
     <div class={CardStyle}>
-      <Show when={item.owner == settingsData().ident.browserID}>
+      <Show when={item.owner == appSettings().ident.browserID}>
         <Flex style={{ "justify-content": "space-between" }}>
           <Flex style={{ gap: "10px" }}>
             <Button onClick={deleteCard} title="Delete card" size="small">

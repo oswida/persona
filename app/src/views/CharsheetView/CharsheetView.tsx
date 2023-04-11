@@ -1,22 +1,19 @@
 import { Option } from "@zag-js/select/dist/select.types";
 import {
   FaSolidDeleteLeft,
-  FaSolidEye,
-  FaSolidEyeSlash,
   FaSolidPlus,
 } from "solid-icons/fa";
-import { createMemo, createSignal, Match, Show, Switch } from "solid-js";
+import { createMemo, createSignal, Show } from "solid-js";
 import { v4 as uuidv4 } from "uuid";
 import {
+  appSettings,
   charsheetData,
   CharsheetData,
   csTemplateList,
   editorState,
-  personaCharsheetKey,
   prettyToday,
-  saveGenericData,
+  saveToStorage,
   setCharsheetData,
-  settingsData,
 } from "~/common";
 import {
   Accordion,
@@ -69,18 +66,18 @@ export const CharsheetView = () => {
     if (!t) return;
     const value: CharsheetData = {
       id: uuidv4(),
-      owner: settingsData().ident.browserID,
+      owner: appSettings().ident.browserID,
       name: "Character",
-      playerId: settingsData().ident.browserID,
+      playerId: appSettings().ident.browserID,
       templateId: t,
-      playerName: settingsData().ident.username,
+      playerName: appSettings().ident.username,
       values: [{}],
       lastUpdate: prettyToday(),
     };
     const newState = { ...charsheetData() };
     newState[value.id] = value;
     setCharsheetData(newState);
-    saveGenericData(personaCharsheetKey, newState);
+    // saveToStorage(personaCharsheetKey, newState);
   };
 
   const templates = createMemo(() => {

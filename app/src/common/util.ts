@@ -18,7 +18,7 @@ export const extractQueryParam = (name: string) => {
 };
 
 export const compressData = (data: any) => {
-  return compress(JSON.stringify(data));
+  return compress(JSON.stringify(data)) as string;
 };
 
 export const compressData64 = (data: any) => {

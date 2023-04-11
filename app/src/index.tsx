@@ -1,19 +1,15 @@
 /* @refresh reload */
+import { appSettings } from "./common";
 import { createI18nContext, I18nContext } from "@solid-primitives/i18n";
 import { hashIntegration, Router } from "@solidjs/router";
 import { render } from "solid-js/web";
 import App from "./App";
 import {
+  appSessions,
   extractQueryParam,
-  loadCards,
-  loadCharsheets,
-  loadSessions,
-  loadSettings,
   netConnect,
-  sessionData,
   setCurrentFont,
   setCurrentTheme,
-  settingsData,
   updateStoreSize,
 } from "./common";
 import { messages_en } from "./locales/en/en";
@@ -26,16 +22,11 @@ const dictionaries = {
 };
 
 let lang = "en";
-const sdata = loadSettings();
-setCurrentTheme(sdata.app.theme!);
-setCurrentFont(sdata.app.font!);
-loadCards();
-loadSessions();
-loadCharsheets();
-
+setCurrentTheme(appSettings().app.theme!);
+setCurrentFont(appSettings().app.font!);
 updateStoreSize();
-if (sdata.app.lang) {
-  lang = sdata.app.lang;
+if (appSettings().app.lang) {
+  lang = appSettings().app.lang;
 }
 const langparam = extractQueryParam("lang");
 if (langparam && langparam != "") {
@@ -45,7 +36,7 @@ if (langparam && langparam != "") {
 const langContext = createI18nContext(dictionaries, lang);
 initTemplateList();
 
-if (sessionData().current !== "") {
+if (appSessions().current !== "") {
   netConnect();
 }
 

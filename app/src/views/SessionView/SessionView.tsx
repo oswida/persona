@@ -11,18 +11,15 @@ import { Show, createMemo, createSignal } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { v4 as uuidv4 } from "uuid";
 import {
+  appSessions,
+  appSettings,
   mqttConnectionStatus,
   netConnect,
   netDisconnect,
   netSessionLink,
   personaSessionsKey,
   PlaySession,
-  saveGenericData,
-  saveSettings,
-  sessionData,
-  setSessionData,
-  setSettingsData,
-  settingsData,
+  saveToStorage,
   themeVars,
 } from "~/common";
 import { Button, Flex, Input, Select, Texte } from "~/components";
@@ -38,18 +35,17 @@ export const SessionView = () => {
 
   const create = () => {
     if (!refName || refName.value.trim() === "") return;
-    const newSettings = { ...sessionData() };
+    const newSettings = { ...appSessions() };
     const newId = uuidv4();
     newSettings.hosted[newId] = {
       id: newId,
       name: refName.value,
-      ownerId: settingsData().ident.browserID,
+      ownerId: appSettings().ident.browserID,
       cards: [] as string[],
       charsheets: [] as string[],
       players: [] as string[],
     } as PlaySession;
-    saveGenericData(personaSessionsKey, newSettings);
-    setSessionData(newSettings);
+    saveToStorage(personaSessionsKey, newSettings);
     refName.value = "";
   };
 
@@ -72,18 +68,17 @@ export const SessionView = () => {
   const delHosted = () => {
     const id = hosted();
     if (!id || id.trim() == "") return;
-    const newSettings = { ...sessionData() };
+    const newSettings = { ...appSessions() };
     const nh: Record<string, PlaySession> = {};
     Object.keys(newSettings.hosted).forEach((key) => {
       if (key != id) nh[key] = newSettings.hosted[key];
     });
     newSettings.hosted = nh;
-    saveGenericData(personaSessionsKey, newSettings);
-    setSessionData(newSettings);
+    saveToStorage(personaSessionsKey, newSettings);
   };
 
   const hostedItems = createMemo(() => {
-    return Object.values(sessionData().hosted)
+    return Object.values(appSessions().hosted)
       .map((it) => ({
         label: it.name,
         value: it.id,
@@ -94,18 +89,17 @@ export const SessionView = () => {
   const delPlayed = () => {
     const id = played();
     if (!id || id.trim() == "") return;
-    const newSettings = { ...sessionData() };
+    const newSettings = { ...appSessions() };
     const nh: Record<string, PlaySession> = {};
     Object.keys(newSettings.client).forEach((key) => {
       if (key != id) nh[key] = newSettings.client[key];
     });
     newSettings.client = nh;
-    saveGenericData(personaSessionsKey, newSettings);
-    setSessionData(newSettings);
+    saveToStorage(personaSessionsKey, newSettings);
   };
 
   const clientItems = createMemo(() => {
-    return Object.values(sessionData().client)
+    return Object.values(appSessions().client)
       .map((it) => ({
         label: it.name,
         value: it.id,
@@ -116,31 +110,28 @@ export const SessionView = () => {
   const startHosting = () => {
     const id = hosted();
     if (!id || id.trim() === "") return;
-    const newSettings = { ...sessionData() };
+    const newSettings = { ...appSessions() };
     newSettings.current = id;
     newSettings.hosting = true;
-    saveGenericData(personaSessionsKey, newSettings);
-    setSessionData(newSettings);
+    saveToStorage(personaSessionsKey, newSettings);
     netConnect();
   };
 
   const startClient = () => {
     const id = played();
     if (!id || id.trim() === "") return;
-    const newSettings = { ...sessionData() };
+    const newSettings = { ...appSessions() };
     newSettings.current = id;
     newSettings.hosting = false;
-    saveGenericData(personaSessionsKey, newSettings);
-    setSessionData(newSettings);
+    saveToStorage(personaSessionsKey, newSettings);
     netConnect();
   };
 
   const stopSession = () => {
-    const newSettings = { ...sessionData() };
+    const newSettings = { ...appSessions() };
     newSettings.current = "";
     newSettings.hosting = false;
-    setSessionData(newSettings);
-    saveGenericData(personaSessionsKey, newSettings);
+    saveToStorage(personaSessionsKey, newSettings);
     netDisconnect();
   };
 
@@ -194,9 +185,9 @@ export const SessionView = () => {
 
       <div class={sessionSettingRowStyle}>
 
-        <Show when={sessionData().current != "" && sessionData().hosting}>
+        <Show when={appSessions().current != "" && appSessions().hosting}>
           <Texte size="middle">
-            Hosting: {sessionData().hosted[sessionData().current].name}
+            Hosting: {appSessions().hosted[appSessions().current].name}
           </Texte>
           <Flex>
             <Button onClick={stopSession} title="Stop hosting" shape="icon">
@@ -217,11 +208,11 @@ export const SessionView = () => {
           </Flex>
         </Show>
         <Show
-          when={sessionData().current != "" && !sessionData().hosting}
+          when={appSessions().current != "" && !appSessions().hosting}
         >
           <Texte size="small">
             Connected to:{" "}
-            {sessionData().client[sessionData().current].name}
+            {appSessions().client[appSessions().current].name}
           </Texte>
           <Button onClick={stopSession} title="Stop Disconnect">
             <FaSolidStop />

@@ -3,12 +3,12 @@ import { createMemo, createSignal } from "solid-js";
 import { v4 as uuidv4 } from "uuid";
 import {
   CardData,
-  cardsData,
+  appCards,
+  appSessions,
+  appSettings,
   personaCardsKey,
-  saveGenericData,
+  saveToStorage,
   sessionCards,
-  setCardsData,
-  settingsData,
 } from "~/common";
 import {
   Accordion,
@@ -30,27 +30,26 @@ export const CardList = () => {
   let refFlt: HTMLInputElement;
 
   const create = () => {
-    const newState = { ...cardsData() };
+    const newState = { ...appCards() };
     const id = uuidv4();
     const value = {
       id: id,
-      owner: settingsData().ident.browserID,
+      owner: appSettings().ident.browserID,
       title: "New",
       content: "Sample **content**",
       footer: "",
       isPublic: false,
     } as CardData;
     newState[id] = value;
-    setCardsData(newState);
-    saveGenericData(personaCardsKey, newState);
+    saveToStorage(personaCardsKey, newState);
   };
 
   const items = createMemo(() => {
-    return Object.values(cardsData())
+    return Object.values(appCards())
       .filter((it) => filter() == "" || it.title.includes(filter()))
       .filter((it) => !onlySession() || sessionCards().includes(it.id))
       .filter(
-        (it) => !onlyOwner() || settingsData().ident.browserID == it.owner
+        (it) => !onlyOwner() || appSettings().ident.browserID == it.owner
       )
       .sort((a, b) => a.title.localeCompare(b.title))
       .map((it) => {

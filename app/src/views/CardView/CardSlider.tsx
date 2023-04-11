@@ -1,6 +1,6 @@
 import { FaSolidDeleteLeft, FaSolidEye } from "solid-icons/fa";
 import { createMemo, createSignal, For } from "solid-js";
-import { CardData, cardsData, sessionCards } from "~/common";
+import { CardData, appCards, sessionCards } from "~/common";
 import {
   Accordion,
   AccordionDesc,
@@ -19,7 +19,7 @@ export const CardSlider = () => {
   let refFlt: HTMLInputElement;
 
   const items = createMemo(() => {
-    return Object.values(cardsData())
+    return Object.values(appCards())
       .filter(
         (it) =>
           filter() == "" ||

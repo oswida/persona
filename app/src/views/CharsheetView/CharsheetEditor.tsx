@@ -18,21 +18,19 @@ import {
   Show,
 } from "solid-js";
 import {
+  appSessions,
   charsheetData,
   CharsheetData,
   csTemplateList,
   currentSession,
   editorState,
   netPublish,
-  personaCharsheetKey,
   personaSessionsKey,
   PlaySession,
   prettyToday,
-  saveGenericData,
-  sessionData,
+  saveToStorage,
   setCharsheetData,
   setEditorState,
-  setSessionData,
   themeVars,
   topicCSDelete,
   topicCSUpdate,
@@ -105,7 +103,7 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
         const newState = { ...charsheetData() };
         newState[c.id].name = value;
         setCharsheetData(newState);
-        saveGenericData(personaCharsheetKey, newState);
+        // saveToStorage(personaCharsheetKey, newState);
         //TODO:  netPublish(topicC, [item]);
       },
     } as StrInputState);
@@ -122,16 +120,16 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
       lastUpdate: prettyToday(),
     };
     setCharsheetData(newState);
-    saveGenericData(personaCharsheetKey, newState);
+    // saveToStorage(personaCharsheetKey, newState);
     setEditing(false);
   };
 
   const putIntoSession = (v: boolean) => {
     const c = cs();
     if (!c) return;
-    if (sessionData().current.trim() == "") return;
+    if (appSessions().current.trim() == "") return;
     let list: Record<string, PlaySession>;
-    const newState = { ...sessionData() };
+    const newState = { ...appSessions() };
     if (newState.hosting) {
       list = newState.hosted;
       if (!list) return;
@@ -150,8 +148,7 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
       );
       netPublish(topicCSDelete, [c.id]);
     }
-    setSessionData(newState);
-    saveGenericData(personaSessionsKey, newState);
+    saveToStorage(personaSessionsKey, newState);
     netPublish(topicSessionInfo, list[newState.current]);
   };
 
@@ -169,7 +166,7 @@ export const CharsheetEditor: Component<Props> = ({ cs }) => {
         const newState = {};
         Object.assign(newState, vals);
         setCharsheetData(newState);
-        saveGenericData(personaCharsheetKey, newState);
+        // saveToStorage(personaCharsheetKey, newState);
         netPublish(topicCSDelete, [c.id]);
         if (form) form.destroy();
         if (viewer) viewer.destroy();

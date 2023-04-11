@@ -2,12 +2,13 @@ import { FaSolidDice, FaSolidTrash } from "solid-icons/fa";
 import { createEffect, For } from "solid-js";
 import {
   ChatEntry,
+  appSessions,
+  appSettings,
   chatList,
   mqttClient,
   netPublish,
   prettyNow,
   setChatList,
-  settingsData,
   topicChat,
 } from "~/common";
 import { Button, Flex, Input, Texte } from "~/components";
@@ -26,8 +27,8 @@ export const ChatView = () => {
     const entry = {
       etype: "text",
       text: refInput.value,
-      author: settingsData().ident.username,
-      color: settingsData().ident.color,
+      author: appSettings().ident.username,
+      color: appSettings().ident.color,
       tstamp: prettyNow(),
     } as ChatEntry;
     const newState = [...chatList(), entry];

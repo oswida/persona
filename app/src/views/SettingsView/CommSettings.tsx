@@ -1,16 +1,16 @@
 import { createMemo, createSignal, Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
-import { setSettingsData, settingsData } from "~/common";
 import { Flex, Input, Select, SelectOption, Texte } from "~/components";
 import { settingFieldStyle, SettingFieldStyle } from "./styles.css";
+import { appSettings, personaSettingsKey, saveToStorage } from "~/common";
 
 export const CommSettings = () => {
   let refServer: HTMLInputElement;
   let refCreds: HTMLInputElement;
-  const [ts, setTs] = createSignal<string>(settingsData().comms.type);
+  const [ts, setTs] = createSignal<string>(appSettings().comms.type);
 
   const update = () => {
-    const newState = { ...settingsData() };
+    const newState = { ...appSettings() };
     switch (ts()) {
       case "mqtt":
         newState.comms.mqtt.server = refServer.value;
@@ -19,7 +19,7 @@ export const CommSettings = () => {
       case "supabase":
         break;
     }
-    setSettingsData(newState);
+    saveToStorage(personaSettingsKey, newState);
   };
 
   const typeOptions = createMemo(() => {
@@ -32,7 +32,7 @@ export const CommSettings = () => {
   const selectedItem = createMemo(() => {
     const opt = typeOptions();
     for (let i = 0; i < opt.length; i++) {
-      if (opt[i].value == settingsData().comms.type) {
+      if (opt[i].value == appSettings().comms.type) {
         return i;
       }
     }
@@ -63,7 +63,7 @@ export const CommSettings = () => {
           <Texte size="small" themeColor="secondary">Server address</Texte>
           <Input
             style={{ flex: 1 }}
-            value={settingsData().comms.mqtt.server}
+            value={appSettings().comms.mqtt.server}
             ref={(e) => (refServer = e)}
             onChange={update}
           />
@@ -72,7 +72,7 @@ export const CommSettings = () => {
           <Texte size="small" themeColor="secondary">Server credentials</Texte>
           <Input
             style={{ flex: 1 }}
-            value={settingsData().comms.mqtt.credentials}
+            value={appSettings().comms.mqtt.credentials}
             ref={(e) => (refCreds = e)}
             onChange={update}
           />

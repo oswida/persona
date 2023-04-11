@@ -48,6 +48,8 @@ export const emptySettings = (generate?: boolean) => {
   const x: Settings = {
     app: {
       lang: "en",
+      theme: "darkblue",
+      font: "Lato",
     },
     ident: {
       username: "Noname",
@@ -74,6 +76,7 @@ export const emptySessions = () => {
   } as SessionSettings;
 };
 
+// ----
 export type WhiteboardState = {
   tool: string;
   brush: string;
@@ -87,6 +90,7 @@ export const initialWhiteboardState: WhiteboardState = {
   fill: "transparent",
   width: 0,
 };
+//------
 
 export type ChatEntry = {
   etype: "roll" | "text";
@@ -163,3 +167,6 @@ export type CharsheetEditorState = {
   visible: boolean;
   size: "narrow" | "standard" | "wide";
 };
+
+
+export type StorageItemType = Settings | SessionSettings | Record<string, CardData> | string;

@@ -1,13 +1,14 @@
 import { createMemo } from "solid-js";
 import {
+  appSettings,
   currentFont,
   currentTheme,
   currentThemeIdx,
   fontfamily,
+  personaSettingsKey,
+  saveToStorage,
   setCurrentFont,
   setCurrentTheme,
-  setSettingsData,
-  settingsData,
   themeList,
   themeMap,
 } from "~/common";
@@ -23,9 +24,9 @@ export const AppSettings = () => {
     }
     setCurrentTheme(item.value);
     document.documentElement.classList.add(themeMap[item.value]);
-    const newState = { ...settingsData() };
+    const newState = { ...appSettings() };
     newState.app.theme = item.value;
-    setSettingsData(newState);
+    saveToStorage(personaSettingsKey, newState);
   };
 
   const switchFont = (item: SelectOption | null) => {
@@ -33,9 +34,9 @@ export const AppSettings = () => {
     const prev = currentFont();
     if (!prev) return;
     setCurrentFont(item.value);
-    const newState = { ...settingsData() };
+    const newState = { ...appSettings() };
     newState.app.font = item.value;
-    setSettingsData(newState);
+    saveToStorage(personaSettingsKey, newState);
   };
 
   const fonts = createMemo(() => {
@@ -56,7 +57,7 @@ export const AppSettings = () => {
     <Flex dn="column" style={{ gap: "10px" }}>
       <div class={settingFieldStyle}>
         <Texte size="small" themeColor="secondary">Language</Texte>
-        <Input value={settingsData().app.lang} />
+        <Input value={appSettings().app.lang} />
       </div>
       <div class={settingFieldStyle}>
         <Texte size="small" themeColor="secondary">Theme</Texte>

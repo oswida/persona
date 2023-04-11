@@ -1,22 +1,19 @@
 import {
+  appSessions,
   currentSession,
-  currentThemeIdx,
   personaSessionsKey,
-  saveGenericData,
-  sessionData,
-  settingsData,
-  themeList,
+  saveToStorage,
 } from "~/common";
-import { Flex, Input, Select, Texte } from "~/components";
-import { SettingFieldStyle, settingFieldStyle } from "./styles.css";
+import { Flex, Input, Texte } from "~/components";
+import { settingFieldStyle } from "./styles.css";
 
 export const CurrentSessionSettings = () => {
   const bkg = (e: any) => {
-    const data = { ...sessionData() };
+    const data = { ...appSessions() };
     let sess = currentSession();
     if (!data || !data.current || !sess) return;
     sess.backgroundImg = e.target.value;
-    saveGenericData(personaSessionsKey, data);
+    saveToStorage(personaSessionsKey, data);
   };
 
   return (

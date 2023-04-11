@@ -3,19 +3,15 @@ import { createMemo, createSignal } from "solid-js";
 import { Tpl } from "~/templates/types";
 import { themeList } from "./theme.css";
 import {
-  CardData,
   CharsheetData,
   CharsheetEditorState,
   ChatEntry,
   ConnectionInfo,
-  emptySessions,
-  emptySettings,
   initialWhiteboardState,
-  SessionSettings,
-  Settings,
   WhiteboardState,
 } from "./types";
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
+import { appSessions } from "./storage";
 
 // App state
 export const [currentTheme, setCurrentTheme] = createSignal<string>("fire");
@@ -28,10 +24,6 @@ export const currentThemeIdx = createMemo(() => {
   return 0;
 });
 
-// Main settings data
-export const [settingsData, setSettingsData] = createSignal<Settings>(
-  emptySettings()
-);
 export const [storageSize, setStorageSize] = createSignal(0);
 
 // DiceView
@@ -69,31 +61,24 @@ export const [csTemplateList, setCsTemplateList] = createSignal<
 >({});
 
 // Cards
-export const [cardsData, setCardsData] = createSignal<Record<string, CardData>>(
-  {}
-);
 export const [cardsVisible, setCardsVisible] = createSignal(false);
 
-// Sessions
-export const [sessionData, setSessionData] = createSignal<SessionSettings>(
-  emptySessions()
-);
 
 export const sessionCards = createMemo(() => {
-  if (sessionData().current.trim() == "") return [];
-  if (sessionData().hosting) {
-    return sessionData().hosted[sessionData().current].cards;
+  if (appSessions().current.trim() == "") return [];
+  if (appSessions().hosting) {
+    return appSessions().hosted[appSessions().current].cards;
   } else {
-    return sessionData().client[sessionData().current].cards;
+    return appSessions().client[appSessions().current].cards;
   }
 });
 
 export const currentSession = createMemo(() => {
-  if (sessionData().current.trim() == "") return undefined;
-  if (sessionData().hosting) {
-    return sessionData().hosted[sessionData().current];
+  if (appSessions().current.trim() == "") return undefined;
+  if (appSessions().hosting) {
+    return appSessions().hosted[appSessions().current];
   } else {
-    return sessionData().client[sessionData().current];
+    return appSessions().client[appSessions().current];
   }
 });
 
@@ -110,11 +95,11 @@ export const [editorState, setEditorState] = createSignal<CharsheetEditorState>(
 );
 
 export const sessionCharsheets = createMemo(() => {
-  if (sessionData().current.trim() == "") return [];
-  if (sessionData().hosting) {
-    return sessionData().hosted[sessionData().current].charsheets;
+  if (appSessions().current.trim() == "") return [];
+  if (appSessions().hosting) {
+    return appSessions().hosted[appSessions().current].charsheets;
   } else {
-    return sessionData().client[sessionData().current].charsheets;
+    return appSessions().client[appSessions().current].charsheets;
   }
 });
 

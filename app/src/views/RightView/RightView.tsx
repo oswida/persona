@@ -1,7 +1,7 @@
-import { Button, TabDesc, Tabs } from "~/components"
+import { Button } from "~/components"
 import { ChatView } from "../ChatView";
 import { rightViewIconsStyle, rightViewRootStyle } from "./styles.css";
-import { chatVisible, rightViewType, selectedRightView, setChatVisible, setSelectedRightView } from "~/common";
+import { rightViewType, selectedRightView, setSelectedRightView } from "~/common";
 import { FaSolidDice, FaSolidGears, FaSolidHourglass, FaSolidMessage } from "solid-icons/fa";
 import { Show } from "solid-js";
 import { SettingsView } from "../SettingsView";

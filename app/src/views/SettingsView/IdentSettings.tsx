@@ -1,4 +1,4 @@
-import { setSettingsData, settingsData, storageSize } from "~/common";
+import { appSettings, personaSettingsKey, saveToStorage, storageSize } from "~/common";
 import { Flex, Input, Texte } from "~/components";
 import { settingFieldStyle } from "./styles.css";
 import { Dynamic } from "solid-js/web";
@@ -8,17 +8,17 @@ export const IdentSettings = () => {
   let refColor: HTMLInputElement;
 
   const update = () => {
-    const newState = { ...settingsData() };
+    const newState = { ...appSettings() };
     newState.ident.username = refName.value;
     newState.ident.color = refColor.value;
-    setSettingsData(newState);
+    saveToStorage(personaSettingsKey, newState);
   };
 
   return (
     <Flex dn="column" style={{ gap: "10px" }}>
       <div class={settingFieldStyle}>
         <Texte size="small" themeColor="secondary">ID</Texte>
-        <Texte size="small">{settingsData().ident.browserID}</Texte>
+        <Texte size="small">{appSettings().ident.browserID}</Texte>
       </div>
       <div class={settingFieldStyle}>
         <Texte size="small" themeColor="secondary">Storage</Texte>
@@ -29,7 +29,7 @@ export const IdentSettings = () => {
       <div class={settingFieldStyle}>
         <Texte size="small" themeColor="secondary">Username</Texte>
         <Input
-          value={settingsData().ident.username}
+          value={appSettings().ident.username}
           onChange={update}
           ref={(e) => (refName = e)}
         />
@@ -37,7 +37,7 @@ export const IdentSettings = () => {
       <div class={settingFieldStyle}>
         <Texte size="small" themeColor="secondary">Color</Texte>
         <Input
-          value={settingsData().ident.color}
+          value={appSettings().ident.color}
           onChange={update}
           ref={(e) => (refColor = e)}
         />

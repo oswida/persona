@@ -2,11 +2,9 @@ import * as dialog from "@zag-js/dialog";
 import { Portal } from "solid-js/web";
 import { useMachine, normalizeProps } from "@zag-js/solid";
 import {
-  Accessor,
   Component,
   createMemo,
   createUniqueId,
-  JSX,
   ParentProps,
   Show,
 } from "solid-js";

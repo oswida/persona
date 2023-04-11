@@ -1,101 +1,80 @@
-import { v4 as uuidv4 } from "uuid";
-import { setCharsheetData } from "~/common";
 import {
-  setCardsData,
-  setSessionData,
-  setSettingsData,
   setStorageSize,
 } from "./state";
-import { CardData, emptySettings, Settings } from "./types";
+import { CardData, emptySessions, emptySettings, SessionSettings, Settings, StorageItemType } from "./types";
 import { compressData, decompressData } from "./util";
+import { createLocalStorage } from "@solid-primitives/storage";
 
-export const personaSettingsKey = "persona-settings";
-export const personaCardsKey = "persona-cards";
-export const personaRollsKey = "persona-rolls";
-export const personaSessionsKey = "persona-sessions";
-export const personaCharsheetKey = "persona-charsheets";
 
-export const saveSettings = (value: Settings) => {
-  localStorage.setItem(personaSettingsKey, compressData(value));
-  updateStoreSize();
-};
-
-export const loadSettings = () => {
-  const sdata = localStorage.getItem(personaSettingsKey);
-  if (!sdata) {
-    const sd = emptySettings(true);
-    localStorage.setItem(personaSettingsKey, compressData(sd));
-    setSettingsData(sd);
-    saveSettings(sd);
-    return sd;
-  } else {
-    const dd = decompressData(sdata) as Settings;
-    console.log(dd.app);
-    if (!dd.app.lang) dd.app.lang = "en";
-    if (!dd.app.theme) dd.app.theme = "darksand";
-    if (!dd.app.font) dd.app.font = "Lato";
-    if (!dd.ident.color) dd.ident.color = "#ffffff";
-    if (dd.ident.browserID.trim() == "") {
-      dd.ident.browserID = uuidv4();
-      saveSettings(dd);
+export const [appStore, setAppStore, { remove, clear, toJSON }] = createLocalStorage({
+  prefix: 'persona',
+  serializer: (value: StorageItemType, key: string) => { return compressData(value); },
+  deserializer: (value: string, key: string) => {
+    switch (key) {
+      case "settings": return decompressData(value) as Settings;
+      case "session": return decompressData(value) as SessionSettings;
+      case "cards": return decompressData(value) as Record<string, CardData>;
+      default: return decompressData(value) as string;
     }
-    setSettingsData(dd);
-    return dd;
   }
-};
+});
 
-export const loadCards = () => {
-  const sdata = localStorage.getItem(personaCardsKey);
-  if (!sdata) {
-    setCardsData({});
-    saveGenericData(personaCardsKey, {});
-    return;
-  }
-  const dd = decompressData(sdata) as Record<string, CardData>;
-  setCardsData(dd);
-};
-
-export const saveGenericData = (key: string, data: any) => {
-  const toSave = compressData(data);
-
-  localStorage.setItem(key, toSave);
+export const saveToStorage = (key: string, data: any) => {
+  setAppStore(key, data);
   updateStoreSize();
-};
-
-export const loadRolls = (appData: any) => {
-  const data = localStorage.getItem(personaRollsKey);
-  if (!data) return;
-  const dd = decompressData(data);
-  appData.setRollHistory(dd);
-};
-
-export const loadSessions = () => {
-  const data = localStorage.getItem(personaSessionsKey);
-  if (!data) return;
-  const dd = decompressData(data);
-  setSessionData(dd);
-};
-
-export const loadCharsheets = () => {
-  const data = localStorage.getItem(personaCharsheetKey);
-  if (!data) return;
-  const dd = decompressData(data);
-  setCharsheetData(dd);
 };
 
 export const updateStoreSize = () => {
   let size = 0;
   const keys = [
     personaSettingsKey,
-    personaRollsKey,
     personaCardsKey,
     personaSessionsKey,
-    personaCharsheetKey,
   ];
   keys.forEach((k) => {
-    const data = localStorage.getItem(k);
+    const data = localStorage.getItem(`persona.${k}`);
     size += data ? data.length : 0;
   });
   setStorageSize(size);
   return size;
 };
+
+export const appSessions = () => {
+  let sessions = appStore.sessions as SessionSettings;
+  if (!sessions) {
+    sessions = emptySessions();
+    setAppStore(personaSessionsKey, sessions);
+  }
+  return sessions;
+};
+
+export const appSettings = () => {
+  let settings = appStore.settings as Settings;
+  if (!settings) {
+    settings = emptySettings(true);
+    setAppStore(personaSettingsKey, settings);
+  }
+  return settings;
+};
+
+export const appCards = () => {
+  let cards = appStore.cards as Record<string, CardData>;
+  if (!cards) {
+    cards = {};
+    setAppStore(personaCardsKey, cards);
+  }
+  return cards;
+};
+
+
+export const personaSettingsKey = "settings";
+export const personaCardsKey = "cards";
+export const personaSessionsKey = "sessions";
+
+
+
+
+
+
+
+

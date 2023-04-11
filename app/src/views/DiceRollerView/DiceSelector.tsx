@@ -4,7 +4,6 @@ import {
   DiceType,
   selectedDicePool,
   setSelectedDicePool,
-  themeVars,
 } from "~/common";
 import { Texte } from "~/components";
 import { DiceSelectorControl, DiceSelectorStyle } from "./styles.css";

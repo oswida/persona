@@ -1,6 +1,6 @@
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 import { FaSolidDice } from "solid-icons/fa";
-import { Accessor, Component, For, Setter } from "solid-js";
+import { Accessor, Component, For } from "solid-js";
 import { themeVars } from "~/common";
 import { Flex, Texte } from "~/components";
 

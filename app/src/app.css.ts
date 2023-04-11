@@ -1,6 +1,6 @@
 import { globalStyle } from "@vanilla-extract/css";
 import { recipe } from "@vanilla-extract/recipes";
-import { createFontVariants, sprinkles, themeVars } from "./common";
+import { createFontVariants, sprinkles } from "./common";
 
 globalStyle("html, body", {
   margin: 0,

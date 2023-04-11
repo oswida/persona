@@ -1,18 +1,10 @@
 import { Component, createMemo, Show } from "solid-js";
 import {
-  charsheetData,
   CharsheetData,
   csTemplateList,
   currentSession,
-  personaCharsheetKey,
-  saveGenericData,
-  setCharsheetData,
 } from "~/common";
 import {
-  ConfirmState,
-  setConfirmData,
-  setStrInputData,
-  StrInputState,
   Texte,
 } from "~/components";
 import { CsItemStyle } from "./styles.css";

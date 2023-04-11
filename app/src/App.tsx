@@ -7,7 +7,6 @@ import { appStyle } from "./app.css";
 import {
   currentFont,
   currentTheme,
-  darksandThemeClass,
   themeMap,
 } from "./common";
 import { StrInputDialog } from "./components";

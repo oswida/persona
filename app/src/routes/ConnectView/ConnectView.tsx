@@ -1,16 +1,14 @@
 import { Navigate, useSearchParams } from "@solidjs/router";
 import { Component } from "solid-js";
 import {
+  appSessions,
+  appSettings,
   decompressData64,
   netConnect,
   personaSessionsKey,
   personaSettingsKey,
   PlaySession,
-  saveGenericData,
-  sessionData,
-  setSessionData,
-  setSettingsData,
-  settingsData,
+  saveToStorage,
 } from "~/common";
 
 export const ConnectView: Component = () => {
@@ -20,22 +18,20 @@ export const ConnectView: Component = () => {
   if (data.trim() !== "") {
     const dt = decompressData64(data);
     const newState = {
-      ...settingsData(),
+      ...appSettings(),
     };
     newState.comms.mqtt.credentials = dt.credentials;
     newState.comms.mqtt.server = dt.server;
-    setSettingsData(newState);
-    saveGenericData(personaSettingsKey, newState);
+    saveToStorage(personaSettingsKey, newState);
 
-    const newSess = { ...sessionData() };
+    const newSess = { ...appSessions() };
     newSess.current = dt.sessionId;
     newSess.hosting = false;
     newSess.client[dt.sessionId] = {
       id: dt.sessionId,
       name: dt.sessionName,
     } as PlaySession;
-    setSessionData(newSess);
-    saveGenericData(personaSessionsKey, newSess);
+    saveToStorage(personaSessionsKey, newSess);
 
     netConnect();
   }

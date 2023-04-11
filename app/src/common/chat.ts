@@ -1,5 +1,5 @@
 import { netPublish, topicChat } from "./net";
-import { chatList, mqttClient, setChatList, settingsData } from "./state";
+import { chatList, mqttClient, setChatList } from "./state";
 import { ChatEntry } from "./types";
 import { prettyNow } from "./util";
 

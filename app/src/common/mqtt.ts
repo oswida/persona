@@ -1,42 +1,35 @@
 import { Client, Message } from "paho-mqtt";
 import {
-  CardData,
-  cardsData,
-  charsheetData,
-  setCardsData,
-  setCharsheetData,
+  CardData
 } from "~/common";
 import { chatText } from "./chat";
 import {
   topicCardDelete,
   topicCardUpdate,
-  topicCSDelete,
-  topicCSUpdate,
 } from "./net";
 import {
+  appCards,
+  appSessions,
+  appSettings,
   personaCardsKey,
-  personaCharsheetKey,
+
   personaSessionsKey,
-  saveGenericData,
+  saveToStorage,
 } from "./storage";
 
 import {
   chatList,
   mqttClient,
   netConnections,
-  sessionData,
   setChatList,
   setMqttClient,
   setMqttConnectionStatus,
   setNetConnections,
-  setSessionData,
-  settingsData,
   topicChat,
   topicConnect,
   topicSessionInfo,
 } from ".";
 import {
-  CharsheetData,
   ChatEntry,
   ConnectionInfo,
   NetMessage,
@@ -58,7 +51,7 @@ export const mqttUnpack = (payload: any) => {
 };
 
 export const mqttTopic = (name: string) => {
-  let prefix = sessionData().current;
+  let prefix = appSessions().current;
   return `${prefix}/${name}`;
 };
 
@@ -75,7 +68,7 @@ export const mqttPublish = (
 
 export const mqttProcess = (msg: Message) => {
   const m = mqttUnpack(msg.payloadString);
-  const ident = settingsData().ident;
+  const ident = appSettings().ident;
 
   if (m.sender == ident.browserID) return; // own message
   switch (msg.destinationName) {
@@ -94,11 +87,11 @@ export const mqttProcess = (msg: Message) => {
       setNetConnections(nst);
       chatText(info.username, info.color, `Connected to session.`);
       const cl = mqttClient();
-      if (sessionData().hosting && cl) {
-        const si = sessionData().hosted[sessionData().current];
+      if (appSessions().hosting && cl) {
+        const si = appSessions().hosted[appSessions().current];
         mqttPublish(
           cl,
-          settingsData().ident.browserID,
+          appSettings().ident.browserID,
           mqttTopic(topicSessionInfo),
           si
         );
@@ -113,51 +106,48 @@ export const mqttProcess = (msg: Message) => {
       break;
     case mqttTopic(topicSessionInfo):
       const sess = m.data as PlaySession;
-      if (!sessionData().hosting) {
-        const newState = { ...sessionData() };
+      if (!appSessions().hosting) {
+        const newState = { ...appSessions() };
         newState.client[sess.id] = sess;
-        setSessionData(newState);
-        saveGenericData(personaSessionsKey, newState);
+        saveToStorage(personaSessionsKey, newState);
       }
       break;
     case mqttTopic(topicCardUpdate):
       const cards = m.data as CardData[];
-      const newCards = { ...cardsData() };
+      const newCards = { ...appCards() };
       cards.forEach((it) => {
         newCards[it.id] = it;
       });
-      setCardsData(newCards);
-      saveGenericData(personaCardsKey, newCards);
+      saveToStorage(personaCardsKey, newCards);
       break;
     case mqttTopic(topicCardDelete):
       const cards2 = m.data as string[];
       const ns: Record<string, CardData> = {};
-      Object.values(cardsData()).forEach((c) => {
+      Object.values(appCards()).forEach((c) => {
         const fnd = cards2.includes(c.id);
-        if (!fnd || c.owner == settingsData().ident.browserID) ns[c.id] = c;
+        if (!fnd || c.owner == appSettings().ident.browserID) ns[c.id] = c;
       });
-      setCardsData(ns);
-      saveGenericData(personaCardsKey, ns);
+      saveToStorage(personaCardsKey, ns);
       break;
-    case mqttTopic(topicCSUpdate):
-      const sheets = m.data as CharsheetData[];
-      const newSheets = { ...charsheetData() };
-      sheets.forEach((it) => {
-        newSheets[it.id] = it;
-      });
-      setCharsheetData(newSheets);
-      saveGenericData(personaCharsheetKey, newSheets);
-      break;
-    case mqttTopic(topicCSDelete):
-      const sheets2 = m.data as string[];
-      const nsh: Record<string, CharsheetData> = {};
-      Object.values(charsheetData()).forEach((c) => {
-        const fnd = sheets2.includes(c.id);
-        if (!fnd || c.owner == settingsData().ident.browserID) nsh[c.id] = c;
-      });
-      setCharsheetData(nsh);
-      saveGenericData(personaCharsheetKey, nsh);
-      break;
+    // case mqttTopic(topicCSUpdate):
+    //   const sheets = m.data as CharsheetData[];
+    //   const newSheets = { ...charsheetData() };
+    //   sheets.forEach((it) => {
+    //     newSheets[it.id] = it;
+    //   });
+    //   setCharsheetData(newSheets);
+    //   // saveGenericData(personaCharsheetKey, newSheets);
+    //   break;
+    // case mqttTopic(topicCSDelete):
+    //   const sheets2 = m.data as string[];
+    //   const nsh: Record<string, CharsheetData> = {};
+    //   Object.values(charsheetData()).forEach((c) => {
+    //     const fnd = sheets2.includes(c.id);
+    //     if (!fnd || c.owner == settingsData().ident.browserID) nsh[c.id] = c;
+    //   });
+    //   setCharsheetData(nsh);
+    //   // saveGenericData(personaCharsheetKey, nsh);
+    //   break;
     default:
       console.log("Message for unknown topic", m.sender, m.data);
   }
@@ -178,8 +168,8 @@ export const mqttDisconnect = () => {
 };
 
 export const mqttConnect = () => {
-  const ident = settingsData().ident;
-  const env = settingsData().comms.mqtt;
+  const ident = appSettings().ident;
+  const env = appSettings().comms.mqtt;
   if (env.server == "") {
     console.error("Server not defined");
     return;
@@ -216,19 +206,19 @@ export const mqttConnect = () => {
             // register connection
             mqttPublish(
               client,
-              settingsData().ident.browserID,
+              appSettings().ident.browserID,
               mqttTopic(topicConnect),
               {
-                username: settingsData().ident.username,
-                color: settingsData().ident.color,
+                username: appSettings().ident.username,
+                color: appSettings().ident.color,
               } as ConnectionInfo
             );
             setMqttConnectionStatus(true);
-            if (sessionData().hosting) {
-              const si = sessionData().hosted[sessionData().current];
+            if (appSessions().hosting) {
+              const si = appSessions().hosted[appSessions().current];
               mqttPublish(
                 client,
-                settingsData().ident.browserID,
+                appSettings().ident.browserID,
                 mqttTopic(topicSessionInfo),
                 si
               );
@@ -252,13 +242,13 @@ export const mqttConnect = () => {
 };
 
 export const mqttClientLink = () => {
-  const sess = sessionData();
+  const sess = appSessions();
   if (!sess.current || sess.current.trim() == "" || !sess.hosting) return "";
   const obj = {
-    server: settingsData().comms.mqtt.server,
-    credentials: settingsData().comms.mqtt.credentials,
+    server: appSettings().comms.mqtt.server,
+    credentials: appSettings().comms.mqtt.credentials,
     sessionId: sess.current,
-    sessionName: sessionData().hosted[sess.current].name,
+    sessionName: appSessions().hosted[sess.current].name,
   };
   return `${window.location}connect?data=${encodeURIComponent(
     compressData64(obj)

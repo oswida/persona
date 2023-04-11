@@ -2,10 +2,10 @@ import { FaSolidFloppyDisk } from "solid-icons/fa";
 import { Accessor } from "solid-js";
 import toast from "solid-toast";
 import {
+  appSettings,
   currentSession,
   personaSettingsKey,
-  saveGenericData,
-  settingsData,
+  saveToStorage,
 } from "~/common";
 import { Button, Flex, TabDesc, Tabs, Texte } from "~/components";
 import { AppSettings } from "./AppSettings";
@@ -43,8 +43,8 @@ export const SettingsView = () => {
 
   const save = () => {
     // api().close();
-    const newState = { ...settingsData() };
-    saveGenericData(personaSettingsKey, settingsData());
+    const newState = { ...appSettings() };
+    saveToStorage(personaSettingsKey, appSettings());
     toast("Settings saved");
   };
 

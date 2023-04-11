@@ -9,6 +9,7 @@ import {
   Switch,
 } from "solid-js";
 import {
+  appSettings,
   ChatEntry,
   chatList,
   DiceType,
@@ -22,7 +23,6 @@ import {
   setChatList,
   setLastRoll,
   setSelectedDicePool,
-  settingsData,
   topicChat,
 } from "~/common";
 import { Button, Flex, Input, Texte } from "~/components";
@@ -66,8 +66,8 @@ export const DiceRollerView: Component = () => {
       setLastRoll(result);
       const entry = {
         etype: "roll",
-        author: settingsData().ident.username,
-        color: settingsData().ident.color,
+        author: appSettings().ident.username,
+        color: appSettings().ident.color,
         tstamp: prettyNow(),
         rolls: result.map(
           (it) =>

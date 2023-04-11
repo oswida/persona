@@ -1,6 +1,5 @@
 import { normalizeProps, useMachine } from "@zag-js/solid";
 import {
-  Accessor,
   createEffect,
   createMemo,
   createSignal,
