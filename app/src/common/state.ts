@@ -108,7 +108,7 @@ export type rightViewType = "chat" | "settings" | "session" | "dice" | "none";
 export const [selectedRightView, setSelectedRightView] =
   createSignal<rightViewType>("none");
 
-export type leftViewType = "cards" | "sheets" | "clocks" | "none";
+export type leftViewType = "cards" | "sheets" | "clocks" | "assets" | "none";
 
 export const [selectedLeftView, setSelectedLeftView] =
   createSignal<leftViewType>("none");

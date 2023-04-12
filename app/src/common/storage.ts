@@ -1,10 +1,15 @@
 import {
   setStorageSize,
 } from "./state";
-import { CardData, emptySessions, emptySettings, SessionSettings, Settings, StorageItemType } from "./types";
+import { AssetType, CardData, emptySessions, emptySettings, SessionSettings, Settings, StorageItemType } from "./types";
 import { compressData, decompressData } from "./util";
 import { createLocalStorage } from "@solid-primitives/storage";
 
+
+export const personaSettingsKey = "settings";
+export const personaCardsKey = "cards";
+export const personaSessionsKey = "sessions";
+export const personaAssetsKey = "assets";
 
 export const [appStore, setAppStore, { remove, clear, toJSON }] = createLocalStorage({
   prefix: 'persona',
@@ -14,6 +19,7 @@ export const [appStore, setAppStore, { remove, clear, toJSON }] = createLocalSto
       case "settings": return decompressData(value) as Settings;
       case "session": return decompressData(value) as SessionSettings;
       case "cards": return decompressData(value) as Record<string, CardData>;
+      case "assets": return decompressData(value) as Record<string, AssetType>;
       default: return decompressData(value) as string;
     }
   }
@@ -30,6 +36,7 @@ export const updateStoreSize = () => {
     personaSettingsKey,
     personaCardsKey,
     personaSessionsKey,
+    personaAssetsKey
   ];
   keys.forEach((k) => {
     const data = localStorage.getItem(`persona.${k}`);
@@ -66,10 +73,15 @@ export const appCards = () => {
   return cards;
 };
 
+export const appAssets = () => {
+  let assets = appStore.assets as Record<string, AssetType>;
+  if (!assets) {
+    assets = {};
+    setAppStore(personaAssetsKey, assets);
+  }
+  return assets;
+};
 
-export const personaSettingsKey = "settings";
-export const personaCardsKey = "cards";
-export const personaSessionsKey = "sessions";
 
 
 

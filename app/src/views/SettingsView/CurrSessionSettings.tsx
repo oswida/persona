@@ -1,18 +1,47 @@
 import {
+  appAssets,
   appSessions,
   currentSession,
   personaSessionsKey,
   saveToStorage,
 } from "~/common";
-import { Flex, Input, Texte } from "~/components";
+import { Flex, Input, Select, SelectOption, Texte } from "~/components";
 import { settingFieldStyle } from "./styles.css";
+import { Dynamic } from "solid-js/web";
+import { createEffect, createMemo, createSignal } from "solid-js";
 
 export const CurrentSessionSettings = () => {
-  const bkg = (e: any) => {
+
+  const selectedItem = createMemo(() => {
+    const session = currentSession();
+    if (!session) return -1;
+    const opt = Object.values(appAssets());
+    for (let i = 0; i < opt.length; i++) {
+      if (opt[i].id == session.backgroundImg) {
+        return i;
+      }
+    }
+    return -1;
+  });
+
+
+  const bkgOptions = createMemo(() => {
+    return Object.values(appAssets()).map((it) => {
+      return { label: it.name, value: it.id } as SelectOption
+    });
+  });
+
+  const bkgSelect = (details: SelectOption | null) => {
+    const value = details ? details.value : "";
     const data = { ...appSessions() };
-    let sess = currentSession();
-    if (!data || !data.current || !sess) return;
-    sess.backgroundImg = e.target.value;
+    if (!data || !data.current) return;
+    let sess;
+    if (data.hosting) {
+      sess = data.hosted[data.current];
+    } else {
+      sess = data.client[data.current];
+    }
+    sess.backgroundImg = value;
     saveToStorage(personaSessionsKey, data);
   };
 
@@ -20,7 +49,13 @@ export const CurrentSessionSettings = () => {
     <Flex dn="column" style={{ gap: "10px" }}>
       <div class={settingFieldStyle}>
         <Texte size="small" themeColor="secondary">Background image URI</Texte>
-        <Input value={currentSession()?.backgroundImg} onChange={bkg} />
+        <Dynamic
+          component={Select}
+          label=""
+          options={bkgOptions}
+          selected={selectedItem}
+          onChange={bkgSelect}
+        />
       </div>
     </Flex>
   );

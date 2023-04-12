@@ -168,5 +168,10 @@ export type CharsheetEditorState = {
   size: "narrow" | "standard" | "wide";
 };
 
+export type AssetType = {
+  id: string;
+  name: string;
+  uri: string;
+}
 
-export type StorageItemType = Settings | SessionSettings | Record<string, CardData> | string;
+export type StorageItemType = Settings | SessionSettings | Record<string, CardData> | string | Record<string, AssetType>;

@@ -2,7 +2,8 @@ import { createMemo, createSignal, Show } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import { Flex, Input, Select, SelectOption, Texte } from "~/components";
 import { settingFieldStyle, SettingFieldStyle } from "./styles.css";
-import { appSettings, personaSettingsKey, saveToStorage } from "~/common";
+import { appSettings, mqttConnectionStatus, personaSettingsKey, saveToStorage } from "~/common";
+import { FaSolidNetworkWired } from "solid-icons/fa";
 
 export const CommSettings = () => {
   let refServer: HTMLInputElement;
@@ -45,6 +46,11 @@ export const CommSettings = () => {
 
   return (
     <Flex dn="column" style={{ gap: "10px" }} >
+      <Show when={mqttConnectionStatus()}>
+        <Flex>
+          <FaSolidNetworkWired title="Connected to server" /> Connected
+        </Flex>
+      </Show>
       <div class={settingFieldStyle}>
         <Texte size="small" themeColor="secondary">Server type</Texte>
         <Dynamic
@@ -54,6 +60,7 @@ export const CommSettings = () => {
           selected={selectedItem}
           onChange={typeSelect}
         />
+
       </div>
 
       <Show when={ts() == "mqtt"}>
@@ -67,6 +74,7 @@ export const CommSettings = () => {
             ref={(e) => (refServer = e)}
             onChange={update}
           />
+
         </div>
         <div class={settingFieldStyle}>
           <Texte size="small" themeColor="secondary">Server credentials</Texte>
@@ -77,6 +85,7 @@ export const CommSettings = () => {
             onChange={update}
           />
         </div>
+
       </Show>
     </Flex>
   );
