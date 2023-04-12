@@ -1,5 +1,5 @@
 import { useI18n } from "@solid-primitives/i18n";
-import { fabric } from "fabric";
+import fabric from "fabric";
 import {
   FaRegularCircle,
   FaRegularSquare,
@@ -23,7 +23,7 @@ import {
 import { Component, createEffect, createSignal, For } from "solid-js";
 import { Dynamic } from "solid-js/web";
 import {
-  drawColors,
+
   exportData,
   importData,
   prettyToday,
@@ -87,7 +87,7 @@ export const WhiteboardView: Component = () => {
 
   const importImage = () => {
     importData(async (data: any) => {
-      canvas()?.loadFromJSON(data, () => {});
+      canvas()?.loadFromJSON(data, () => { });
     });
   };
 
@@ -107,9 +107,9 @@ export const WhiteboardView: Component = () => {
     // notify(apd, "Drawing published", 3000);
   };
 
-  const strokeColors = ["transparent", "white", ...Object.keys(drawColors)];
+  // const strokeColors = ["transparent", "white", ...Object.keys(drawColors)];
 
-  const fillColors = ["transparent", "white", ...Object.keys(drawColors)];
+  // const fillColors = ["transparent", "white", ...Object.keys(drawColors)];
 
   const strokeIcon = () => {
     if (wbState().brush != "transparent")
@@ -141,7 +141,7 @@ export const WhiteboardView: Component = () => {
   return (
     <Flex dn="column" style={{ width: "100%", height: "100%" }}>
       <div class={WhiteboardToolsStyle}>
-        <Flex>
+        {/* <Flex>
           <ToolSwitchButton canvas={canvas} tool="select" title={t("Select")}>
             <FaSolidArrowPointer />
           </ToolSwitchButton>
@@ -253,7 +253,7 @@ export const WhiteboardView: Component = () => {
           <Button onClick={exp} border="none" title={t("Export")}>
             <FaSolidFileExport />
           </Button>
-        </Flex>
+        </Flex> */}
       </div>
       <div class={WhiteboardRootStyle} ref={(el) => (boardRoot = el)}>
         <canvas id="whiteboardCanvas" width={1920} height={1080} />

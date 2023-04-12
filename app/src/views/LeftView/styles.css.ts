@@ -5,7 +5,8 @@ import { sprinkles, themeVars } from "~/common";
 export const leftViewRootStyle = style([sprinkles({
     display: "flex",
     flexDirection: "row",
-    gap: "small"
+    gap: "small",
+    padding: "small"
 })])
 
 export const leftViewIconsStyle = style([sprinkles({

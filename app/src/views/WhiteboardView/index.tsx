@@ -1,1 +1,1 @@
-export * from "./Whiteboard";
+export * from "./Whiteboard"

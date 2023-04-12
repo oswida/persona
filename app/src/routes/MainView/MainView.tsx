@@ -24,11 +24,11 @@ export const MainView = () => {
       id="main-div"
     >
       <div class={MainContentStyle} id="main-content">
-        <Flex>
-          <LeftView />
-          <Flex dn="column" style={{ flex: 1 }}>
-            <TableView />
-            <Flex
+
+        <LeftView />
+
+        <TableView />
+        {/* <Flex
               dn="column"
               center
               style={{
@@ -52,11 +52,11 @@ export const MainView = () => {
                 <FaSolidIdCard />
                 <Texte size="small">Session cards</Texte>
               </Button>
-            </Flex>
-          </Flex>
+            </Flex> */}
 
-          <RightView />
-        </Flex>
+
+        <RightView />
+
       </div>
     </Div100vh>
   );

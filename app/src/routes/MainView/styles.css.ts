@@ -25,7 +25,10 @@ export const MainStyle = recipe({
 export const MainContentStyle = style([
   sprinkles({
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     padding: "small",
-  }),
+  }), {
+    width: "100vw",
+    height: "100vh"
+  }
 ]);

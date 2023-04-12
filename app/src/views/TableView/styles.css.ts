@@ -2,11 +2,9 @@ import { style } from "@vanilla-extract/css";
 import { themeVars } from "~/common";
 
 export const TableStyle = style({
-  flex: 1,
   width: "100%",
-  minHeight: "calc(100vh - 2em - 10px)",
-  backgroundRepeat: "no-repeat",
-  backgroundSize: "cover",
+  height: "100%",
+  overflow: "hidden",
 });
 
 export const TableMovingStyle = style({
