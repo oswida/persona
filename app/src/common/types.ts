@@ -8,12 +8,12 @@ export type PlaySession = {
   players: string[];
   charsheets: string[];
   cards: string[];
+  assets: string[];
   backgroundImg: string;
 };
 
 export type SessionSettings = {
-  hosted: Record<string, PlaySession>;
-  client: Record<string, PlaySession>;
+  sessions: Record<string, PlaySession>;
   current: string;
   hosting: boolean;
 };
@@ -69,8 +69,7 @@ export const emptySettings = (generate?: boolean) => {
 
 export const emptySessions = () => {
   return {
-    hosted: {},
-    client: {},
+    sessions: {},
     current: "",
     hosting: false,
   } as SessionSettings;

@@ -1,5 +1,5 @@
-import { Component } from "solid-js";
-import { AssetType, appAssets, personaAssetsKey, personaCardsKey, saveToStorage, themeVars } from "~/common";
+import { Component, createMemo } from "solid-js";
+import { AssetType, PlaySession, appAssets, appSessions, currentSession, netPublish, personaAssetsKey, personaCardsKey, personaSessionsKey, saveToStorage, themeVars, topicSessionInfo } from "~/common";
 import { assetCtrlRowStyle, assetItemStyle } from "./styles.css";
 import { Button, ConfirmState, Flex, StrInputState, Texte, setConfirmData, setStrInputData } from "~/components";
 import { FaSolidPencil, FaSolidTrash } from "solid-icons/fa";
@@ -53,6 +53,19 @@ export const AssetItem: Component<Props> = ({ item }) => {
         } as StrInputState);
     };
 
+    const putIntoSession = () => {
+        if (appSessions().current.trim() == "") return;
+        let list: Record<string, PlaySession>;
+        const newState = { ...appSessions() };
+        list = newState.sessions;
+        if (!list) return;
+        if (list[newState.current].assets.includes(item.id)) return;
+        list[newState.current].assets.push(item.id);
+        // netPublish(topicAssetUpdate, [item]);
+        saveToStorage(personaSessionsKey, newState);
+        netPublish(topicSessionInfo, list[newState.current]);
+    }
+
     return <div class={assetItemStyle}>
         <div class={assetCtrlRowStyle}>
             <Flex style={{ gap: "10px" }}>
@@ -69,9 +82,12 @@ export const AssetItem: Component<Props> = ({ item }) => {
                     <FaSolidPencil color={themeVars.color.secondary} />
                     <Texte size="small">URI</Texte>
                 </Button>
+                <Button size="small" onClick={() => putIntoSession()} >
+                    <Texte size="small">Session</Texte>
+                </Button>
             </Flex>
         </div>
         <Texte size="small" style={{ padding: "10px", "overflow-wrap": "anywhere" }}>{item.uri}</Texte>
-        <img src={item.uri} style={{ width: "25vw", "align-self": "center" }} />
+        <img src={item.uri} style={{ "max-width": "25vw", "align-self": "center" }} />
     </div>
 }

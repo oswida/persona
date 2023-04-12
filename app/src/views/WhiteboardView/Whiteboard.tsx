@@ -1,8 +1,8 @@
 import { Canvas, Image } from "fabric";
 import { Component, createEffect, createMemo, createSignal } from "solid-js";
-import { appAssets, appCards, appSettings, currentSession, sessionCards } from "~/common";
+import { appAssets, appCards, appSettings, currentSession, sessionAssets, sessionCards } from "~/common";
 import { initEvents } from "./events";
-import { createCardObject } from "./objects";
+import { createAssetObject, createCardObject } from "./objects";
 import { WhiteboardRootStyle } from "./styles.css";
 
 
@@ -53,6 +53,16 @@ export const Whiteboard: Component = () => {
                 x += 16;
                 y += 16;
             }
+        });
+        canvas.requestRenderAll();
+        const assets = sessionAssets();
+        if (!assets) return;
+        x = 300;
+        y = 300;
+        cards.forEach((it) => {
+            createAssetObject(canvas, it, x, y);
+            x += 16;
+            y += 16;
         });
         canvas.requestRenderAll();
     });

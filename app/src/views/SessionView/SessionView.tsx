@@ -37,13 +37,14 @@ export const SessionView = () => {
     if (!refName || refName.value.trim() === "") return;
     const newSettings = { ...appSessions() };
     const newId = uuidv4();
-    newSettings.hosted[newId] = {
+    newSettings.sessions[newId] = {
       id: newId,
       name: refName.value,
       ownerId: appSettings().ident.browserID,
       cards: [] as string[],
       charsheets: [] as string[],
       players: [] as string[],
+      assets: [] as string[],
     } as PlaySession;
     saveToStorage(personaSessionsKey, newSettings);
     refName.value = "";
@@ -70,15 +71,18 @@ export const SessionView = () => {
     if (!id || id.trim() == "") return;
     const newSettings = { ...appSessions() };
     const nh: Record<string, PlaySession> = {};
-    Object.keys(newSettings.hosted).forEach((key) => {
-      if (key != id) nh[key] = newSettings.hosted[key];
+    Object.keys(newSettings.sessions).forEach((key) => {
+      if (key != id) nh[key] = newSettings.sessions[key];
     });
-    newSettings.hosted = nh;
+    newSettings.sessions = nh;
     saveToStorage(personaSessionsKey, newSettings);
   };
 
   const hostedItems = createMemo(() => {
-    return Object.values(appSessions().hosted)
+    return Object.values(appSessions().sessions)
+      .filter((it) => {
+        return it.ownerId == appSettings().ident.browserID
+      })
       .map((it) => ({
         label: it.name,
         value: it.id,
@@ -91,15 +95,18 @@ export const SessionView = () => {
     if (!id || id.trim() == "") return;
     const newSettings = { ...appSessions() };
     const nh: Record<string, PlaySession> = {};
-    Object.keys(newSettings.client).forEach((key) => {
-      if (key != id) nh[key] = newSettings.client[key];
+    Object.keys(newSettings.sessions).forEach((key) => {
+      if (key != id) nh[key] = newSettings.sessions[key];
     });
-    newSettings.client = nh;
+    newSettings.sessions = nh;
     saveToStorage(personaSessionsKey, newSettings);
   };
 
   const clientItems = createMemo(() => {
-    return Object.values(appSessions().client)
+    return Object.values(appSessions().sessions)
+      .filter((it) => {
+        return it.ownerId != appSettings().ident.browserID
+      })
       .map((it) => ({
         label: it.name,
         value: it.id,
@@ -187,7 +194,7 @@ export const SessionView = () => {
 
         <Show when={appSessions().current != "" && appSessions().hosting}>
           <Texte size="middle">
-            Hosting: {appSessions().hosted[appSessions().current].name}
+            Hosting: {appSessions().sessions[appSessions().current].name}
           </Texte>
           <Flex>
             <Button onClick={stopSession} title="Stop hosting" shape="icon">
@@ -212,7 +219,7 @@ export const SessionView = () => {
         >
           <Texte size="small">
             Connected to:{" "}
-            {appSessions().client[appSessions().current].name}
+            {appSessions().sessions[appSessions().current].name}
           </Texte>
           <Button onClick={stopSession} title="Stop Disconnect">
             <FaSolidStop />

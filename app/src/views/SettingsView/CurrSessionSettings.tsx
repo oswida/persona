@@ -36,11 +36,7 @@ export const CurrentSessionSettings = () => {
     const data = { ...appSessions() };
     if (!data || !data.current) return;
     let sess;
-    if (data.hosting) {
-      sess = data.hosted[data.current];
-    } else {
-      sess = data.client[data.current];
-    }
+    sess = data.sessions[data.current];
     sess.backgroundImg = value;
     saveToStorage(personaSessionsKey, data);
   };

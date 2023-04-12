@@ -66,20 +66,17 @@ export const [cardsVisible, setCardsVisible] = createSignal(false);
 
 export const sessionCards = createMemo(() => {
   if (appSessions().current.trim() == "") return [];
-  if (appSessions().hosting) {
-    return appSessions().hosted[appSessions().current].cards;
-  } else {
-    return appSessions().client[appSessions().current].cards;
-  }
+  return appSessions().sessions[appSessions().current].cards;
+});
+
+export const sessionAssets = createMemo(() => {
+  if (appSessions().current.trim() == "") return [];
+  return appSessions().sessions[appSessions().current].assets;
 });
 
 export const currentSession = createMemo(() => {
   if (appSessions().current.trim() == "") return undefined;
-  if (appSessions().hosting) {
-    return appSessions().hosted[appSessions().current];
-  } else {
-    return appSessions().client[appSessions().current];
-  }
+  return appSessions().sessions[appSessions().current];
 });
 
 //Charsheets
@@ -96,11 +93,7 @@ export const [editorState, setEditorState] = createSignal<CharsheetEditorState>(
 
 export const sessionCharsheets = createMemo(() => {
   if (appSessions().current.trim() == "") return [];
-  if (appSessions().hosting) {
-    return appSessions().hosted[appSessions().current].charsheets;
-  } else {
-    return appSessions().client[appSessions().current].charsheets;
-  }
+  return appSessions().sessions[appSessions().current].charsheets;
 });
 
 export type rightViewType = "chat" | "settings" | "session" | "dice" | "none";

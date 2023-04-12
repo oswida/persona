@@ -1,5 +1,5 @@
-import { Canvas, Group, Rect, Text, Textbox } from "fabric";
-import { appCards, currentTheme, sessionCards, themeMap, themeVars } from "~/common";
+import { Canvas, Group, Rect, Text, Textbox, Image } from "fabric";
+import { appAssets, appCards, currentTheme, sessionCards, themeMap, themeVars } from "~/common";
 
 export const commonProps = {
     cornerStyle: "circle",
@@ -40,4 +40,21 @@ export const createCardObject = (id: string, x: number, y: number) => {
     });
     group.add(brd);
     return group;
+}
+
+export const createAssetObject = (canvas: Canvas, id: string, x: number, y: number) => {
+    const assets = appAssets();
+    if (!assets) return undefined;
+    const obj = assets[id];
+    if (!obj) return undefined;
+    Image.fromURL(obj.uri).then((img: any) => {
+        img.set({
+            left: x,
+            top: y,
+            data: id,
+        });
+        canvas.add(img);
+    }).catch((err) => {
+        console.error(err);
+    });
 }

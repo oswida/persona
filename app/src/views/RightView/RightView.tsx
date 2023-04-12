@@ -2,7 +2,7 @@ import { Button } from "~/components"
 import { ChatView } from "../ChatView";
 import { rightViewIconsStyle, rightViewRootStyle } from "./styles.css";
 import { rightViewType, selectedRightView, setSelectedRightView } from "~/common";
-import { FaSolidDice, FaSolidGears, FaSolidHourglass, FaSolidMessage } from "solid-icons/fa";
+import { FaSolidDice, FaSolidGears, FaSolidHourglass, FaSolidMessage, FaSolidUsers } from "solid-icons/fa";
 import { Show } from "solid-js";
 import { SettingsView } from "../SettingsView";
 import { SessionView } from "../SessionView";
@@ -38,7 +38,7 @@ export const RightView = () => {
                 selected={() => { return selectedRightView() === "session" }}
                 shape="icon"
             >
-                <FaSolidHourglass />
+                <FaSolidUsers />
             </Button>
             <Button
                 onClick={() => activateView("dice")}

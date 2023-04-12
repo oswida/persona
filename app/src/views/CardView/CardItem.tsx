@@ -87,13 +87,8 @@ export const CardItem = ({ item }: { item: CardData }) => {
     if (appSessions().current.trim() == "") return;
     let list: Record<string, PlaySession>;
     const newState = { ...appSessions() };
-    if (newState.hosting) {
-      list = newState.hosted;
-      if (!list) return;
-    } else {
-      list = newState.client;
-      if (!list) return;
-    }
+    list = newState.sessions;
+    if (!list) return;
     if (v) {
       if (list[newState.current].cards.includes(item.id)) return;
       list[newState.current].cards.push(item.id);
