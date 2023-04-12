@@ -95,6 +95,7 @@ export const mqttProcess = (msg: Message) => {
           mqttTopic(topicSessionInfo),
           si
         );
+        // TODO: publish all session data
       }
       //notify(apd, `User ${info.username} connected`, 5000);
       break;

@@ -16,11 +16,8 @@ export const AssetItem: Component<Props> = ({ item }) => {
             title: "Delete asset",
             message: `Do you really want to delete ${item.name}?`,
             accept: () => {
-                const data = appAssets();
-                if (!data) return;
-                const vals = Object.values(data).filter((v) => v.id != item.id);
-                const newState = {};
-                Object.assign(newState, vals);
+                const vals = Object.values(appAssets()).filter((v) => v.id != item.id);
+                const newState = { ...vals };
                 saveToStorage(personaAssetsKey, newState);
             },
         } as ConfirmState);

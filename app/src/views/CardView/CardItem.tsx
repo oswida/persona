@@ -1,5 +1,5 @@
-import { FaSolidFloppyDisk, FaSolidPencil, FaSolidTrash } from "solid-icons/fa";
-import { createSignal, Show } from "solid-js";
+import { FaSolidEarthEurope, FaSolidFloppyDisk, FaSolidPencil, FaSolidTrash, FaSolidUsers } from "solid-icons/fa";
+import { createMemo, createSignal, Show } from "solid-js";
 import {
   appCards,
   appSessions,
@@ -11,6 +11,7 @@ import {
   PlaySession,
   saveToStorage,
   sessionCards,
+  setAppStore,
   themeVars,
   topicCardDelete,
   topicCardUpdate,
@@ -108,6 +109,27 @@ export const CardItem = ({ item }: { item: CardData }) => {
     netPublish(topicSessionInfo, list[newState.current]);
   };
 
+  const isInSession = createMemo(() => {
+    return sessionCards().includes(item.id);
+  });
+
+  const isPublic = createMemo(() => {
+    return item.isPublic;
+  })
+
+  const togglePublic = () => {
+    const cards = sessionCards();
+    const newState = { ...appCards() };
+    const c = Object.values(newState).filter((it) => {
+      return it.id == item.id;
+    });
+    if (c.length <= 0) return;
+    c[0].isPublic = !c[0].isPublic;
+    saveToStorage(personaCardsKey, newState);
+    netPublish(topicCardUpdate, [c[0]]);
+  };
+
+
   return (
     <div class={CardStyle}>
       <Show when={item.owner == appSettings().ident.browserID}>
@@ -135,18 +157,18 @@ export const CardItem = ({ item }: { item: CardData }) => {
                 <Texte size="small">Update</Texte>
               </Button>
             </Show>
-            {/* <Button size="small" onClick={editFooter}>
-            <FaSolidPencil color={themeVars.color.secondary} />
-            <Texte size="small">Footer</Texte>
-          </Button> */}
 
-            <Checkbox
-              label="Session"
-              title="Card in current session"
-              style={{ color: themeVars.color.secondary }}
-              onChange={(v) => putIntoSession(v)}
-              value={sessionCards().includes(item.id)}
-            />
+            <Button size="small" onClick={() => putIntoSession(!isInSession())} selected={isInSession}>
+              {/* <FaSolidUsers color={isInSession() ? themeVars.color.background : themeVars.color.secondary} /> */}
+              <Texte size="small">Session</Texte>
+            </Button>
+
+            <Button size="small" selected={isPublic} onClick={togglePublic}>
+              {/* <FaSolidEarthEurope /> */}
+              <Texte size="small">Public</Texte>
+            </Button>
+
+
           </Flex>
         </Flex>
       </Show>

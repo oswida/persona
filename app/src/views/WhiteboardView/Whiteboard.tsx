@@ -1,17 +1,21 @@
 import { Canvas, Image } from "fabric";
 import { Component, createEffect, createMemo, createSignal } from "solid-js";
-import { appAssets, appCards, currentSession, sessionCards } from "~/common";
+import { appAssets, appCards, appSettings, currentSession, sessionCards } from "~/common";
 import { initEvents } from "./events";
 import { createCardObject } from "./objects";
+import { WhiteboardRootStyle } from "./styles.css";
 
 
 export const Whiteboard: Component = () => {
     const [cnv, setCnv] = createSignal<Canvas | undefined>(undefined);
 
     const bkg = createMemo(() => {
+        const assets = appAssets();
         const session = currentSession();
-        if (!session || !session.backgroundImg || session.backgroundImg.trim() === "") return "";
-        return appAssets()[session.backgroundImg].uri;
+        if (!assets || !session) return "";
+        console.log(assets, session?.backgroundImg, assets[session?.backgroundImg]);
+        if (assets[session.backgroundImg] === undefined || !session.backgroundImg || session.backgroundImg.trim() === "") return "";
+        return assets[session.backgroundImg].uri;
     });
 
     createEffect(() => {
@@ -20,18 +24,13 @@ export const Whiteboard: Component = () => {
         Image.fromURL(bkg()).then((img: any) => {
             canvas.backgroundImage = img;
             canvas.renderAll();
+            console.log(img, bkg());
         }).catch((err) => {
             console.error(err);
         });
         initEvents(canvas);
         setCnv(canvas);
-        // Object.prototype.transparentCorners = false;
-        // Object.prototype.cornerStyle = "circle";
-        // Object.prototype.borderColor = "white"; //currentTheme().color.secondary;
-        // Object.prototype.cornerColor = "white"; //currentTheme().color.secondary;
-        // Object.prototype.cornerSize = 6;
-        // Object.prototype.padding = 10;
-        // Object.prototype.borderDashArray = [5, 5];
+
     });
 
     createEffect(() => {
@@ -39,18 +38,24 @@ export const Whiteboard: Component = () => {
         if (!canvas) return;
         let cards = Object.keys(appCards());
         const toRemove = canvas.getObjects().filter((it) => {
-            return cards.includes(it.get('data'));
+            const c = appCards()[it.get('data')];
+            return cards.includes(it.get('data')) && (c.isPublic || c.owner == appSettings().ident.browserID);
         });
         canvas.remove(...toRemove);
         cards = sessionCards();
+        if (!cards) return;
+        let x = 100;
+        let y = 100;
         cards.forEach((it) => {
-            const obj = createCardObject(it);
+            const obj = createCardObject(it, x, y);
             if (obj) {
                 canvas.add(obj);
+                x += 16;
+                y += 16;
             }
         });
         canvas.requestRenderAll();
     });
 
-    return <canvas id="wboard"></canvas>
+    return <div class={WhiteboardRootStyle}><canvas id="wboard"></canvas></div>
 }

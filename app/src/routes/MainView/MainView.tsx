@@ -13,6 +13,7 @@ import { TableView } from "~/views/TableView";
 import { MainContentStyle, MainStyle } from "./styles.css";
 import { RightView } from "~/views/RightView";
 import { LeftView } from "~/views/LeftView";
+import { Whiteboard } from "~/views/WhiteboardView";
 
 export const MainView = () => {
   const [sco, setSco] = createSignal(false);
@@ -24,39 +25,9 @@ export const MainView = () => {
       id="main-div"
     >
       <div class={MainContentStyle} id="main-content">
-
         <LeftView />
-
-        <TableView />
-        {/* <Flex
-              dn="column"
-              center
-              style={{
-                position: "absolute",
-                bottom: "0.5em",
-                "align-self": "center",
-              }}
-            >
-              <Show when={sco()}>
-                <CardSlider />
-              </Show>
-              <Button
-                onClick={() => setSco(!sco())}
-                selected={sco}
-                style={{
-                  "background-color": !sco()
-                    ? themeVars.color.background
-                    : undefined,
-                }}
-              >
-                <FaSolidIdCard />
-                <Texte size="small">Session cards</Texte>
-              </Button>
-            </Flex> */}
-
-
+        <Whiteboard />
         <RightView />
-
       </div>
     </Div100vh>
   );
