@@ -89,17 +89,17 @@ export const emptySessions = () => {
 
 // ----
 export type WhiteboardState = {
-  tool: string;
-  brush: string;
+  freedraw: boolean;
+  stroke: string;
   fill: string;
   width: number;
 };
 
 export const initialWhiteboardState: WhiteboardState = {
-  tool: "select",
-  brush: "white",
+  freedraw: false,
+  stroke: "#000000",
   fill: "transparent",
-  width: 0,
+  width: 1,
 };
 //------
 

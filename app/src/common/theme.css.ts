@@ -220,3 +220,6 @@ export const themeMap: Record<string, string> = {
   mint: mintThemeClass,
   satine: satineThemeClass,
 };
+
+export const drawColors = ["#ffffff", "#FFADAD", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff",
+  "#a0c4ff", "#bdb2ff", "#ffc6ff", "#000000", "transparent"]

@@ -11,6 +11,7 @@ import {
 } from "./types";
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 import { appSessions } from "./storage";
+import { Canvas } from "fabric";
 
 // App state
 export const [currentTheme, setCurrentTheme] = createSignal<string>("fire");
@@ -79,9 +80,11 @@ export type rightViewType = "chat" | "settings" | "session" | "dice" | "none";
 export const [selectedRightView, setSelectedRightView] =
   createSignal<rightViewType>("none");
 
-export type leftViewType = "cards" | "sheets" | "clocks" | "assets" | "none";
+export type leftViewType = "cards" | "sheets" | "clocks" | "assets" | "draw" | "none";
 
 export const [selectedLeftView, setSelectedLeftView] =
   createSignal<leftViewType>("none");
 
 export const [lastRoll, setLastRoll] = createSignal<DiceRoll[]>([]);
+
+export const [appCanvas, setAppCanvas] = createSignal<Canvas | undefined>(undefined);

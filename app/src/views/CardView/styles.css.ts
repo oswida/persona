@@ -37,17 +37,3 @@ export const CardZoneStyle = style({
   overflowY: "auto",
 });
 
-export const CardSliderStyle = style([
-  sprinkles({
-    backgroundColor: "backgroundSecondary",
-    color: "primary",
-    padding: "medium",
-    display: "flex",
-    flexDirection: "column",
-    borderRadius: "small",
-    justifyContent: "space-between",
-  }),
-  {
-    minWidth: "350px",
-  },
-]);

@@ -131,3 +131,13 @@ export const createFontVariants = () => {
   });
   return result;
 };
+
+
+export const commonCanvasObjectProps = {
+  cornerStyle: "circle",
+  cornerColor: "grey",
+  borderColor: "grey",
+  borderDashArray: [5, 5],
+  cornerSize: 6,
+  padding: 5
+}

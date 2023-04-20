@@ -1,13 +1,13 @@
 import { Canvas, Image } from "fabric";
 import { Component, createEffect, createMemo, createSignal } from "solid-js";
-import { appAssets, appCards, appSettings, currentSession, sessionAssets, sessionCards } from "~/common";
+import { appAssets, appCanvas, appCards, appSettings, currentSession, sessionAssets, sessionCards, setAppCanvas } from "~/common";
 import { initEvents } from "./events";
 import { createAssetObject, createCardObject } from "./objects";
 import { WhiteboardRootStyle } from "./styles.css";
 
 
 export const Whiteboard: Component = () => {
-    const [cnv, setCnv] = createSignal<Canvas | undefined>(undefined);
+
 
     const bkg = createMemo(() => {
         const assets = appAssets();
@@ -18,7 +18,7 @@ export const Whiteboard: Component = () => {
     });
 
     createEffect(() => {
-        if (cnv() != undefined) return;
+        if (appCanvas() != undefined) return;
         const canvas = new Canvas("wboard", {
             width: 1920, height: 1080,
             fireRightClick: true,
@@ -32,12 +32,12 @@ export const Whiteboard: Component = () => {
             console.error(err);
         });
         initEvents(canvas);
-        setCnv(canvas);
+        setAppCanvas(canvas);
 
     });
 
     createEffect(() => {
-        const canvas = cnv();
+        const canvas = appCanvas();
         if (!canvas) return;
         let cards = Object.keys(appCards());
         const toRemove = canvas.getObjects().filter((it) => {
