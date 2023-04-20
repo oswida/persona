@@ -1,4 +1,5 @@
 import { Canvas, Point } from "fabric";
+import { appCards, appSessions, personaSessionsKey, saveToStorage, sessionAssets, sessionCards } from "~/common";
 
 let isDragging = false;
 let lastPosX = 0;
@@ -27,7 +28,7 @@ export const initEvents = (canvas: Canvas) => {
     })
     canvas.on('mouse:down', function (opt) {
         var evt = opt.e;
-        if (evt.altKey === true) {
+        if (evt.altKey === true || opt.button == 3) {
             isDragging = true;
             canvas.selection = false;
             lastPosX = opt.absolutePointer.x;
@@ -51,5 +52,39 @@ export const initEvents = (canvas: Canvas) => {
         canvas.setViewportTransform(canvas.viewportTransform);
         isDragging = false;
         canvas.selection = true;
+        lastPosX = 0;
+        lastPosY = 0;
+    });
+    canvas.on("object:modified", function (opt) {
+        const id = opt.target.get("data");
+        if (!id || id == "") return;
+        let otype = "card";
+        let obj = sessionCards()[id];
+        if (!obj) {
+            obj = sessionAssets()[id];
+            otype = "asset";
+        }
+        if (!obj) return;
+        switch (otype) {
+            case "card":
+                {
+                    const newState = { ...appSessions() };
+                    newState.sessions[newState.current].cards[id].x = opt.target.left;
+                    newState.sessions[newState.current].cards[id].y = opt.target.top;
+                    newState.sessions[newState.current].cards[id].angle = opt.target.angle;
+                    saveToStorage(personaSessionsKey, newState);
+                }
+                break;
+            case "asset":
+                {
+                    const newState = { ...appSessions() };
+                    newState.sessions[newState.current].assets[id].x = opt.target.left;
+                    newState.sessions[newState.current].assets[id].y = opt.target.top;
+                    newState.sessions[newState.current].assets[id].angle = opt.target.angle;
+                    saveToStorage(personaSessionsKey, newState);
+                }
+                break;
+        }
+
     });
 }

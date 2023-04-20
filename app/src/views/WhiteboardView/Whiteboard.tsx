@@ -19,7 +19,12 @@ export const Whiteboard: Component = () => {
 
     createEffect(() => {
         if (cnv() != undefined) return;
-        const canvas = new Canvas("wboard", { width: 1920, height: 1080 });
+        const canvas = new Canvas("wboard", {
+            width: 1920, height: 1080,
+            fireRightClick: true,
+            fireMiddleClick: true,
+            stopContextMenu: true
+        });
         Image.fromURL(bkg()).then((img: any) => {
             canvas.backgroundImage = img;
             canvas.renderAll();
@@ -41,7 +46,7 @@ export const Whiteboard: Component = () => {
         });
         canvas.remove(...toRemove);
         Object.entries(sessionCards()).forEach(([k, it]) => {
-            const obj = createCardObject(k, it.x, it.y);
+            const obj = createCardObject(k, it.x, it.y, it.angle);
             if (obj) {
                 canvas.add(obj);
             }
@@ -56,7 +61,7 @@ export const Whiteboard: Component = () => {
         const assets = sessionAssets();
         if (!assets) return;
         Object.entries(sessionAssets()).forEach(([k, it]) => {
-            createAssetObject(canvas, k, it.x, it.y);
+            createAssetObject(canvas, k, it.x, it.y, it.angle);
         });
         canvas.requestRenderAll();
     });

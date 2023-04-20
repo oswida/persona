@@ -5,13 +5,13 @@ import { v4 as uuidv4 } from "uuid";
 export type SessionObjectMeta = {
   x: number;
   y: number;
-  scale: number;
+  angle: number;
 }
 
 export const EmptySessionObjectMeta: SessionObjectMeta = {
   x: 100,
   y: 100,
-  scale: 1.0
+  angle: 0
 }
 
 export type PlaySession = {
