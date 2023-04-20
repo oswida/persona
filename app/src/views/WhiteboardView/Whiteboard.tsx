@@ -13,7 +13,6 @@ export const Whiteboard: Component = () => {
         const assets = appAssets();
         const session = currentSession();
         if (!assets || !session) return "";
-        console.log(assets, session?.backgroundImg, assets[session?.backgroundImg]);
         if (assets[session.backgroundImg] === undefined || !session.backgroundImg || session.backgroundImg.trim() === "") return "";
         return assets[session.backgroundImg].uri;
     });
@@ -24,7 +23,6 @@ export const Whiteboard: Component = () => {
         Image.fromURL(bkg()).then((img: any) => {
             canvas.backgroundImage = img;
             canvas.renderAll();
-            console.log(img, bkg());
         }).catch((err) => {
             console.error(err);
         });
@@ -42,27 +40,23 @@ export const Whiteboard: Component = () => {
             return cards.includes(it.get('data')) && (c.isPublic || c.owner == appSettings().ident.browserID);
         });
         canvas.remove(...toRemove);
-        cards = sessionCards();
-        if (!cards) return;
-        let x = 100;
-        let y = 100;
-        cards.forEach((it) => {
-            const obj = createCardObject(it, x, y);
+        Object.entries(sessionCards()).forEach(([k, it]) => {
+            const obj = createCardObject(k, it.x, it.y);
             if (obj) {
                 canvas.add(obj);
-                x += 16;
-                y += 16;
             }
         });
         canvas.requestRenderAll();
+        let ase = Object.keys(appAssets());
+        const toRemoveAse = canvas.getObjects().filter((it) => {
+            const c = appAssets()[it.get('data')];
+            return ase.includes(it.get('data'));
+        });
+        canvas.remove(...toRemoveAse);
         const assets = sessionAssets();
         if (!assets) return;
-        x = 300;
-        y = 300;
-        cards.forEach((it) => {
-            createAssetObject(canvas, it, x, y);
-            x += 16;
-            y += 16;
+        Object.entries(sessionAssets()).forEach(([k, it]) => {
+            createAssetObject(canvas, k, it.x, it.y);
         });
         canvas.requestRenderAll();
     });

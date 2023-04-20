@@ -1,6 +1,5 @@
 import { Client } from "paho-mqtt";
 import { createMemo, createSignal } from "solid-js";
-import { Tpl } from "~/templates/types";
 import { themeList } from "./theme.css";
 import {
   CharsheetData,
@@ -55,22 +54,17 @@ export const [mqttClient, setMqttClient] = createSignal<Client | undefined>(
   undefined
 );
 
-// Templates
-export const [csTemplateList, setCsTemplateList] = createSignal<
-  Record<string, Tpl>
->({});
-
 // Cards
 export const [cardsVisible, setCardsVisible] = createSignal(false);
 
 
 export const sessionCards = createMemo(() => {
-  if (appSessions().current.trim() == "") return [];
+  if (appSessions().current.trim() == "") return {};
   return appSessions().sessions[appSessions().current].cards;
 });
 
 export const sessionAssets = createMemo(() => {
-  if (appSessions().current.trim() == "") return [];
+  if (appSessions().current.trim() == "") return {};
   return appSessions().sessions[appSessions().current].assets;
 });
 
@@ -79,22 +73,6 @@ export const currentSession = createMemo(() => {
   return appSessions().sessions[appSessions().current];
 });
 
-//Charsheets
-export const [charsheetData, setCharsheetData] = createSignal<
-  Record<string, CharsheetData>
->({});
-export const [charsheetVisible, setCharsheetVisible] = createSignal(false);
-export const [editorState, setEditorState] = createSignal<CharsheetEditorState>(
-  {
-    size: "standard",
-    visible: true,
-  }
-);
-
-export const sessionCharsheets = createMemo(() => {
-  if (appSessions().current.trim() == "") return [];
-  return appSessions().sessions[appSessions().current].charsheets;
-});
 
 export type rightViewType = "chat" | "settings" | "session" | "dice" | "none";
 

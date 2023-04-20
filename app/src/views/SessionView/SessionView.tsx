@@ -41,10 +41,9 @@ export const SessionView = () => {
       id: newId,
       name: refName.value,
       ownerId: appSettings().ident.browserID,
-      cards: [] as string[],
-      charsheets: [] as string[],
+      cards: {},
       players: [] as string[],
-      assets: [] as string[],
+      assets: {},
     } as PlaySession;
     saveToStorage(personaSessionsKey, newSettings);
     refName.value = "";

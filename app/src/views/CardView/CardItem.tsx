@@ -5,6 +5,7 @@ import {
   appSessions,
   appSettings,
   CardData,
+  EmptySessionObjectMeta,
   netPublish,
   personaCardsKey,
   personaSessionsKey,
@@ -90,22 +91,21 @@ export const CardItem = ({ item }: { item: CardData }) => {
     list = newState.sessions;
     if (!list) return;
     if (v) {
-      if (list[newState.current].cards.includes(item.id)) return;
-      list[newState.current].cards.push(item.id);
+      if (Object.keys(list[newState.current].cards).includes(item.id)) return;
+      list[newState.current].cards[item.id] = { ...EmptySessionObjectMeta };
       netPublish(topicCardUpdate, [item]);
     } else {
-      if (!list[newState.current].cards.includes(item.id)) return;
-      list[newState.current].cards = list[newState.current].cards.filter(
-        (it) => it != item.id
-      );
+      if (!Object.keys(list[newState.current].cards).includes(item.id)) return;
+      delete list[newState.current].cards[item.id];
       netPublish(topicCardDelete, [item.id]);
     }
+    console.log("saving", newState);
     saveToStorage(personaSessionsKey, newState);
     netPublish(topicSessionInfo, list[newState.current]);
   };
 
   const isInSession = createMemo(() => {
-    return sessionCards().includes(item.id);
+    return Object.keys(sessionCards()).includes(item.id);
   });
 
   const isPublic = createMemo(() => {

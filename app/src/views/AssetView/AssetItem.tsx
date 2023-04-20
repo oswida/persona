@@ -1,5 +1,5 @@
 import { Component, createMemo } from "solid-js";
-import { AssetType, PlaySession, appAssets, appSessions, currentSession, netPublish, personaAssetsKey, personaCardsKey, personaSessionsKey, saveToStorage, themeVars, topicSessionInfo } from "~/common";
+import { AssetType, EmptySessionObjectMeta, PlaySession, appAssets, appSessions, currentSession, netPublish, personaAssetsKey, personaCardsKey, personaSessionsKey, saveToStorage, sessionAssets, themeVars, topicCardDelete, topicCardUpdate, topicSessionInfo } from "~/common";
 import { assetCtrlRowStyle, assetItemStyle } from "./styles.css";
 import { Button, ConfirmState, Flex, StrInputState, Texte, setConfirmData, setStrInputData } from "~/components";
 import { FaSolidPencil, FaSolidTrash } from "solid-icons/fa";
@@ -53,18 +53,28 @@ export const AssetItem: Component<Props> = ({ item }) => {
         } as StrInputState);
     };
 
-    const putIntoSession = () => {
+    const putIntoSession = (v: boolean) => {
         if (appSessions().current.trim() == "") return;
         let list: Record<string, PlaySession>;
         const newState = { ...appSessions() };
         list = newState.sessions;
         if (!list) return;
-        if (list[newState.current].assets.includes(item.id)) return;
-        list[newState.current].assets.push(item.id);
-        // netPublish(topicAssetUpdate, [item]);
+        if (v) {
+            if (Object.keys(list[newState.current].assets).includes(item.id)) return;
+            list[newState.current].assets[item.id] = { ...EmptySessionObjectMeta };
+            //TODO: netPublish(topicCardUpdate, [item]);
+        } else {
+            if (!Object.keys(list[newState.current].assets).includes(item.id)) return;
+            delete list[newState.current].assets[item.id];
+            //TODO: netPublish(topicCardDelete, [item.id]);
+        }
         saveToStorage(personaSessionsKey, newState);
         netPublish(topicSessionInfo, list[newState.current]);
     }
+
+    const isInSession = createMemo(() => {
+        return Object.keys(sessionAssets()).includes(item.id);
+    });
 
     return <div class={assetItemStyle}>
         <div class={assetCtrlRowStyle}>
@@ -82,7 +92,7 @@ export const AssetItem: Component<Props> = ({ item }) => {
                     <FaSolidPencil color={themeVars.color.secondary} />
                     <Texte size="small">URI</Texte>
                 </Button>
-                <Button size="small" onClick={() => putIntoSession()} >
+                <Button size="small" onClick={() => putIntoSession(!isInSession())} selected={isInSession} >
                     <Texte size="small">Session</Texte>
                 </Button>
             </Flex>

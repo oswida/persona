@@ -88,7 +88,7 @@ export const mqttProcess = (msg: Message) => {
       chatText(info.username, info.color, `Connected to session.`);
       const cl = mqttClient();
       if (appSessions().hosting && cl) {
-        const si = appSessions().hosted[appSessions().current];
+        const si = appSessions().sessions[appSessions().current];
         mqttPublish(
           cl,
           appSettings().ident.browserID,
@@ -109,7 +109,7 @@ export const mqttProcess = (msg: Message) => {
       const sess = m.data as PlaySession;
       if (!appSessions().hosting) {
         const newState = { ...appSessions() };
-        newState.client[sess.id] = sess;
+        newState.sessions[sess.id] = sess;
         saveToStorage(personaSessionsKey, newState);
       }
       break;
@@ -216,7 +216,7 @@ export const mqttConnect = () => {
             );
             setMqttConnectionStatus(true);
             if (appSessions().hosting) {
-              const si = appSessions().hosted[appSessions().current];
+              const si = appSessions().sessions[appSessions().current];
               mqttPublish(
                 client,
                 appSettings().ident.browserID,
@@ -249,7 +249,7 @@ export const mqttClientLink = () => {
     server: appSettings().comms.mqtt.server,
     credentials: appSettings().comms.mqtt.credentials,
     sessionId: sess.current,
-    sessionName: appSessions().hosted[sess.current].name,
+    sessionName: appSessions().sessions[sess.current].name,
   };
   return `${window.location}connect?data=${encodeURIComponent(
     compressData64(obj)

@@ -47,7 +47,7 @@ export const CardList = () => {
   const items = createMemo(() => {
     return Object.values(appCards())
       .filter((it) => filter() == "" || it.title.includes(filter()))
-      .filter((it) => !onlySession() || sessionCards().includes(it.id))
+      .filter((it) => !onlySession() || Object.keys(sessionCards()).includes(it.id))
       .filter(
         (it) => !onlyOwner() || appSettings().ident.browserID == it.owner
       )

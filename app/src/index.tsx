@@ -14,7 +14,7 @@ import {
 } from "./common";
 import { messages_en } from "./locales/en/en";
 import { messages_pl } from "./locales/pl/pl";
-import { initTemplateList } from "./templates/helper";
+
 
 const dictionaries = {
   en: messages_en,
@@ -34,7 +34,7 @@ if (langparam && langparam != "") {
 }
 
 const langContext = createI18nContext(dictionaries, lang);
-initTemplateList();
+
 
 if (appSessions().current !== "") {
   netConnect();

@@ -1,5 +1,5 @@
 import { Canvas, Group, Rect, Text, Textbox, Image } from "fabric";
-import { appAssets, appCards, currentTheme, sessionCards, themeMap, themeVars } from "~/common";
+import { appAssets, appCards } from "~/common";
 
 export const commonProps = {
     cornerStyle: "circle",
