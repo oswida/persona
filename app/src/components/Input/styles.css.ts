@@ -114,6 +114,7 @@ export const InputAreaStyle = recipe({
       outline: "none",
       lineHeight: "1.1em",
       textAlign: "left",
+      overflowWrap: "anywhere",
       overflow: "auto",
       whiteSpace: "pre-wrap",
       selectors: {

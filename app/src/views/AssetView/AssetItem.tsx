@@ -36,6 +36,7 @@ export const AssetItem: Component<Props> = ({ item }) => {
                 console.log(newState);
                 saveToStorage(personaAssetsKey, newState);
             },
+            multiline: false
         } as StrInputState);
     };
 
@@ -50,6 +51,8 @@ export const AssetItem: Component<Props> = ({ item }) => {
                 newState[item.id].uri = value;
                 saveToStorage(personaAssetsKey, newState);
             },
+            height: "4em",
+            multiline: true
         } as StrInputState);
     };
 

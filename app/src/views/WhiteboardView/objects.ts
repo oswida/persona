@@ -1,5 +1,5 @@
 import { Canvas, Group, Rect, Text, Textbox, Image } from "fabric";
-import { appAssets, appCards } from "~/common";
+import { appAssets, appCards, commonCanvasObjectProps } from "~/common";
 
 export const commonProps = {
     cornerStyle: "circle",
@@ -61,7 +61,8 @@ export const createAssetObject = (canvas: Canvas, id: string, x: number, y: numb
             left: x,
             top: y,
             data: id,
-            angle: angle
+            angle: angle,
+            ...commonCanvasObjectProps
         });
         canvas.add(img);
     }).catch((err) => {

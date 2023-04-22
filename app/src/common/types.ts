@@ -192,4 +192,5 @@ export type StorageItemType = Settings |
   Record<string, AssetType>;
 
 export type DrawToolType = "text" | "rectangle" | "circle" |
-  "ellipse" | "triangle" | "freedraw" | "select" | "eraser" | "line";
+  "ellipse" | "triangle" | "freedraw" | "select" |
+  "eraser" | "line" | "note";

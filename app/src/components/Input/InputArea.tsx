@@ -30,6 +30,7 @@ export const InputArea: Component<ComponentProps<"div"> & Props> = ({
         transparent: transparent,
         font: currentFont(),
       })}
+      tabIndex={0}
       style={style}
       contentEditable={contentEditable}
       ref={ref}

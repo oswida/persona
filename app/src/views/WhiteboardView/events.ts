@@ -1,6 +1,8 @@
-import { Canvas, Circle, Ellipse, Line, Point, Rect, Textbox } from "fabric";
+import { Canvas, Circle, Ellipse, Line, Point, Rect, Textbox, Triangle } from "fabric";
 import { appCards, appSessions, commonCanvasObjectProps, drawTool, personaSessionsKey, saveToStorage, sessionAssets, sessionCards, wbState } from "~/common";
 import { addShape, addText } from "./helper";
+import { Accessor } from "solid-js";
+import { StrInputState, setStrInputData } from "~/components";
 
 let isDragging = false;
 let isMouseDown = false;
@@ -8,38 +10,46 @@ let drawInstance: any;
 let lastPosX = 0;
 let lastPosY = 0;
 
-export const initEvents = (canvas: Canvas) => {
-    canvas.on('mouse:wheel', function (opt) {
+export const initEvents = (canvas: Accessor<Canvas | undefined>) => {
+    const cnv = canvas();
+    if (!cnv) return;
+    cnv.on('mouse:wheel', function (opt) {
+        const cnv = canvas();
+        if (!cnv) return;
         var delta = opt.e.deltaY;
-        var zoom = canvas.getZoom();
+        var zoom = cnv.getZoom();
         zoom *= 0.999 ** delta;
         if (zoom > 20) zoom = 20;
         if (zoom < 0.01) zoom = 0.01;
-        canvas.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY } as Point, zoom);
+        cnv.zoomToPoint({ x: opt.e.offsetX, y: opt.e.offsetY } as Point, zoom);
         opt.e.preventDefault();
         opt.e.stopPropagation();
     });
-    canvas.on('mouse:dblclick', (opt) => {
-        var vpt = canvas.viewportTransform;
+    cnv.on('mouse:dblclick', (opt) => {
+        const cnv = canvas();
+        if (!cnv) return;
+        var vpt = cnv.viewportTransform;
         vpt[4] = 0;
         vpt[5] = 0;
         vpt[0] = 1.0;
         vpt[3] = 1.0;
-        canvas.setViewportTransform(vpt);
+        cnv.setViewportTransform(vpt);
         opt.e.preventDefault();
         opt.e.stopPropagation();
     })
-    canvas.on('mouse:down', function (opt) {
+    cnv.on('mouse:down', function (opt) {
+        const cnv = canvas();
+        if (!cnv) return;
         var evt = opt.e;
         if (evt.altKey === true || opt.button == 3) {
             isDragging = true;
-            canvas.selection = false;
             lastPosX = opt.absolutePointer.x;
             lastPosY = opt.absolutePointer.y;
+            cnv.selection = false;
         } else {
+            if (drawTool() !== "select") cnv.selection = false;
             isMouseDown = true;
-            canvas.selection = false;
-            let pointer = canvas.getPointer(opt.e);
+            let pointer = cnv.getPointer(opt.e);
             lastPosX = pointer.x;
             lastPosY = pointer.y;
             switch (drawTool()) {
@@ -86,33 +96,61 @@ export const initEvents = (canvas: Canvas) => {
                         selectable: false,
                     });
                 } break;
-                case "triangle": { } break;
-                case "text": {
-                    drawInstance = new Textbox("text", {
+                case "triangle": {
+                    drawInstance = new Triangle({
+                        stroke: wbState().stroke,
+                        strokeWidth: wbState().width,
+                        fill: wbState().fill ? wbState().fill : "transparent",
                         left: pointer.x,
                         top: pointer.y,
-                        fill: wbState().stroke,
-                        fontSize: 22,
-                        selectable: false
+                        width: 0,
+                        height: 0,
+                        selectable: false,
                     });
                 } break;
+                case "text": {
+                    setStrInputData({
+                        open: true,
+                        title: "Add text",
+                        message: "",
+                        value: "some text",
+                        accept: (value: string) => {
+                            const cnv = canvas();
+                            if (!cnv) return;
+                            const txt = new Textbox(value, {
+                                left: pointer.x,
+                                top: pointer.y,
+                                fill: wbState().stroke,
+                                fontSize: 22,
+                                ...commonCanvasObjectProps
+                            });
+                            cnv.add(txt);
+                            cnv.requestRenderAll();
+                        },
+                        width: "20em",
+                        height: "5em",
+                        multiline: true
+                    } as StrInputState);
+                } break;
             }
-            canvas.add(drawInstance);
-            canvas.requestRenderAll();
+            if (drawInstance) cnv.add(drawInstance);
+            cnv.requestRenderAll();
         }
     });
-    canvas.on('mouse:move', function (opt) {
+    cnv.on('mouse:move', function (opt) {
+        const cnv = canvas();
+        if (!cnv) return;
         if (isDragging) {
             var e = opt.e;
-            var vpt = canvas.viewportTransform;
+            var vpt = cnv.viewportTransform;
             vpt[4] += opt.absolutePointer.x - lastPosX;
             vpt[5] += opt.absolutePointer.y - lastPosY;
-            canvas.requestRenderAll();
+            cnv.requestRenderAll();
             lastPosX = opt.absolutePointer.x;
             lastPosY = opt.absolutePointer.y;
         } else {
             if (isMouseDown) {
-                const pointer = canvas.getPointer(opt.e);
+                const pointer = cnv.getPointer(opt.e);
                 switch (drawTool()) {
                     case "line": {
                         drawInstance.set({
@@ -120,6 +158,7 @@ export const initEvents = (canvas: Canvas) => {
                             y2: pointer.y,
                         });
                     } break;
+                    case "triangle":
                     case "rectangle": {
                         if (pointer.x < lastPosX) {
                             drawInstance.set("left", pointer.x);
@@ -156,44 +195,50 @@ export const initEvents = (canvas: Canvas) => {
                             ry: Math.abs(pointer.y - lastPosY) / 2,
                         });
                     } break;
-                    case "triangle": { } break;
                     case "text": {
                         drawInstance.set("left", pointer.x);
                         drawInstance.set("top", pointer.y);
                     } break;
                 }
-                drawInstance.setCoords();
-                canvas.requestRenderAll();
+                if (drawInstance) drawInstance.setCoords();
+                cnv.requestRenderAll();
             }
         }
     });
-    canvas.on('mouse:up', function (opt) {
+    cnv.on('mouse:up', function (opt) {
+        const cnv = canvas();
+        if (!cnv) return;
         // on mouse up we want to recalculate new interaction
         // for all objects, so we call setViewportTransform
         if (isDragging) {
-            canvas.setViewportTransform(canvas.viewportTransform);
+            cnv.setViewportTransform(cnv.viewportTransform);
             isDragging = false;
-            canvas.selection = true;
             lastPosX = 0;
             lastPosY = 0;
-        }
-        else if (drawTool() === "eraser") {
-            const objs = canvas.getActiveObjects();
+        } else if (drawTool() === "eraser") {
+            if (!canvas) return;
+            const objs = cnv.getActiveObjects();
             objs.forEach((it) => {
-                canvas.remove(it);
+                cnv.remove(it);
             });
+            cnv.requestRenderAll();
         }
         else {
             isMouseDown = false;
-            canvas.selection = true;
             lastPosX = 0;
             lastPosY = 0;
-            drawInstance.set({
-                ...commonCanvasObjectProps
-            })
+            if (drawInstance) {
+                drawInstance.set({
+                    ...commonCanvasObjectProps
+                })
+                drawInstance = undefined;
+            }
         }
+        cnv.selection = true;
     });
-    canvas.on("object:modified", function (opt) {
+    cnv.on("object:modified", function (opt) {
+        const cnv = canvas();
+        if (!cnv) return;
         const id = opt.target.get("data");
         if (!id || id == "") return;
         let otype = "card";

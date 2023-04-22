@@ -221,5 +221,5 @@ export const themeMap: Record<string, string> = {
   satine: satineThemeClass,
 };
 
-export const drawColors = ["#ffffff", "#FFADAD", "#ffd6a5", "#fdffb6", "#caffbf", "#9bf6ff",
-  "#a0c4ff", "#bdb2ff", "#ffc6ff", "#000000", "transparent"]
+export const drawColors = ["#ffffff", "#D82011", "#D87a11", "#F9df2d", "#5ff92d", "#2df9e0",
+  "#2da0f9", "#5f2df9", "#F92dee", "#000000", "transparent"]
