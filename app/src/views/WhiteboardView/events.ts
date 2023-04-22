@@ -1,7 +1,10 @@
-import { Canvas, Point } from "fabric";
-import { appCards, appSessions, personaSessionsKey, saveToStorage, sessionAssets, sessionCards } from "~/common";
+import { Canvas, Circle, Ellipse, Line, Point, Rect, Textbox } from "fabric";
+import { appCards, appSessions, commonCanvasObjectProps, drawTool, personaSessionsKey, saveToStorage, sessionAssets, sessionCards, wbState } from "~/common";
+import { addShape, addText } from "./helper";
 
 let isDragging = false;
+let isMouseDown = false;
+let drawInstance: any;
 let lastPosX = 0;
 let lastPosY = 0;
 
@@ -33,6 +36,69 @@ export const initEvents = (canvas: Canvas) => {
             canvas.selection = false;
             lastPosX = opt.absolutePointer.x;
             lastPosY = opt.absolutePointer.y;
+        } else {
+            isMouseDown = true;
+            canvas.selection = false;
+            let pointer = canvas.getPointer(opt.e);
+            lastPosX = pointer.x;
+            lastPosY = pointer.y;
+            switch (drawTool()) {
+                case "line": {
+                    drawInstance = new Line(
+                        [pointer.x, pointer.y, pointer.x, pointer.y],
+                        {
+                            strokeWidth: wbState().width,
+                            stroke: wbState().stroke,
+                            selectable: false,
+                        }
+                    );
+                }
+                    break;
+                case "rectangle": {
+                    drawInstance = new Rect({
+                        stroke: wbState().stroke,
+                        strokeWidth: wbState().width,
+                        fill: wbState().fill ? wbState().fill : "transparent",
+                        left: pointer.x,
+                        top: pointer.y,
+                        width: 0,
+                        height: 0,
+                        selectable: false,
+                    });
+                }; break;
+                case "circle": {
+                    drawInstance = new Circle({
+                        stroke: wbState().stroke,
+                        strokeWidth: wbState().width,
+                        fill: wbState().fill ? wbState().fill : "transparent",
+                        left: pointer.x,
+                        top: pointer.y,
+                        selectable: false,
+                    });
+                } break;
+                case "ellipse": {
+                    drawInstance = new Ellipse({
+                        stroke: wbState().stroke,
+                        strokeWidth: wbState().width,
+                        fill: wbState().fill ? wbState().fill : "transparent",
+                        left: pointer.x,
+                        top: pointer.y,
+                        selectable: false,
+                    });
+                } break;
+                case "triangle": { } break;
+                case "text": {
+                    drawInstance = new Textbox("text", {
+                        left: pointer.x,
+                        top: pointer.y,
+                        fill: wbState().stroke,
+                        fontSize: 22,
+                        selectable: false
+                    });
+                } break;
+            }
+            canvas.add(drawInstance);
+            canvas.requestRenderAll();
         }
     });
     canvas.on('mouse:move', function (opt) {
@@ -44,16 +110,88 @@ export const initEvents = (canvas: Canvas) => {
             canvas.requestRenderAll();
             lastPosX = opt.absolutePointer.x;
             lastPosY = opt.absolutePointer.y;
+        } else {
+            if (isMouseDown) {
+                const pointer = canvas.getPointer(opt.e);
+                switch (drawTool()) {
+                    case "line": {
+                        drawInstance.set({
+                            x2: pointer.x,
+                            y2: pointer.y,
+                        });
+                    } break;
+                    case "rectangle": {
+                        if (pointer.x < lastPosX) {
+                            drawInstance.set("left", pointer.x);
+                        }
+                        if (pointer.y < lastPosY) {
+                            drawInstance.set("top", pointer.y);
+                        }
+                        drawInstance.set({
+                            width: Math.abs(pointer.x - lastPosX),
+                            height: Math.abs(pointer.y - lastPosY),
+                        });
+                    } break;
+                    case "circle": {
+                        if (pointer.x < lastPosX) {
+                            drawInstance.set("left", pointer.x);
+                        }
+                        if (pointer.y < lastPosY) {
+                            drawInstance.set("top", pointer.y);
+                        }
+                        drawInstance.set({
+                            radius: Math.round(Math.sqrt(Math.pow(Math.abs(pointer.x - lastPosX), 2) +
+                                Math.pow(Math.abs(pointer.y - lastPosY), 2))) / 2,
+                        });
+                    } break;
+                    case "ellipse": {
+                        if (pointer.x < lastPosX) {
+                            drawInstance.set("left", pointer.x);
+                        }
+                        if (pointer.y < lastPosY) {
+                            drawInstance.set("top", pointer.y);
+                        }
+                        drawInstance.set({
+                            rx: Math.abs(pointer.x - lastPosX) / 2,
+                            ry: Math.abs(pointer.y - lastPosY) / 2,
+                        });
+                    } break;
+                    case "triangle": { } break;
+                    case "text": {
+                        drawInstance.set("left", pointer.x);
+                        drawInstance.set("top", pointer.y);
+                    } break;
+                }
+                drawInstance.setCoords();
+                canvas.requestRenderAll();
+            }
         }
     });
     canvas.on('mouse:up', function (opt) {
         // on mouse up we want to recalculate new interaction
         // for all objects, so we call setViewportTransform
-        canvas.setViewportTransform(canvas.viewportTransform);
-        isDragging = false;
-        canvas.selection = true;
-        lastPosX = 0;
-        lastPosY = 0;
+        if (isDragging) {
+            canvas.setViewportTransform(canvas.viewportTransform);
+            isDragging = false;
+            canvas.selection = true;
+            lastPosX = 0;
+            lastPosY = 0;
+        }
+        else if (drawTool() === "eraser") {
+            const objs = canvas.getActiveObjects();
+            objs.forEach((it) => {
+                canvas.remove(it);
+            });
+        }
+        else {
+            isMouseDown = false;
+            canvas.selection = true;
+            lastPosX = 0;
+            lastPosY = 0;
+            drawInstance.set({
+                ...commonCanvasObjectProps
+            })
+        }
     });
     canvas.on("object:modified", function (opt) {
         const id = opt.target.get("data");

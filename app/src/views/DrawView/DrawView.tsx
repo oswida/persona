@@ -1,13 +1,15 @@
-import { Component, For } from "solid-js";
+import { Component, For, createSignal } from "solid-js";
 import { DrawViewRootStyle } from "./styles.css";
 import { Button, Flex, Texte } from "~/components";
-import { FaRegularCircle, FaRegularSquare, FaSolid1, FaSolid2, FaSolid3, FaSolid4, FaSolid5, FaSolidA, FaSolidChartLine, FaSolidCircle, FaSolidEgg, FaSolidEllipsisVertical, FaSolidLinesLeaning, FaSolidPaintbrush, FaSolidPalette, FaSolidRectangleAd, FaSolidSquare, FaSolidTriangleExclamation } from "solid-icons/fa";
-import { Canvas } from "fabric";
-import { addCircle, addRectangle, addText } from "./helper";
-import { appCanvas, drawColors, setWbState, wbState } from "~/common";
+import { FaRegularCircle, FaRegularSquare, FaSolid1, FaSolid2, FaSolid3, FaSolid4, FaSolid5, FaSolidA, FaSolidArrowPointer, FaSolidEraser, FaSolidLinesLeaning, FaSolidPalette } from "solid-icons/fa";
+import { addShape, addText } from "../WhiteboardView/helper";
+import { DrawToolType, drawColors, drawTool, setDrawTool, setWbState, wbState } from "~/common";
+
 
 
 export const DrawView: Component = () => {
+
+
     const setStrokeColor = (color: string) => {
         setWbState((prev) => ({ ...prev, stroke: color }));
     }
@@ -15,6 +17,7 @@ export const DrawView: Component = () => {
     const setFillColor = (color: string) => {
         setWbState((prev) => ({ ...prev, fill: color }));
     }
+
 
     return <div class={DrawViewRootStyle}>
         <Texte size="bigger">Draw Tools</Texte>
@@ -89,17 +92,40 @@ export const DrawView: Component = () => {
         </Flex>
         <Texte size="middle">Tools</Texte>
         <Flex>
-            <Button shape="icon" title="Insert text" onClick={() => addText(100, 100)}>
+            <Button
+                shape="icon"
+                title="Select object"
+                onClick={() => setDrawTool("select")}
+                selected={() => drawTool() === "select"}>
+                <FaSolidArrowPointer />
+            </Button>
+            <Button
+                shape="icon"
+                title="Insert text"
+                onClick={() => setDrawTool("text")}
+                selected={() => drawTool() === "text"}>
                 <FaSolidA />
             </Button>
-            <Button shape="icon" title="Insert circle" onClick={() => addCircle(100, 100)}>
+            <Button shape="icon" title="Insert circle"
+                onClick={() => setDrawTool("circle")}
+                selected={() => drawTool() === "circle"}>
                 <FaRegularCircle />
             </Button>
-            <Button shape="icon" title="Insert rectangle" onClick={() => addRectangle(100, 100)}>
+            <Button shape="icon" title="Insert rectangle"
+                onClick={() => setDrawTool("rectangle")}
+                selected={() => drawTool() === "rectangle"}>
                 <FaRegularSquare />
             </Button>
-            <Button shape="icon" title="Insert line">
+            <Button shape="icon" title="Insert line"
+                onClick={() => setDrawTool("line")}
+                selected={() => drawTool() === "line"}>
                 <FaSolidLinesLeaning />
+            </Button>
+            <Button shape="icon" title="Erase objects"
+                style={{ "margin-left": "15px" }}
+                onClick={() => setDrawTool("eraser")}
+                selected={() => drawTool() === "eraser"}>
+                <FaSolidEraser />
             </Button>
         </Flex>
     </div>

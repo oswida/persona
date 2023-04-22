@@ -185,4 +185,11 @@ export type AssetType = {
   uri: string;
 }
 
-export type StorageItemType = Settings | SessionSettings | Record<string, CardData> | string | Record<string, AssetType>;
+export type StorageItemType = Settings |
+  SessionSettings |
+  Record<string, CardData> |
+  string |
+  Record<string, AssetType>;
+
+export type DrawToolType = "text" | "rectangle" | "circle" |
+  "ellipse" | "triangle" | "freedraw" | "select" | "eraser" | "line";

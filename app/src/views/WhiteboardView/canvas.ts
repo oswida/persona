@@ -1,4 +1,4 @@
-import { fabric } from "fabric";
+import { Canvas, Line } from "fabric";
 import { Accessor } from "solid-js";
 import {  setWbState, wbState } from "~/common";
 import { WhiteboardState } from "./../../common/types";
@@ -12,7 +12,7 @@ const stopDrawing = () => {
   mouseDown = false;
 };
 
-const removeCanvasListener = (canvas: fabric.Canvas) => {
+const removeCanvasListener = (canvas: Canvas) => {
   canvas.off("mouse:down");
   canvas.off("mouse:move");
   canvas.off("mouse:up");
@@ -20,13 +20,13 @@ const removeCanvasListener = (canvas: fabric.Canvas) => {
 
 const startAddLine = (
   wbState: Accessor<WhiteboardState>,
-  canvas: fabric.Canvas
+  canvas: Canvas
 ) => {
   return (e: any) => {
 
     mouseDown = true;
     let pointer = canvas.getPointer(e);
-    drawInstance = new fabric.Line(
+    drawInstance = new Line(
       [pointer.x, pointer.y, pointer.x, pointer.y],
       {
         strokeWidth: linesSizeMap[wbState().width],

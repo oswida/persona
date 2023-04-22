@@ -139,5 +139,6 @@ export const commonCanvasObjectProps = {
   borderColor: "grey",
   borderDashArray: [5, 5],
   cornerSize: 6,
-  padding: 5
+  padding: 5,
+  selectable: true,
 }

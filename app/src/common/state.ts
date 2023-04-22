@@ -6,6 +6,7 @@ import {
   CharsheetEditorState,
   ChatEntry,
   ConnectionInfo,
+  DrawToolType,
   initialWhiteboardState,
   WhiteboardState,
 } from "./types";
@@ -33,6 +34,7 @@ export const [selectedDice, setSelectedDice] = createSignal("");
 export const [wbState, setWbState] = createSignal<WhiteboardState>(
   initialWhiteboardState
 );
+export const [drawTool, setDrawTool] = createSignal<DrawToolType>("select");
 
 // Dice Roller
 export const [selectedDicePool, setSelectedDicePool] = createSignal<
