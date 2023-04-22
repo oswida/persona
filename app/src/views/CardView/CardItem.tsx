@@ -1,26 +1,18 @@
-import { FaSolidEarthEurope, FaSolidFloppyDisk, FaSolidPencil, FaSolidTrash, FaSolidUsers } from "solid-icons/fa";
+import { FaSolidFloppyDisk, FaSolidPencil, FaSolidPlus, FaSolidTrash } from "solid-icons/fa";
 import { createMemo, createSignal, Show } from "solid-js";
 import {
   appCards,
-  appSessions,
   appSettings,
   CardData,
-  EmptySessionObjectMeta,
   netPublish,
   personaCardsKey,
-  personaSessionsKey,
-  PlaySession,
   saveToStorage,
-  sessionCards,
-  setAppStore,
   themeVars,
   topicCardDelete,
   topicCardUpdate,
-  topicSessionInfo,
 } from "~/common";
 import {
   Button,
-  Checkbox,
   Flex,
   InputArea,
   Markdown,
@@ -33,9 +25,9 @@ import {
   setConfirmData,
 } from "~/components/Dialog/ConfirmDialog";
 import { CardStyle } from "./styles.css";
+import { addCard } from "../WhiteboardView/helper";
 
 export const CardItem = ({ item }: { item: CardData }) => {
-  const [edc, setEdc] = createSignal(false);
   let refContent: HTMLDivElement;
 
   const deleteCard = () => {
@@ -71,58 +63,26 @@ export const CardItem = ({ item }: { item: CardData }) => {
   };
 
   const editContent = () => {
-    setEdc(true);
+    setStrInputData({
+      open: true,
+      title: "Edit",
+      message: item.title,
+      value: item.content,
+      accept: (value: string) => {
+        const newState = { ...appCards() };
+        newState[item.id].content = value;
+        saveToStorage(personaCardsKey, newState);
+        netPublish(topicCardUpdate, [item]);
+      },
+      height: "8em",
+      multiline: true
+    } as StrInputState);
   };
 
-  const editContentUpdate = () => {
-    setEdc(false);
-    if (!refContent) return;
 
-    const newState = { ...appCards() };
-    newState[item.id].content = refContent.innerText;
-    saveToStorage(personaCardsKey, newState);
-    netPublish(topicCardUpdate, [item]);
-  };
-
-  const putIntoSession = (v: boolean) => {
-    if (appSessions().current.trim() == "") return;
-    let list: Record<string, PlaySession>;
-    const newState = { ...appSessions() };
-    list = newState.sessions;
-    if (!list) return;
-    if (v) {
-      if (Object.keys(list[newState.current].cards).includes(item.id)) return;
-      list[newState.current].cards[item.id] = { ...EmptySessionObjectMeta };
-      netPublish(topicCardUpdate, [item]);
-    } else {
-      if (!Object.keys(list[newState.current].cards).includes(item.id)) return;
-      delete list[newState.current].cards[item.id];
-      netPublish(topicCardDelete, [item.id]);
-    }
-    console.log("saving", newState);
-    saveToStorage(personaSessionsKey, newState);
-    netPublish(topicSessionInfo, list[newState.current]);
-  };
-
-  const isInSession = createMemo(() => {
-    return Object.keys(sessionCards()).includes(item.id);
-  });
-
-  const isPublic = createMemo(() => {
-    return item.isPublic;
-  })
-
-  const togglePublic = () => {
-    const cards = sessionCards();
-    const newState = { ...appCards() };
-    const c = Object.values(newState).filter((it) => {
-      return it.id == item.id;
-    });
-    if (c.length <= 0) return;
-    c[0].isPublic = !c[0].isPublic;
-    saveToStorage(personaCardsKey, newState);
-    netPublish(topicCardUpdate, [c[0]]);
-  };
+  const putCardOnTable = () => {
+    addCard(item.id, 100, 100);
+  }
 
 
   return (
@@ -134,54 +94,23 @@ export const CardItem = ({ item }: { item: CardData }) => {
               <FaSolidTrash color={themeVars.color.secondary} />
             </Button>
           </Flex>
-
           <Flex>
-            <Show when={!edc()}>
-              <Button size="small" onClick={editTitle}>
-                <FaSolidPencil color={themeVars.color.secondary} />
-                <Texte size="small">Title</Texte>
-              </Button>
-              <Button size="small" onClick={editContent}>
-                <FaSolidPencil color={themeVars.color.secondary} />
-                <Texte size="small">Content</Texte>
-              </Button>
-            </Show>
-            <Show when={edc()}>
-              <Button size="small" onClick={editContentUpdate}>
-                <FaSolidFloppyDisk color={themeVars.color.secondary} />
-                <Texte size="small">Update</Texte>
-              </Button>
-            </Show>
-
-            <Button size="small" onClick={() => putIntoSession(!isInSession())} selected={isInSession}>
-              {/* <FaSolidUsers color={isInSession() ? themeVars.color.background : themeVars.color.secondary} /> */}
-              <Texte size="small">Session</Texte>
+            <Button size="small" onClick={editTitle}>
+              <FaSolidPencil color={themeVars.color.secondary} />
+              <Texte size="small">Title</Texte>
             </Button>
-
-            <Button size="small" selected={isPublic} onClick={togglePublic}>
-              {/* <FaSolidEarthEurope /> */}
-              <Texte size="small">Public</Texte>
+            <Button size="small" onClick={editContent}>
+              <FaSolidPencil color={themeVars.color.secondary} />
+              <Texte size="small">Content</Texte>
             </Button>
-
-
+            <Button size="small" shape="icon" title="Put card on table" onClick={putCardOnTable}>
+              <FaSolidPlus />
+            </Button>
           </Flex>
         </Flex>
       </Show>
-      <Flex style={{ "margin-top": "10px" }}>
-        <Show when={edc()}>
-          <InputArea
-            transparent
-            style={{ width: "100%", "max-height": "55vh" }}
-            contentEditable={true}
-            border="full"
-            ref={(e) => (refContent = e)}
-          >
-            {item.content}
-          </InputArea>
-        </Show>
-        <Show when={!edc()}>
-          <Markdown content={item.content} />
-        </Show>
+      <Flex style={{ "margin-top": "10px", "white-space": "pre-line" }}>
+        {item.content}
       </Flex>
       <Show when={item.footer && item.footer.trim() != ""}>
         <Flex>{item.footer}</Flex>

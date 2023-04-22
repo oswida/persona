@@ -1,6 +1,6 @@
 import { Canvas, Circle, Rect, Text, Textbox, Image, Group } from "fabric";
 import { v4 as uuidv4 } from "uuid";
-import { appAssets, appCanvas, commonCanvasObjectProps, wbState } from "~/common";
+import { appAssets, appCanvas, appCards, commonCanvasObjectProps, wbState } from "~/common";
 
 
 // shadow: 'rgba(0,0,0,0.4) 5px 5px 7px',
@@ -92,4 +92,47 @@ export const addAsset = (id: string, x: number, y: number, title: string) => {
     }).catch((err) => {
         console.error(err);
     });
+}
+
+
+export const addCard = (id: string, x: number, y: number) => {
+    const textPadding = 5;
+    const cards = appCards();
+    const obj = cards[id];
+    if (!obj) return undefined;
+    const cnv = appCanvas();
+    if (!cnv) return;
+    const vpt = cnv.viewportTransform;
+    const title = new Text(obj.title, {
+        left: x + textPadding,
+        top: y + textPadding,
+        fill: wbState().stroke,
+        fontSize: 16,
+        fontWeight: "bold",
+    });
+    const content = new Text(obj.content, {
+        left: x + textPadding,
+        top: y + 24 + textPadding,
+        fill: wbState().stroke,
+        fontSize: 16,
+    });
+    const group = new Group([title, content]);
+    group.set({
+        ...commonCanvasObjectProps,
+        backgroundColor: wbState().fill,
+        shadow: 'rgba(0,0,0,0.4) 5px 5px 7px',
+        data: uuidv4(),
+    });
+    const brd = new Rect({
+        left: x - vpt[4],
+        top: y - vpt[5],
+        width: group.get('width') + 2 * +textPadding,
+        height: group.get('height') + 2 * +textPadding,
+        stroke: wbState().stroke,
+        fill: "transparent",
+    });
+    group.add(brd);
+    cnv.add(group);
+    cnv.requestRenderAll();
+    return group;
 }

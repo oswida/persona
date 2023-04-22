@@ -104,7 +104,8 @@ export const StrInputDialog = () => {
                 </InputArea>
               </Show>
               <Show when={!strInputData().multiline}>
-                <Input ref={(e) => { refInput = e; }} value={strInputData().value} style={{ width: strInputData().width }} />
+                <Input ref={(e) => { refInput = e; }}
+                  value={strInputData().value} style={{ width: strInputData().width }} />
               </Show>
               <Flex
                 center

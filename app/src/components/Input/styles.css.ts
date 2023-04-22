@@ -116,7 +116,7 @@ export const InputAreaStyle = recipe({
       textAlign: "left",
       overflowWrap: "anywhere",
       overflow: "auto",
-      whiteSpace: "pre-wrap",
+      whiteSpace: "pre-line",
       selectors: {
         "&[disabled]": {
           opacity: 0.3,

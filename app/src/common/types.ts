@@ -1,27 +1,13 @@
 import { DiceRoll } from "@dice-roller/rpg-dice-roller";
 import { v4 as uuidv4 } from "uuid";
 
-
-export type SessionObjectMeta = {
-  x: number;
-  y: number;
-  angle: number;
-}
-
-export const EmptySessionObjectMeta: SessionObjectMeta = {
-  x: 100,
-  y: 100,
-  angle: 0
-}
-
 export type PlaySession = {
   id: string;
   name: string;
   ownerId: string;
   players: string[];
-  cards: Record<string, SessionObjectMeta>;
-  assets: Record<string, SessionObjectMeta>;
   backgroundImg: string;
+  tableData: any;
 };
 
 export type SessionSettings = {

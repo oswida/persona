@@ -8,7 +8,6 @@ import {
   appSettings,
   personaCardsKey,
   saveToStorage,
-  sessionCards,
 } from "~/common";
 import {
   Accordion,
@@ -47,7 +46,6 @@ export const CardList = () => {
   const items = createMemo(() => {
     return Object.values(appCards())
       .filter((it) => filter() == "" || it.title.includes(filter()))
-      .filter((it) => !onlySession() || Object.keys(sessionCards()).includes(it.id))
       .filter(
         (it) => !onlyOwner() || appSettings().ident.browserID == it.owner
       )
@@ -89,18 +87,6 @@ export const CardList = () => {
         <Button onClick={create} title="Add new card">
           <FaSolidPlus />
         </Button>
-      </Flex>
-      <Flex style={{ "justify-content": "flex-end", padding: "5px" }}>
-        <Checkbox
-          label="Only current session"
-          value={onlySession()}
-          onChange={(v) => setOnlySession(v)}
-        />
-        <Checkbox
-          label="Only owned"
-          value={onlyOwner()}
-          onChange={(v) => setOnlyOwner(v)}
-        />
       </Flex>
       <div class={CardZoneStyle}>
         <Accordion items={items} />

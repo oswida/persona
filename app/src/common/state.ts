@@ -60,22 +60,10 @@ export const [mqttClient, setMqttClient] = createSignal<Client | undefined>(
 // Cards
 export const [cardsVisible, setCardsVisible] = createSignal(false);
 
-
-export const sessionCards = createMemo(() => {
-  if (appSessions().current.trim() == "") return {};
-  return appSessions().sessions[appSessions().current].cards;
-});
-
-export const sessionAssets = createMemo(() => {
-  if (appSessions().current.trim() == "") return {};
-  return appSessions().sessions[appSessions().current].assets;
-});
-
 export const currentSession = createMemo(() => {
   if (appSessions().current.trim() == "") return undefined;
   return appSessions().sessions[appSessions().current];
 });
-
 
 export type rightViewType = "chat" | "settings" | "session" | "dice" | "none";
 

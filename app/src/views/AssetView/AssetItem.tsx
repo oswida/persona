@@ -1,5 +1,5 @@
-import { Component, createMemo } from "solid-js";
-import { AssetType, EmptySessionObjectMeta, PlaySession, appAssets, appSessions, currentSession, netPublish, personaAssetsKey, personaCardsKey, personaSessionsKey, saveToStorage, sessionAssets, themeVars, topicCardDelete, topicCardUpdate, topicSessionInfo } from "~/common";
+import { Component } from "solid-js";
+import { AssetType, appAssets, personaAssetsKey, saveToStorage, themeVars } from "~/common";
 import { assetCtrlRowStyle, assetItemStyle } from "./styles.css";
 import { Button, ConfirmState, Flex, StrInputState, Texte, setConfirmData, setStrInputData } from "~/components";
 import { FaSolidPencil, FaSolidPlus, FaSolidTrash } from "solid-icons/fa";

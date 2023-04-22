@@ -1,6 +1,6 @@
 import { Component, createMemo, createSignal } from "solid-js";
 import { assetCtrlRowStyle, assetListStyle, assetRootStyle } from "./styles.css";
-import { Accordion, AccordionDesc, Button, Checkbox, Flex, Input, Texte } from "~/components";
+import { Accordion, AccordionDesc, Button, Flex, Input, Texte } from "~/components";
 import { AssetType, appAssets, personaAssetsKey, setAppStore } from "~/common";
 import { FaSolidDeleteLeft, FaSolidPlus } from "solid-icons/fa";
 import { AssetItem } from "./AssetItem";
