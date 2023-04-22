@@ -5,7 +5,6 @@ export const FlexStyle = recipe({
   base: [
     sprinkles({
       display: "flex",
-      gap: "small",
     }),
   ],
   variants: {
@@ -24,11 +23,18 @@ export const FlexStyle = recipe({
         overflow: "auto",
       },
     },
+    gap: {
+      "small": sprinkles({ gap: "small" }),
+      "medium": sprinkles({ gap: "medium" }),
+      "large": sprinkles({ gap: "large" }),
+      "em2": sprinkles({ gap: "em2" }),
+    }
   },
   defaultVariants: {
     type: "row",
     center: false,
     vcenter: false,
     scrolled: false,
+    gap: "small"
   },
 });

@@ -28,10 +28,6 @@ export const AssetView: Component = () => {
     const items = createMemo(() => {
         return Object.values(appAssets())
             .filter((it) => filter() == "" || it.name.includes(filter()))
-            //   .filter((it) => !onlySession() || sessionCards().includes(it.id))
-            //   .filter(
-            //     (it) => !onlyOwner() || appSettings().ident.browserID == it.owner
-            //   )
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((it) => {
                 return {

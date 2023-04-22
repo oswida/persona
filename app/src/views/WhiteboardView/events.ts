@@ -1,8 +1,8 @@
 import { Canvas, Circle, Ellipse, Line, Point, Rect, Textbox, Triangle } from "fabric";
-import { appCards, appSessions, commonCanvasObjectProps, drawTool, personaSessionsKey, saveToStorage, sessionAssets, sessionCards, wbState } from "~/common";
-import { addShape, addText } from "./helper";
+import { commonCanvasObjectProps, drawTool, wbState } from "~/common";
 import { Accessor } from "solid-js";
 import { StrInputState, setStrInputData } from "~/components";
+import { v4 as uuidv4 } from "uuid";
 
 let isDragging = false;
 let isMouseDown = false;
@@ -236,38 +236,46 @@ export const initEvents = (canvas: Accessor<Canvas | undefined>) => {
         }
         cnv.selection = true;
     });
+    cnv.on("object:added", (opt) => {
+        if (opt.target.type === "path") {
+            opt.target.set({
+                data: uuidv4(),
+                ...commonCanvasObjectProps
+            });
+        }
+    });
     cnv.on("object:modified", function (opt) {
         const cnv = canvas();
         if (!cnv) return;
-        const id = opt.target.get("data");
-        if (!id || id == "") return;
-        let otype = "card";
-        let obj = sessionCards()[id];
-        if (!obj) {
-            obj = sessionAssets()[id];
-            otype = "asset";
-        }
-        if (!obj) return;
-        switch (otype) {
-            case "card":
-                {
-                    const newState = { ...appSessions() };
-                    newState.sessions[newState.current].cards[id].x = opt.target.left;
-                    newState.sessions[newState.current].cards[id].y = opt.target.top;
-                    newState.sessions[newState.current].cards[id].angle = opt.target.angle;
-                    saveToStorage(personaSessionsKey, newState);
-                }
-                break;
-            case "asset":
-                {
-                    const newState = { ...appSessions() };
-                    newState.sessions[newState.current].assets[id].x = opt.target.left;
-                    newState.sessions[newState.current].assets[id].y = opt.target.top;
-                    newState.sessions[newState.current].assets[id].angle = opt.target.angle;
-                    saveToStorage(personaSessionsKey, newState);
-                }
-                break;
-        }
-
+        console.log(opt);
+        // const id = opt.target.get("data");
+        // if (!id || id == "") return;
+        // let otype = "card";
+        // let obj = sessionCards()[id];
+        // if (!obj) {
+        //     obj = sessionAssets()[id];
+        //     otype = "asset";
+        // }
+        // if (!obj) return;
+        // switch (otype) {
+        //     case "card":
+        //         {
+        //             const newState = { ...appSessions() };
+        //             newState.sessions[newState.current].cards[id].x = opt.target.left;
+        //             newState.sessions[newState.current].cards[id].y = opt.target.top;
+        //             newState.sessions[newState.current].cards[id].angle = opt.target.angle;
+        //             saveToStorage(personaSessionsKey, newState);
+        //         }
+        //         break;
+        //     case "asset":
+        //         {
+        //             const newState = { ...appSessions() };
+        //             newState.sessions[newState.current].assets[id].x = opt.target.left;
+        //             newState.sessions[newState.current].assets[id].y = opt.target.top;
+        //             newState.sessions[newState.current].assets[id].angle = opt.target.angle;
+        //             saveToStorage(personaSessionsKey, newState);
+        //         }
+        //         break;
+        // }
     });
 }

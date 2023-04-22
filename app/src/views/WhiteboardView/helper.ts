@@ -1,6 +1,6 @@
-import { Canvas, Circle, Rect, Text, Textbox } from "fabric";
+import { Canvas, Circle, Rect, Text, Textbox, Image, Group } from "fabric";
 import { v4 as uuidv4 } from "uuid";
-import { appCanvas, commonCanvasObjectProps, wbState } from "~/common";
+import { appAssets, appCanvas, commonCanvasObjectProps, wbState } from "~/common";
 
 
 // shadow: 'rgba(0,0,0,0.4) 5px 5px 7px',
@@ -14,6 +14,7 @@ export const addText = (x: number, y: number, data?: string) => {
         top: y - vpt[5],
         fill: wbState().stroke,
         fontSize: 22,
+        data: uuidv4(),
         ...commonCanvasObjectProps
     });
     canvas.add(result);
@@ -38,6 +39,7 @@ export const addShape = (shape: DrawShapeType, x: number, y: number) => {
                 stroke: wbState().stroke,
                 strokeWidth: wbState().width,
                 radius: 20,
+                data: uuidv4(),
                 ...commonCanvasObjectProps
             });
             break;
@@ -50,6 +52,7 @@ export const addShape = (shape: DrawShapeType, x: number, y: number) => {
                 strokeWidth: wbState().width,
                 width: 20,
                 height: 20,
+                data: uuidv4(),
                 ...commonCanvasObjectProps
             });
             break;
@@ -59,4 +62,34 @@ export const addShape = (shape: DrawShapeType, x: number, y: number) => {
         canvas.requestRenderAll();
     }
     return result;
+}
+
+export const addAsset = (id: string, x: number, y: number, title: string) => {
+    const assets = appAssets();
+    if (!assets) return undefined;
+    const obj = assets[id];
+    if (!obj) return undefined;
+    Image.fromURL(obj.uri).then((img: any) => {
+        const cnv = appCanvas();
+        if (!cnv) return;
+        const vpt = cnv.viewportTransform;
+        const grp = new Group([img]);
+        grp.set({
+            left: x - vpt[4],
+            top: y - vpt[5],
+            data: uuidv4(),
+            ...commonCanvasObjectProps
+        });
+        cnv.add(grp);
+        const ttl = new Text(title, {
+            left: grp.getX(),
+            top: grp.getY() + grp.height,
+            fontSize: 16,
+            fill: wbState().stroke,
+        });
+        grp.add(ttl);
+        cnv.requestRenderAll();
+    }).catch((err) => {
+        console.error(err);
+    });
 }

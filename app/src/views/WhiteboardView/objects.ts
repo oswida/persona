@@ -51,21 +51,3 @@ export const createCardObject = (id: string, x: number, y: number, angle: number
     return group;
 }
 
-export const createAssetObject = (canvas: Canvas, id: string, x: number, y: number, angle: number) => {
-    const assets = appAssets();
-    if (!assets) return undefined;
-    const obj = assets[id];
-    if (!obj) return undefined;
-    Image.fromURL(obj.uri).then((img: any) => {
-        img.set({
-            left: x,
-            top: y,
-            data: id,
-            angle: angle,
-            ...commonCanvasObjectProps
-        });
-        canvas.add(img);
-    }).catch((err) => {
-        console.error(err);
-    });
-}

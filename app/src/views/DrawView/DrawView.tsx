@@ -1,21 +1,20 @@
 import { Component, For, createMemo, createSignal } from "solid-js";
 import { DrawViewRootStyle } from "./styles.css";
-import { Button, Flex, Select, SelectOption, Texte } from "~/components";
+import { Button, Flex, Input, Select, SelectOption, StrInputState, Texte, setStrInputData } from "~/components";
 import {
     FaRegularCircle, FaRegularSquare, FaSolid1,
     FaSolid2, FaSolid3, FaSolid4, FaSolid5, FaSolidA, FaSolidArrowPointer,
-    FaSolidBezierCurve,
-    FaSolidDrawPolygon,
-    FaSolidEraser, FaSolidLinesLeaning, FaSolidPalette, FaSolidPen, FaSolidPenFancy, FaSolidPlus
+    FaSolidDeleteLeft,
+    FaSolidEraser, FaSolidLinesLeaning, FaSolidPalette, FaSolidPenFancy, FaSolidPlus
 } from "solid-icons/fa";
 import { FiTriangle } from "solid-icons/fi";
-import { appAssets, appCanvas, drawColors, drawTool, setDrawTool, setWbState, wbState } from "~/common";
-import { createAssetObject } from "../WhiteboardView/objects";
-
-
+import { appAssets, drawColors, drawTool, setDrawTool, setWbState, wbState } from "~/common";
+import { addAsset } from "../WhiteboardView/helper";
 
 export const DrawView: Component = () => {
     const [selAsset, setSelAsset] = createSignal<string>("");
+    const [filter, setFilter] = createSignal("");
+    let refFlt: HTMLInputElement;
 
     const setStrokeColor = (color: string) => {
         setWbState((prev) => ({ ...prev, stroke: color }));
@@ -30,9 +29,11 @@ export const DrawView: Component = () => {
     }
 
     const assets = createMemo(() => {
-        return Object.values(appAssets()).map((it) => {
-            return { label: it.name, value: it.id } as SelectOption;
-        });
+        return Object.values(appAssets())
+            .filter((it) => filter() == "" || it.name.toLowerCase().includes(filter().toLowerCase()))
+            .map((it) => {
+                return { label: it.name, value: it.id } as SelectOption;
+            });
     });
 
     const assetChange = (sel: SelectOption | null) => {
@@ -42,10 +43,29 @@ export const DrawView: Component = () => {
 
     const insertAsset = () => {
         const a = selAsset();
-        const cnv = appCanvas();
-        if (a === "" || !cnv) return;
-        createAssetObject(cnv, a, 100, 100, 0);
+        if (a === "") return;
+        setStrInputData({
+            open: true,
+            title: "Add asset",
+            message: "Input asset name",
+            value: "name",
+            accept: (value: string) => {
+                addAsset(a, 100, 100, value);
+            },
+            width: "10em",
+        } as StrInputState);
     }
+
+    const flt = () => {
+        if (!refFlt) return;
+        setFilter(refFlt.value.trim());
+    };
+
+    const clear = () => {
+        if (!refFlt) return;
+        setFilter("");
+        refFlt.value = "";
+    };
 
 
     return <div class={DrawViewRootStyle}>
@@ -146,12 +166,22 @@ export const DrawView: Component = () => {
             </Button>
         </Flex>
         <Texte size="small">Assets</Texte>
-        <Flex>
-            <Select options={assets}
-                onChange={assetChange} />
+        <Flex vcenter >
+            <Select options={assets} onChange={assetChange} />
             <Button shape="icon" title="Insert selected asset" onClick={insertAsset}>
                 <FaSolidPlus />
             </Button>
+            <Flex vcenter style={{ "justify-content": "flex-end", "margin-left": "10px" }}>
+                <Texte size="small">Filter: </Texte>
+                <Input size="small"
+                    underline transparent
+                    ref={(e) => (refFlt = e)}
+                    onInput={flt}
+                    style={{ width: "8em" }} />
+                <Button shape="icon" size="small" onClick={clear}>
+                    <FaSolidDeleteLeft />
+                </Button>
+            </Flex>
         </Flex>
     </div>
 }

@@ -6,6 +6,7 @@ type Props = {
   center?: boolean;
   vcenter?: boolean;
   scrolled?: boolean;
+  gap?: "small" | "medium" | "large" | "em2";
 };
 
 export const Flex = ({
@@ -16,6 +17,7 @@ export const Flex = ({
   scrolled,
   style,
   title,
+  gap,
 }: ComponentProps<"div"> & Props) => {
   return (
     <div
@@ -24,6 +26,7 @@ export const Flex = ({
         center: center,
         vcenter: vcenter,
         scrolled: scrolled,
+        gap: gap,
       })}
       style={style}
       title={title}
