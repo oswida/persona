@@ -136,3 +136,4 @@ export const addCard = (id: string, x: number, y: number) => {
     cnv.requestRenderAll();
     return group;
 }
+

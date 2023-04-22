@@ -8,13 +8,16 @@ import {
     FaSolidEraser, FaSolidLinesLeaning, FaSolidPalette, FaSolidPenFancy, FaSolidPlus
 } from "solid-icons/fa";
 import { FiTriangle } from "solid-icons/fi";
-import { appAssets, drawColors, drawTool, setDrawTool, setWbState, wbState } from "~/common";
-import { addAsset } from "../WhiteboardView/helper";
+import { appAssets, appCanvas, appCards, drawColors, drawTool, exportData, importData, prettyToday, setDrawTool, setWbState, wbState } from "~/common";
+import { addAsset, addCard } from "../WhiteboardView/helper";
 
 export const DrawView: Component = () => {
     const [selAsset, setSelAsset] = createSignal<string>("");
+    const [selCard, setSelCard] = createSignal<string>("");
     const [filter, setFilter] = createSignal("");
+    const [filter2, setFilter2] = createSignal("");
     let refFlt: HTMLInputElement;
+    let refFlt2: HTMLInputElement;
 
     const setStrokeColor = (color: string) => {
         setWbState((prev) => ({ ...prev, stroke: color }));
@@ -33,6 +36,14 @@ export const DrawView: Component = () => {
             .filter((it) => filter() == "" || it.name.toLowerCase().includes(filter().toLowerCase()))
             .map((it) => {
                 return { label: it.name, value: it.id } as SelectOption;
+            });
+    });
+
+    const cards = createMemo(() => {
+        return Object.values(appCards())
+            .filter((it) => filter2() == "" || it.title.toLowerCase().includes(filter2().toLowerCase()))
+            .map((it) => {
+                return { label: it.title, value: it.id } as SelectOption;
             });
     });
 
@@ -56,9 +67,25 @@ export const DrawView: Component = () => {
         } as StrInputState);
     }
 
+    const cardChange = (sel: SelectOption | null) => {
+        if (!sel) return;
+        setSelCard(sel.value);
+    }
+
+    const insertCard = () => {
+        const c = selCard();
+        if (c === "") return;
+        addCard(c, 100, 100);
+    }
+
     const flt = () => {
         if (!refFlt) return;
         setFilter(refFlt.value.trim());
+    };
+
+    const flt2 = () => {
+        if (!refFlt2) return;
+        setFilter2(refFlt2.value.trim());
     };
 
     const clear = () => {
@@ -67,6 +94,30 @@ export const DrawView: Component = () => {
         refFlt.value = "";
     };
 
+    const clear2 = () => {
+        if (!refFlt2) return;
+        setFilter2("");
+        refFlt2.value = "";
+    };
+
+    const exportTable = () => {
+        const cnv = appCanvas();
+        if (!cnv) return;
+        const data = cnv.toJSON();
+        const filename = `table-${prettyToday()}.json`;
+        exportData(data, filename);
+    };
+
+    const importTable = () => {
+        importData(async (data: any) => {
+            const cnv = appCanvas();
+            if (!cnv) return;
+            cnv.loadFromJSON(data, () => { }).then((canvas) => {
+                canvas.requestRenderAll();
+                // TODO: publish if hosting
+            });
+        });
+    };
 
     return <div class={DrawViewRootStyle}>
         <Texte size="bigger">Draw Tools</Texte>
@@ -182,6 +233,33 @@ export const DrawView: Component = () => {
                     <FaSolidDeleteLeft />
                 </Button>
             </Flex>
+        </Flex>
+        <Texte size="small">Cards</Texte>
+        <Flex vcenter >
+            <Select options={cards} onChange={cardChange} />
+            <Button shape="icon" title="Insert selected card" onClick={insertCard}>
+                <FaSolidPlus />
+            </Button>
+            <Flex vcenter style={{ "justify-content": "flex-end", "margin-left": "10px" }}>
+                <Texte size="small">Filter: </Texte>
+                <Input size="small"
+                    underline transparent
+                    ref={(e) => (refFlt2 = e)}
+                    onInput={flt2}
+                    style={{ width: "8em" }} />
+                <Button shape="icon" size="small" onClick={clear2}>
+                    <FaSolidDeleteLeft />
+                </Button>
+            </Flex>
+        </Flex>
+        <Texte size="small">Actions</Texte>
+        <Flex>
+            <Button onClick={exportTable} title="Export table">
+                Export table
+            </Button>
+            <Button onClick={importTable} title="Import table">
+                Import table
+            </Button>
         </Flex>
     </div>
 }

@@ -23,8 +23,6 @@ import { CardListStyle, CardZoneStyle } from "./styles.css";
 
 export const CardList = () => {
   const [filter, setFilter] = createSignal("");
-  const [onlySession, setOnlySession] = createSignal(false);
-  const [onlyOwner, setOnlyOwner] = createSignal(false);
 
   let refFlt: HTMLInputElement;
 
@@ -46,9 +44,6 @@ export const CardList = () => {
   const items = createMemo(() => {
     return Object.values(appCards())
       .filter((it) => filter() == "" || it.title.includes(filter()))
-      .filter(
-        (it) => !onlyOwner() || appSettings().ident.browserID == it.owner
-      )
       .sort((a, b) => a.title.localeCompare(b.title))
       .map((it) => {
         return {
