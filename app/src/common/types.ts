@@ -175,8 +175,27 @@ export type StorageItemType = Settings |
   SessionSettings |
   Record<string, CardData> |
   string |
-  Record<string, AssetType>;
+  Record<string, AssetType> |
+  Record<string, CounterData>;
 
 export type DrawToolType = "text" | "rectangle" | "circle" |
   "ellipse" | "triangle" | "freedraw" | "select" |
   "eraser" | "line" | "note";
+
+
+export type CounterData = {
+  id: string;
+  owner: string;
+  title: string;
+  ctype: "clock" | "resource";
+  maxval: number;
+}
+
+export type CounterMeta = {
+  currentVal: number;
+  id: string;
+  counterId: string;
+  title: string;
+  counterRef?: Object;
+  titleRef: Object;
+}

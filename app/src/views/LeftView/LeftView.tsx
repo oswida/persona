@@ -1,12 +1,13 @@
 import { Button } from "~/components"
 import { leftViewIconsStyle, leftViewRootStyle } from "./styles.css"
-import { FaSolidIdCard, FaSolidImage, FaSolidPaintbrush } from "solid-icons/fa"
+import { FaSolidClock, FaSolidIdCard, FaSolidImage, FaSolidPaintbrush } from "solid-icons/fa"
 import { leftViewType, selectedLeftView, setSelectedLeftView } from "~/common"
 import { Component, Show } from "solid-js"
 import { CardList } from "../CardView"
 import { AssetView } from "../AssetView/AssetView"
 import { DrawView } from "../DrawView"
 import { Canvas } from "fabric"
+import { CounterView } from "../CounterView"
 
 
 export const LeftView: Component = () => {
@@ -29,6 +30,9 @@ export const LeftView: Component = () => {
         <Show when={selectedLeftView() === "draw"}>
             <DrawView />
         </Show>
+        <Show when={selectedLeftView() === "counters"}>
+            <CounterView />
+        </Show>
         <div class={leftViewIconsStyle}>
             <Button
                 onClick={() => activateView("cards")}
@@ -43,6 +47,13 @@ export const LeftView: Component = () => {
                 shape="icon"
             >
                 <FaSolidImage />
+            </Button>
+            <Button
+                onClick={() => activateView("counters")}
+                selected={() => { return selectedLeftView() === "counters" }}
+                shape="icon"
+            >
+                <FaSolidClock />
             </Button>
             <Button
                 onClick={() => activateView("draw")}
