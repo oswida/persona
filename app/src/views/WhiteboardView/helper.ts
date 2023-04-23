@@ -10,6 +10,10 @@ export const addAsset = (id: string, x: number, y: number, title: string) => {
     if (!obj) return undefined;
     Image.fromURL(obj.uri).then((img: any) => {
         const cnv = appCanvas();
+        img.set({
+            scaleX: obj.scale,
+            scaleY: obj.scale
+        })
         if (!cnv) return;
         const vpt = cnv.viewportTransform;
         const grp = new Group([img]);
@@ -27,6 +31,7 @@ export const addAsset = (id: string, x: number, y: number, title: string) => {
             fill: wbState().stroke,
         });
         grp.add(ttl);
+        addControl("del", grp, 0.5, -0.5, -16, 16, () => { canvasRemoveActive(); }, xmarkImg);
         cnv.requestRenderAll();
     }).catch((err) => {
         console.error(err);
@@ -71,6 +76,7 @@ export const addCard = (id: string, x: number, y: number) => {
         fill: "transparent",
     });
     group.add(brd);
+    addControl("del", group, 0.5, -0.5, -16, 16, () => { canvasRemoveActive(); }, xmarkImg);
     cnv.add(group);
     cnv.requestRenderAll();
     return group;

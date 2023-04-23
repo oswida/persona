@@ -1,12 +1,12 @@
 import { Component } from "solid-js";
-import { AssetType, appAssets, personaAssetsKey, saveToStorage, themeVars } from "~/common";
-import { assetCtrlRowStyle, assetItemStyle } from "./styles.css";
+import { AssetData, appAssets, personaAssetsKey, saveToStorage, themeVars } from "~/common";
+import { assetItemStyle } from "./styles.css";
 import { Button, ConfirmState, Flex, StrInputState, Texte, setConfirmData, setStrInputData } from "~/components";
 import { FaSolidPencil, FaSolidPlus, FaSolidTrash } from "solid-icons/fa";
 import { addAsset } from "../WhiteboardView/helper";
 
 type Props = {
-    item: AssetType;
+    item: AssetData;
 }
 
 export const AssetItem: Component<Props> = ({ item }) => {
@@ -31,10 +31,31 @@ export const AssetItem: Component<Props> = ({ item }) => {
             message: "",
             value: item.name,
             accept: (value: string) => {
-                const newState = { ...appAssets() };
-                console.log(newState, item);
-                newState[item.id].name = value;
-                console.log(newState);
+                const newState = {
+                    ...appAssets(), [item.id]: {
+                        ...appAssets()[item.id], name: value
+                    }
+                };
+                saveToStorage(personaAssetsKey, newState);
+            },
+            multiline: false
+        } as StrInputState);
+    };
+
+    const editScale = () => {
+        setStrInputData({
+            open: true,
+            title: "Edit scale",
+            message: "",
+            value: item.scale.toString(),
+            accept: (value: string) => {
+                const num = Number.parseFloat(value);
+                if (Number.isNaN(num)) return;
+                const newState = {
+                    ...appAssets(), [item.id]: {
+                        ...appAssets()[item.id], scale: num
+                    }
+                };
                 saveToStorage(personaAssetsKey, newState);
             },
             multiline: false
@@ -48,8 +69,11 @@ export const AssetItem: Component<Props> = ({ item }) => {
             message: "",
             value: item.uri,
             accept: (value: string) => {
-                const newState = { ...appAssets() };
-                newState[item.id].uri = value;
+                const newState = {
+                    ...appAssets(), [item.id]: {
+                        ...appAssets()[item.id], uri: value
+                    }
+                };
                 saveToStorage(personaAssetsKey, newState);
             },
             height: "4em",
@@ -60,7 +84,7 @@ export const AssetItem: Component<Props> = ({ item }) => {
     const insertAsset = () => {
         setStrInputData({
             open: true,
-            title: "Add asset",
+            title: "Add asset to table",
             message: "Input asset name",
             value: "name",
             accept: (value: string) => {
@@ -71,7 +95,7 @@ export const AssetItem: Component<Props> = ({ item }) => {
     }
 
     return <div class={assetItemStyle}>
-        <div class={assetCtrlRowStyle}>
+        <Flex style={{ "justify-content": "space-between" }}>
             <Flex style={{ gap: "10px" }}>
                 <Button onClick={deleteAsset} title="Delete asset" size="small">
                     <FaSolidTrash color={themeVars.color.secondary} />
@@ -86,11 +110,16 @@ export const AssetItem: Component<Props> = ({ item }) => {
                     <FaSolidPencil color={themeVars.color.secondary} />
                     <Texte size="small">URI</Texte>
                 </Button>
+                <Button size="small" onClick={editScale}>
+                    <FaSolidPencil color={themeVars.color.secondary} />
+                    <Texte size="small">Scale</Texte>
+                </Button>
                 <Button size="small" shape="icon" onClick={insertAsset} title="Put on table">
                     <FaSolidPlus />
                 </Button>
             </Flex>
-        </div>
+        </Flex>
+        <Texte size="small" style={{ padding: "10px", "overflow-wrap": "anywhere" }}>Scale: {item.scale}</Texte>
         <Texte size="small" style={{ padding: "10px", "overflow-wrap": "anywhere" }}>{item.uri}</Texte>
         <img src={item.uri} style={{ "max-width": "25vw", "align-self": "center" }} />
     </div>

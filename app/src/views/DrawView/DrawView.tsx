@@ -1,26 +1,23 @@
 import { Component, For, createMemo, createSignal } from "solid-js";
 import { DrawViewRootStyle } from "./styles.css";
-import { Button, Flex, Input, Select, SelectOption, StrInputState, Texte, setStrInputData } from "~/components";
+import { Button, Flex, SelectOption, StrInputState, Texte, setStrInputData } from "~/components";
 import {
     FaRegularCircle, FaRegularSquare, FaSolid1,
     FaSolid2, FaSolid3, FaSolid4, FaSolid5, FaSolidA, FaSolidArrowPointer,
-    FaSolidDeleteLeft,
-    FaSolidEraser, FaSolidLinesLeaning, FaSolidPalette, FaSolidPenFancy, FaSolidPlus
+    FaSolidEraser, FaSolidLinesLeaning, FaSolidPalette, FaSolidPenFancy
 } from "solid-icons/fa";
 import { FiTriangle } from "solid-icons/fi";
 import { appAssets, appCanvas, appCards, appCounters, drawColors, drawTool, exportData, importData, prettyToday, setDrawTool, setWbState, wbState } from "~/common";
 import { addAsset, addCard, addCounter } from "../WhiteboardView/helper";
+import { ListTool } from "./ListTool";
 
 export const DrawView: Component = () => {
     const [selAsset, setSelAsset] = createSignal<string>("");
     const [selCard, setSelCard] = createSignal<string>("");
     const [selCounter, setSelCounter] = createSignal<string>("");
-    const [filter, setFilter] = createSignal("");
-    const [filter2, setFilter2] = createSignal("");
-    const [filter3, setFilter3] = createSignal("");
-    let refFlt: HTMLInputElement;
-    let refFlt2: HTMLInputElement;
-    let refFlt3: HTMLInputElement;
+    const [assetFilter, setAssetFilter] = createSignal("");
+    const [cardFilter, setCardFilter] = createSignal("");
+    const [counterFilter, setCounterFilter] = createSignal("");
 
     const setStrokeColor = (color: string) => {
         setWbState((prev) => ({ ...prev, stroke: color }));
@@ -36,7 +33,7 @@ export const DrawView: Component = () => {
 
     const assets = createMemo(() => {
         return Object.values(appAssets())
-            .filter((it) => filter() == "" || it.name.toLowerCase().includes(filter().toLowerCase()))
+            .filter((it) => assetFilter() == "" || it.name.toLowerCase().includes(assetFilter().toLowerCase()))
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((it) => {
                 return { label: it.name, value: it.id } as SelectOption;
@@ -45,7 +42,7 @@ export const DrawView: Component = () => {
 
     const cards = createMemo(() => {
         return Object.values(appCards())
-            .filter((it) => filter2() == "" || it.title.toLowerCase().includes(filter2().toLowerCase()))
+            .filter((it) => cardFilter() == "" || it.title.toLowerCase().includes(cardFilter().toLowerCase()))
             .sort((a, b) => a.title.localeCompare(b.title))
             .map((it) => {
                 return { label: it.title, value: it.id } as SelectOption;
@@ -54,7 +51,7 @@ export const DrawView: Component = () => {
 
     const counters = createMemo(() => {
         return Object.values(appCounters())
-            .filter((it) => filter3() == "" || it.title.toLowerCase().includes(filter3().toLowerCase()))
+            .filter((it) => counterFilter() == "" || it.title.toLowerCase().includes(counterFilter().toLowerCase()))
             .sort((a, b) => a.title.localeCompare(b.title))
             .map((it) => {
                 return { label: it.title, value: it.id } as SelectOption;
@@ -113,39 +110,6 @@ export const DrawView: Component = () => {
             width: "10em",
         } as StrInputState);
     }
-
-    const flt = () => {
-        if (!refFlt) return;
-        setFilter(refFlt.value.trim());
-    };
-
-    const flt2 = () => {
-        if (!refFlt2) return;
-        setFilter2(refFlt2.value.trim());
-    };
-
-    const flt3 = () => {
-        if (!refFlt3) return;
-        setFilter3(refFlt3.value.trim());
-    };
-
-    const clear = () => {
-        if (!refFlt) return;
-        setFilter("");
-        refFlt.value = "";
-    };
-
-    const clear2 = () => {
-        if (!refFlt2) return;
-        setFilter2("");
-        refFlt2.value = "";
-    };
-
-    const clear3 = () => {
-        if (!refFlt3) return;
-        setFilter3("");
-        refFlt3.value = "";
-    };
 
     const exportTable = () => {
         const cnv = appCanvas();
@@ -264,59 +228,26 @@ export const DrawView: Component = () => {
             </Button>
         </Flex>
         <Texte size="small">Assets</Texte>
-        <Flex vcenter >
-            <Select options={assets} onChange={assetChange} />
-            <Button shape="icon" title="Insert selected asset" onClick={insertAsset}>
-                <FaSolidPlus />
-            </Button>
-            <Flex vcenter style={{ "justify-content": "flex-end", "margin-left": "10px" }}>
-                <Texte size="small">Filter: </Texte>
-                <Input size="small"
-                    underline transparent
-                    ref={(e) => (refFlt = e)}
-                    onInput={flt}
-                    style={{ width: "8em" }} />
-                <Button shape="icon" size="small" onClick={clear}>
-                    <FaSolidDeleteLeft />
-                </Button>
-            </Flex>
-        </Flex>
+        <ListTool
+            options={assets}
+            optionChange={assetChange}
+            action={insertAsset}
+            applyFilter={(value: string) => setAssetFilter(value)}
+        />
         <Texte size="small">Cards</Texte>
-        <Flex vcenter >
-            <Select options={cards} onChange={cardChange} />
-            <Button shape="icon" title="Insert selected card" onClick={insertCard}>
-                <FaSolidPlus />
-            </Button>
-            <Flex vcenter style={{ "justify-content": "flex-end", "margin-left": "10px" }}>
-                <Texte size="small">Filter: </Texte>
-                <Input size="small"
-                    underline transparent
-                    ref={(e) => (refFlt2 = e)}
-                    onInput={flt2}
-                    style={{ width: "8em" }} />
-                <Button shape="icon" size="small" onClick={clear2}>
-                    <FaSolidDeleteLeft />
-                </Button>
-            </Flex>
-        </Flex>
+        <ListTool
+            options={cards}
+            optionChange={cardChange}
+            action={insertCard}
+            applyFilter={(value: string) => setCardFilter(value)}
+        />
         <Texte size="small">Counters</Texte>
-        <Flex vcenter >
-            <Select options={counters} onChange={counterChange} />
-            <Button shape="icon" title="Insert selected counter" onClick={insertCounter}>
-                <FaSolidPlus />
-            </Button>
-            <Flex vcenter style={{ "justify-content": "flex-end", "margin-left": "10px" }}>
-                <Texte size="small">Filter: </Texte>
-                <Input size="small"
-                    underline transparent
-                    ref={(e) => (refFlt3 = e)}
-                    onInput={flt3}
-                    style={{ width: "8em" }} />
-                <Button shape="icon" size="small" onClick={clear3}>
-                    <FaSolidDeleteLeft />
-                </Button>
-            </Flex>
-        </Flex>
+        <ListTool
+            options={counters}
+            optionChange={counterChange}
+            action={insertCounter}
+            applyFilter={(value: string) => setCounterFilter(value)}
+        />
         <Texte size="small">Actions</Texte>
         <Flex>
             <Button onClick={exportTable} title="Export table">

@@ -1,5 +1,5 @@
-import { FaSolidFloppyDisk, FaSolidPencil, FaSolidPlus, FaSolidTrash } from "solid-icons/fa";
-import { createMemo, createSignal, Show } from "solid-js";
+import { FaSolidPencil, FaSolidPlus, FaSolidTrash } from "solid-icons/fa";
+import { Show } from "solid-js";
 import {
   appCards,
   appSettings,
@@ -14,8 +14,6 @@ import {
 import {
   Button,
   Flex,
-  InputArea,
-  Markdown,
   setStrInputData,
   StrInputState,
   Texte,
@@ -28,7 +26,6 @@ import { CardStyle } from "./styles.css";
 import { addCard } from "../WhiteboardView/helper";
 
 export const CardItem = ({ item }: { item: CardData }) => {
-  let refContent: HTMLDivElement;
 
   const deleteCard = () => {
     setConfirmData({
@@ -38,9 +35,7 @@ export const CardItem = ({ item }: { item: CardData }) => {
       accept: () => {
         const data = appCards();
         if (!data) return;
-        const vals = Object.values(data).filter((v) => v.id != item.id);
-        const newState = {};
-        Object.assign(newState, vals);
+        const newState = { ...Object.values(data).filter((v) => v.id != item.id) };
         saveToStorage(personaCardsKey, newState);
         netPublish(topicCardDelete, [item.id]);
       },
@@ -54,8 +49,11 @@ export const CardItem = ({ item }: { item: CardData }) => {
       message: "",
       value: item.title,
       accept: (value: string) => {
-        const newState = { ...appCards() };
-        newState[item.id].title = value;
+        const newState = {
+          ...appCards(), [item.id]: {
+            ...appCards()[item.id], title: value
+          }
+        };
         saveToStorage(personaCardsKey, newState);
         netPublish(topicCardUpdate, [item]);
       },
@@ -69,8 +67,11 @@ export const CardItem = ({ item }: { item: CardData }) => {
       message: item.title,
       value: item.content,
       accept: (value: string) => {
-        const newState = { ...appCards() };
-        newState[item.id].content = value;
+        const newState = {
+          ...appCards(), [item.id]: {
+            ...appCards()[item.id], content: value
+          }
+        };
         saveToStorage(personaCardsKey, newState);
         netPublish(topicCardUpdate, [item]);
       },
@@ -79,11 +80,9 @@ export const CardItem = ({ item }: { item: CardData }) => {
     } as StrInputState);
   };
 
-
   const putCardOnTable = () => {
     addCard(item.id, 100, 100);
   }
-
 
   return (
     <div class={CardStyle}>

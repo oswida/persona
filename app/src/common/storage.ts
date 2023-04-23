@@ -1,7 +1,7 @@
 import {
   setStorageSize,
 } from "./state";
-import { AssetType, CardData, CounterData, emptySessions, emptySettings, SessionSettings, Settings, StorageItemType } from "./types";
+import { AssetData, CardData, CounterData, emptySessions, emptySettings, GameData, SessionSettings, Settings, StorageItemType } from "./types";
 import { compressData, decompressData } from "./util";
 import { createLocalStorage } from "@solid-primitives/storage";
 
@@ -11,6 +11,7 @@ export const personaCardsKey = "cards";
 export const personaSessionsKey = "sessions";
 export const personaAssetsKey = "assets";
 export const personaCountersKey = "counters";
+export const personaGamesKey = "games";
 
 export const [appStore, setAppStore, { remove, clear, toJSON }] = createLocalStorage({
   prefix: 'persona',
@@ -20,8 +21,9 @@ export const [appStore, setAppStore, { remove, clear, toJSON }] = createLocalSto
       case "settings": return decompressData(value) as Settings;
       case "session": return decompressData(value) as SessionSettings;
       case "cards": return decompressData(value) as Record<string, CardData>;
-      case "assets": return decompressData(value) as Record<string, AssetType>;
+      case "assets": return decompressData(value) as Record<string, AssetData>;
       case "counters": return decompressData(value) as Record<string, CounterData>;
+      case "games": return decompressData(value) as Record<string, GameData>;
       default: return decompressData(value) as string;
     }
   }
@@ -39,7 +41,8 @@ export const updateStoreSize = () => {
     personaCardsKey,
     personaSessionsKey,
     personaAssetsKey,
-    personaCountersKey
+    personaCountersKey,
+    personaGamesKey
   ];
   keys.forEach((k) => {
     const data = localStorage.getItem(`persona.${k}`);
@@ -77,7 +80,7 @@ export const appCards = () => {
 };
 
 export const appAssets = () => {
-  let assets = appStore.assets as Record<string, AssetType>;
+  let assets = appStore.assets as Record<string, AssetData>;
   if (!assets) {
     assets = {};
     setAppStore(personaAssetsKey, assets);

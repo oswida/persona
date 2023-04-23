@@ -3,7 +3,7 @@ import { leftViewIconsStyle, leftViewRootStyle } from "./styles.css"
 import { FaSolidClock, FaSolidIdCard, FaSolidImage, FaSolidPaintbrush } from "solid-icons/fa"
 import { leftViewType, selectedLeftView, setSelectedLeftView } from "~/common"
 import { Component, Show } from "solid-js"
-import { CardList } from "../CardView"
+import { CardView } from "../CardView"
 import { AssetView } from "../AssetView/AssetView"
 import { DrawView } from "../DrawView"
 import { Canvas } from "fabric"
@@ -22,7 +22,7 @@ export const LeftView: Component = () => {
 
     return <div class={leftViewRootStyle}>
         <Show when={selectedLeftView() === "cards"}>
-            <CardList />
+            <CardView />
         </Show>
         <Show when={selectedLeftView() === "assets"}>
             <AssetView />

@@ -1,9 +1,10 @@
 import { Component } from "solid-js";
 import { CounterData, appCounters, personaCountersKey, saveToStorage, themeVars } from "~/common"
-import { counterCtrlRowStyle, counterItemStyle } from "./styles.css";
+import { counterItemStyle } from "./styles.css";
 import { Button, ConfirmState, Flex, Select, SelectOption, StrInputState, setConfirmData, setStrInputData } from "~/components";
 import { FaSolidPlus, FaSolidTrash } from "solid-icons/fa";
 import { addCounter } from "../WhiteboardView/helper";
+import { listCtrlRowStyle } from "../AccordionListView/styles.css";
 
 type Props = {
     item: CounterData;
@@ -17,8 +18,7 @@ export const CounterItem: Component<Props> = ({ item }) => {
             title: "Delete counter",
             message: `Do you really want to delete ${item.title}?`,
             accept: () => {
-                const vals = Object.values(appCounters()).filter((v) => v.id != item.id);
-                const newState = { ...vals };
+                const newState = { ...Object.values(appCounters()).filter((v) => v.id != item.id) };
                 saveToStorage(personaCountersKey, newState);
             },
         } as ConfirmState);
@@ -31,12 +31,13 @@ export const CounterItem: Component<Props> = ({ item }) => {
             message: "Maximum value",
             value: item.maxval.toString(),
             accept: (value: string) => {
-                const newState = { ...appCounters() };
-                console.log("state", Object.keys(newState), item.id);
                 const num = Number.parseInt(value);
-                console.log("num", num);
                 if (Number.isNaN(num)) return;
-                newState[item.id].maxval = num;
+                const newState = {
+                    ...appCounters(), [item.id]: {
+                        ...appCounters()[item.id], maxval: num
+                    }
+                };
                 saveToStorage(personaCountersKey, newState);
             },
             multiline: false
@@ -60,8 +61,11 @@ export const CounterItem: Component<Props> = ({ item }) => {
 
     const setType = (opt: SelectOption | null) => {
         if (!opt) return;
-        const newState = { ...appCounters() };
-        newState[item.id].ctype = opt.value as any;
+        const newState = {
+            ...appCounters(), [item.id]: {
+                ...appCounters()[item.id], ctype: opt.value as any
+            }
+        };
         saveToStorage(personaCountersKey, newState);
     }
 
@@ -79,7 +83,7 @@ export const CounterItem: Component<Props> = ({ item }) => {
     }
 
     return <div class={counterItemStyle}>
-        <div class={counterCtrlRowStyle}>
+        <div class={listCtrlRowStyle}>
             <Flex gap="medium" vcenter style={{ flex: 1 }}>
                 <Button onClick={deleteCounter} title="Delete counter" size="small">
                     <FaSolidTrash color={themeVars.color.secondary} />

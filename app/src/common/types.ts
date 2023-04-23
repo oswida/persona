@@ -165,18 +165,21 @@ export type CharsheetEditorState = {
   size: "narrow" | "standard" | "wide";
 };
 
-export type AssetType = {
+export type AssetData = {
   id: string;
   name: string;
   uri: string;
+  scale: number;
 }
 
-export type StorageItemType = Settings |
+export type StorageItemType =
+  Settings |
   SessionSettings |
   Record<string, CardData> |
   string |
-  Record<string, AssetType> |
-  Record<string, CounterData>;
+  Record<string, AssetData> |
+  Record<string, CounterData> |
+  Record<string, GameData>;
 
 export type DrawToolType = "text" | "rectangle" | "circle" |
   "ellipse" | "triangle" | "freedraw" | "select" |
@@ -198,4 +201,12 @@ export type CounterMeta = {
   title: string;
   counterRef?: Object;
   titleRef: Object;
+}
+
+
+export type GameData = {
+  id: string;
+  name: string;
+  dict: Record<string, any>;
+  template: any;
 }

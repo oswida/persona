@@ -1,35 +1,37 @@
 import { Component, createMemo, createSignal } from "solid-js";
-import { counterCtrlRowStyle, counterListStyle, counterRootStyle } from "./styles.css";
-import { Accordion, AccordionDesc, Button, Flex, Input, StrInputState, Texte, setStrInputData } from "~/components";
-import { FaSolidBox, FaSolidBoxesPacking, FaSolidClock, FaSolidCommentDots, FaSolidDeleteLeft, FaSolidEllipsis, FaSolidPlus } from "solid-icons/fa";
+import { AccordionDesc, StrInputState, Texte, setStrInputData } from "~/components";
 import { CounterData, appCounters, appSettings, personaCountersKey, saveToStorage } from "~/common";
 import { CounterItem } from "./CounterItem";
 import { v4 as uuidv4 } from "uuid";
+import { AccordionListView } from "../AccordionListView";
 
 export const CounterView: Component = () => {
     const [filter, setFilter] = createSignal("");
+    // const [ct, setCT] = createSignal<"clock" | "resource">("clock");
+
     let refFlt: HTMLInputElement;
 
     const counterCount = createMemo(() => {
         return Object.keys(appCounters()).length;
     });
 
-    const create = (ctype: "clock" | "resource") => {
+    const create = () => {
+        // const ctype = ct();
         setStrInputData({
             open: true,
             title: "Add counter",
             message: "Counter name",
             value: "",
             accept: (value: string) => {
+                if (value.trim() === "") return;
                 const counter: CounterData = {
                     id: uuidv4(),
-                    ctype: ctype,
+                    ctype: "resource",
                     maxval: 0,
                     owner: appSettings().ident.browserID,
                     title: value,
                 }
-                const newState = { ...appCounters() };
-                newState[counter.id] = counter;
+                const newState = { ...appCounters(), [counter.id]: counter };
                 saveToStorage(personaCountersKey, newState);
             },
             multiline: false
@@ -38,7 +40,7 @@ export const CounterView: Component = () => {
 
     const items = createMemo(() => {
         return Object.values(appCounters())
-            .filter((it) => filter() == "" || it.title.includes(filter()))
+            .filter((it) => filter() == "" || it.title.toLowerCase().includes(filter().toLowerCase()))
             .sort((a, b) => a.title.localeCompare(b.title))
             .map((it) => {
                 return {
@@ -49,39 +51,30 @@ export const CounterView: Component = () => {
             });
     });
 
-    const clear = () => {
-        if (!refFlt) return;
-        setFilter("");
-        refFlt.value = "";
-    };
 
-    const flt = () => {
-        if (!refFlt) return;
-        setFilter(refFlt.value.trim());
-    };
+    return <AccordionListView
+        title="Counters"
+        count={counterCount}
+        create={create}
+        items={items}
+        applyFilter={(value: string) => setFilter(value)}
 
+    // actions={<Flex vcenter>
+    //     <Button
+    //         onClick={() => setCT("clock")}
+    //         shape="icon"
+    //         title="Add new clock"
+    //         selected={() => ct() == "clock"}>
+    //         <FaSolidClock />
+    //     </Button>
+    //     <Button
+    //         onClick={() => setCT("resource")}
+    //         shape="icon"
+    //         title="Add new resource"
+    //         selected={() => ct() == "resource"}>
+    //         <FaSolidBox />
+    //     </Button>
+    // </Flex>}
+    />
 
-    return <div class={counterRootStyle}>
-        <div class={counterCtrlRowStyle}>
-            <Texte size="bigger">Counters ({counterCount()})</Texte>
-            <Flex vcenter>
-                <Button onClick={() => create("clock")} shape="icon" title="Add new clock">
-                    <FaSolidClock />
-                </Button>
-                <Button onClick={() => create("resource")} shape="icon" title="Add new resource">
-                    <FaSolidBox />
-                </Button>
-            </Flex>
-        </div>
-        <div class={counterListStyle}>
-            <Accordion items={items} />
-        </div>
-        <Flex vcenter style={{ "justify-content": "flex-end" }}>
-            <Texte>Filter: </Texte>
-            <Input underline transparent ref={(e) => (refFlt = e)} onInput={flt} />
-            <Button onClick={clear}>
-                <FaSolidDeleteLeft />
-            </Button>
-        </Flex>
-    </div>
 }

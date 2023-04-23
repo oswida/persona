@@ -13,8 +13,7 @@ export const DiceSelector = ({ dice }: { dice: DiceType }) => {
     let c = selectedDicePool()[dice];
     if (!c) c = 0;
     c++;
-    const newState = { ...selectedDicePool() };
-    newState[dice] = c;
+    const newState = { ...selectedDicePool(), [dice]: c };
     setSelectedDicePool(newState);
   };
 
