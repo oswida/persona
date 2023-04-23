@@ -1,9 +1,9 @@
 import { Canvas, Circle, Ellipse, Line, Point, Rect, Textbox, Triangle } from "fabric";
-import { appCanvas, appSessions, commonCanvasObjectProps, currentSession, drawTool, personaSessionsKey, saveToStorage, wbState } from "~/common";
+import { appCanvas, appSessions, commonCanvasObjectProps, currentSession, drawTool, personaSessionsKey, saveToStorage, setDrawTool, setWbState, wbState } from "~/common";
 import { Accessor } from "solid-js";
 import { StrInputState, setStrInputData } from "~/components";
 import { v4 as uuidv4 } from "uuid";
-import { addControl, canvasRemoveActive, xmarkImg } from "./controls";
+import { addControl, canvasChangeColors, canvasRemoveActive, paletteImg, xmarkImg } from "./controls";
 
 let isDragging = false;
 let isMouseDown = false;
@@ -140,6 +140,8 @@ export const initEvents = (canvas: Accessor<Canvas | undefined>) => {
                             cnv.add(txt);
                             addControl("del", txt, 0.5, -0.5, -16, 16,
                                 () => { canvasRemoveActive(); }, xmarkImg);
+                            addControl("color", txt, -0.5, -0.5, -16, -16,
+                                () => { canvasChangeColors(); }, paletteImg);
                             cnv.requestRenderAll();
                         },
                         width: "20em",
@@ -248,6 +250,8 @@ export const initEvents = (canvas: Accessor<Canvas | undefined>) => {
                 });
                 addControl("del", drawInstance, 0.5, -0.5, -16, 16,
                     () => { canvasRemoveActive(); }, xmarkImg);
+                addControl("color", drawInstance, -0.5, -0.5, -16, -16,
+                    () => { canvasChangeColors(); }, paletteImg);
                 drawInstance = undefined;
             }
         }
@@ -261,6 +265,8 @@ export const initEvents = (canvas: Accessor<Canvas | undefined>) => {
             });
             addControl("del", opt.target as any, 0.5, -0.5, -16, 16,
                 () => { canvasRemoveActive(); }, xmarkImg);
+            addControl("color", opt.target as any, -0.5, -0.5, -16, -16,
+                () => { canvasChangeColors(); }, paletteImg);
         }
         saveTable();
     });

@@ -3,7 +3,8 @@ import { AssetData, appAssets, personaAssetsKey, saveToStorage, themeVars } from
 import { assetItemStyle } from "./styles.css";
 import { Button, ConfirmState, Flex, StrInputState, Texte, setConfirmData, setStrInputData } from "~/components";
 import { FaSolidPencil, FaSolidPlus, FaSolidTrash } from "solid-icons/fa";
-import { addAsset } from "../WhiteboardView/helper";
+import { addAsset } from "../WhiteboardView/assets";
+
 
 type Props = {
     item: AssetData;

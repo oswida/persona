@@ -13,6 +13,7 @@ import { StrInputDialog } from "./components";
 import { InfoDialog } from "./components/Dialog/InfoDialog";
 import { ConnectView } from "./routes/ConnectView/ConnectView";
 import { MainView } from "./routes/MainView";
+import { StrokeFillDialog } from "./components/Dialog/StrokeFillDialog";
 
 const Main: ({ children }: { children: any }) => JSX.Element = ({
   children,
@@ -28,6 +29,7 @@ const Main: ({ children }: { children: any }) => JSX.Element = ({
       <Dynamic component={ConfirmDialog} />
       <Dynamic component={StrInputDialog} />
       <Dynamic component={InfoDialog} />
+      <Dynamic component={StrokeFillDialog} />
     </div>
   );
 };

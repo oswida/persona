@@ -8,8 +8,11 @@ import {
 } from "solid-icons/fa";
 import { FiTriangle } from "solid-icons/fi";
 import { appAssets, appCanvas, appCards, appCounters, drawColors, drawTool, exportData, importData, prettyToday, setDrawTool, setWbState, wbState } from "~/common";
-import { addAsset, addCard, addCounter } from "../WhiteboardView/helper";
+
 import { ListTool } from "./ListTool";
+import { addAsset } from "../WhiteboardView/assets";
+import { addCard } from "../WhiteboardView/cards";
+import { addCounter } from "../WhiteboardView/counters";
 
 export const DrawView: Component = () => {
     const [selAsset, setSelAsset] = createSignal<string>("");

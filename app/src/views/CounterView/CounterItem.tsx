@@ -3,8 +3,8 @@ import { CounterData, appCounters, personaCountersKey, saveToStorage, themeVars 
 import { counterItemStyle } from "./styles.css";
 import { Button, ConfirmState, Flex, Select, SelectOption, StrInputState, setConfirmData, setStrInputData } from "~/components";
 import { FaSolidPlus, FaSolidTrash } from "solid-icons/fa";
-import { addCounter } from "../WhiteboardView/helper";
 import { listCtrlRowStyle } from "../AccordionListView/styles.css";
+import { addCounter } from "../WhiteboardView/counters";
 
 type Props = {
     item: CounterData;

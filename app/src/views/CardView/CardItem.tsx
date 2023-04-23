@@ -23,7 +23,8 @@ import {
   setConfirmData,
 } from "~/components/Dialog/ConfirmDialog";
 import { CardStyle } from "./styles.css";
-import { addCard } from "../WhiteboardView/helper";
+import { addCard } from "../WhiteboardView/cards";
+
 
 export const CardItem = ({ item }: { item: CardData }) => {
 
