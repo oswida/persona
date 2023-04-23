@@ -81,9 +81,11 @@ export const counterChange = (obj: Object, amount: number) => {
 }
 
 
-export const counterDelete = (obj: Object) => {
+export const canvasRemoveActive = () => {
     const cnv = appCanvas();
     if (!cnv) return;
+    const obj = cnv.getActiveObject();
+    if (!obj) return;
     cnv.remove(obj);
     cnv.requestRenderAll();
 }

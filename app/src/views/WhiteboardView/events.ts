@@ -3,6 +3,7 @@ import { appCanvas, appSessions, commonCanvasObjectProps, currentSession, drawTo
 import { Accessor } from "solid-js";
 import { StrInputState, setStrInputData } from "~/components";
 import { v4 as uuidv4 } from "uuid";
+import { addControl, canvasRemoveActive, xmarkImg } from "./controls";
 
 let isDragging = false;
 let isMouseDown = false;
@@ -137,6 +138,8 @@ export const initEvents = (canvas: Accessor<Canvas | undefined>) => {
                                 ...commonCanvasObjectProps
                             });
                             cnv.add(txt);
+                            addControl("del", txt, 0.5, -0.5, -16, 16,
+                                () => { canvasRemoveActive(); }, xmarkImg);
                             cnv.requestRenderAll();
                         },
                         width: "20em",
@@ -242,7 +245,9 @@ export const initEvents = (canvas: Accessor<Canvas | undefined>) => {
             if (drawInstance) {
                 drawInstance.set({
                     ...commonCanvasObjectProps
-                })
+                });
+                addControl("del", drawInstance, 0.5, -0.5, -16, 16,
+                    () => { canvasRemoveActive(); }, xmarkImg);
                 drawInstance = undefined;
             }
         }
@@ -254,6 +259,8 @@ export const initEvents = (canvas: Accessor<Canvas | undefined>) => {
                 data: uuidv4(),
                 ...commonCanvasObjectProps
             });
+            addControl("del", opt.target as any, 0.5, -0.5, -16, 16,
+                () => { canvasRemoveActive(); }, xmarkImg);
         }
         saveTable();
     });

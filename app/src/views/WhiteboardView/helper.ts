@@ -1,7 +1,7 @@
 import { Circle, Rect, Text, Textbox, Image, Group, Control, util, Object } from "fabric";
 import { v4 as uuidv4 } from "uuid";
 import { CounterMeta, appAssets, appCanvas, appCards, appCounters, commonCanvasObjectProps, wbState } from "~/common";
-import { addControl, cloneImg, counterChange, counterDelete, minusImg, plusImg, xmarkImg } from "./controls";
+import { addControl, cloneImg, counterChange, canvasRemoveActive, minusImg, plusImg, xmarkImg } from "./controls";
 
 export const addAsset = (id: string, x: number, y: number, title: string) => {
     const assets = appAssets();
@@ -148,7 +148,7 @@ export const addCounter = (id: string, x: number, y: number, ttl?: string) => {
     }
     addControl("inc", grp, 0.5, 0.5, -16, 16, () => { counterChange(grp, 1); cnv.requestRenderAll(); }, plusImg);
     addControl("dec", grp, -0.5, 0.5, -16, -16, () => { counterChange(grp, -1); cnv.requestRenderAll(); }, minusImg);
-    addControl("del", grp, 0.5, -0.5, -16, 16, () => { counterDelete(grp); cnv.requestRenderAll(); }, xmarkImg);
+    addControl("del", grp, 0.5, -0.5, -16, 16, () => { canvasRemoveActive(); }, xmarkImg);
     cnv.requestRenderAll();
     return grp;
 }
