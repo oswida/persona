@@ -8,16 +8,19 @@ import {
     FaSolidEraser, FaSolidLinesLeaning, FaSolidPalette, FaSolidPenFancy, FaSolidPlus
 } from "solid-icons/fa";
 import { FiTriangle } from "solid-icons/fi";
-import { appAssets, appCanvas, appCards, drawColors, drawTool, exportData, importData, prettyToday, setDrawTool, setWbState, wbState } from "~/common";
-import { addAsset, addCard } from "../WhiteboardView/helper";
+import { appAssets, appCanvas, appCards, appCounters, drawColors, drawTool, exportData, importData, prettyToday, setDrawTool, setWbState, wbState } from "~/common";
+import { addAsset, addCard, addCounter } from "../WhiteboardView/helper";
 
 export const DrawView: Component = () => {
     const [selAsset, setSelAsset] = createSignal<string>("");
     const [selCard, setSelCard] = createSignal<string>("");
+    const [selCounter, setSelCounter] = createSignal<string>("");
     const [filter, setFilter] = createSignal("");
     const [filter2, setFilter2] = createSignal("");
+    const [filter3, setFilter3] = createSignal("");
     let refFlt: HTMLInputElement;
     let refFlt2: HTMLInputElement;
+    let refFlt3: HTMLInputElement;
 
     const setStrokeColor = (color: string) => {
         setWbState((prev) => ({ ...prev, stroke: color }));
@@ -34,6 +37,7 @@ export const DrawView: Component = () => {
     const assets = createMemo(() => {
         return Object.values(appAssets())
             .filter((it) => filter() == "" || it.name.toLowerCase().includes(filter().toLowerCase()))
+            .sort((a, b) => a.name.localeCompare(b.name))
             .map((it) => {
                 return { label: it.name, value: it.id } as SelectOption;
             });
@@ -42,6 +46,16 @@ export const DrawView: Component = () => {
     const cards = createMemo(() => {
         return Object.values(appCards())
             .filter((it) => filter2() == "" || it.title.toLowerCase().includes(filter2().toLowerCase()))
+            .sort((a, b) => a.title.localeCompare(b.title))
+            .map((it) => {
+                return { label: it.title, value: it.id } as SelectOption;
+            });
+    });
+
+    const counters = createMemo(() => {
+        return Object.values(appCounters())
+            .filter((it) => filter3() == "" || it.title.toLowerCase().includes(filter3().toLowerCase()))
+            .sort((a, b) => a.title.localeCompare(b.title))
             .map((it) => {
                 return { label: it.title, value: it.id } as SelectOption;
             });
@@ -78,6 +92,28 @@ export const DrawView: Component = () => {
         addCard(c, 100, 100);
     }
 
+    const counterChange = (sel: SelectOption | null) => {
+        if (!sel) return;
+        setSelCounter(sel.value);
+    }
+
+    const insertCounter = () => {
+        const c = selCounter();
+        if (c === "") return;
+        const item = appCounters()[c];
+        if (!item) return;
+        setStrInputData({
+            open: true,
+            title: "Add counter",
+            message: "Input counter name",
+            value: item.title,
+            accept: (value: string) => {
+                addCounter(item.id, 100, 100, value);
+            },
+            width: "10em",
+        } as StrInputState);
+    }
+
     const flt = () => {
         if (!refFlt) return;
         setFilter(refFlt.value.trim());
@@ -86,6 +122,11 @@ export const DrawView: Component = () => {
     const flt2 = () => {
         if (!refFlt2) return;
         setFilter2(refFlt2.value.trim());
+    };
+
+    const flt3 = () => {
+        if (!refFlt3) return;
+        setFilter3(refFlt3.value.trim());
     };
 
     const clear = () => {
@@ -98,6 +139,12 @@ export const DrawView: Component = () => {
         if (!refFlt2) return;
         setFilter2("");
         refFlt2.value = "";
+    };
+
+    const clear3 = () => {
+        if (!refFlt3) return;
+        setFilter3("");
+        refFlt3.value = "";
     };
 
     const exportTable = () => {
@@ -248,6 +295,24 @@ export const DrawView: Component = () => {
                     onInput={flt2}
                     style={{ width: "8em" }} />
                 <Button shape="icon" size="small" onClick={clear2}>
+                    <FaSolidDeleteLeft />
+                </Button>
+            </Flex>
+        </Flex>
+        <Texte size="small">Counters</Texte>
+        <Flex vcenter >
+            <Select options={counters} onChange={counterChange} />
+            <Button shape="icon" title="Insert selected counter" onClick={insertCounter}>
+                <FaSolidPlus />
+            </Button>
+            <Flex vcenter style={{ "justify-content": "flex-end", "margin-left": "10px" }}>
+                <Texte size="small">Filter: </Texte>
+                <Input size="small"
+                    underline transparent
+                    ref={(e) => (refFlt3 = e)}
+                    onInput={flt3}
+                    style={{ width: "8em" }} />
+                <Button shape="icon" size="small" onClick={clear3}>
                     <FaSolidDeleteLeft />
                 </Button>
             </Flex>
